@@ -7,3 +7,4 @@ Automated engineering journal & milestones.
 - `2026-03-01 14:48:10`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-03-01 15:11:16`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-03-01 15:16:12`: feat(map): cluster map pins dynamically based on zoom level
+- `2026-03-01 17:12:49`: perf(db): optimize batch insert transaction size for image embeddings
