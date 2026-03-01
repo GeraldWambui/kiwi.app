@@ -10,3 +10,4 @@ Automated engineering journal & milestones.
 - `2026-03-01 17:12:49`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-03-01 21:04:18`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-03-01 21:07:04`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-03-01 21:12:30`: test: verify battery guard thresholds under simulated power states
