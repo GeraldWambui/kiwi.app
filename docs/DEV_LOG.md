@@ -4,3 +4,4 @@ Automated engineering journal & milestones.
 
 - `2026-03-01 11:14:29`: chore: update gradle dependencies and compose compiler flags
 - `2026-03-01 11:25:33`: feat(cleaner): add size threshold selector for storage analysis
+- `2026-03-01 14:48:10`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
