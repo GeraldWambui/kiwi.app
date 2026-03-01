@@ -11,3 +11,4 @@ Automated engineering journal & milestones.
 - `2026-03-01 21:04:18`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-03-01 21:07:04`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-03-01 21:12:30`: test: verify battery guard thresholds under simulated power states
+- `2026-03-01 21:22:23`: feat(search): add quick filter chips for screenshots and documents
