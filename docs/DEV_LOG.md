@@ -18,3 +18,4 @@ Automated engineering journal & milestones.
 - `2026-03-02 12:14:57`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-03-02 13:46:22`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-03-02 15:13:13`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
+- `2026-03-02 15:48:09`: feat(ui): refine photo grid spacing and elevation in timeline view
