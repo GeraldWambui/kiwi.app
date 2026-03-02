@@ -12,3 +12,4 @@ Automated engineering journal & milestones.
 - `2026-03-01 21:07:04`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-03-01 21:12:30`: test: verify battery guard thresholds under simulated power states
 - `2026-03-01 21:22:23`: feat(search): add quick filter chips for screenshots and documents
+- `2026-03-02 09:37:56`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
