@@ -14,3 +14,4 @@ Automated engineering journal & milestones.
 - `2026-03-01 21:22:23`: feat(search): add quick filter chips for screenshots and documents
 - `2026-03-02 09:37:56`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-03-02 10:12:48`: test: add unit tests for face clustering centroid distance calculation
+- `2026-03-02 11:26:07`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
