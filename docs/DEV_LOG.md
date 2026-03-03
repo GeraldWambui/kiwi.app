@@ -22,3 +22,4 @@ Automated engineering journal & milestones.
 - `2026-03-02 16:15:37`: feat(search): index video titles and audio transcript tokens
 - `2026-03-02 17:55:12`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-03-03 12:20:02`: chore: update gradle dependencies and compose compiler flags
+- `2026-03-03 14:09:33`: feat(ui): add haptic feedback on multi-selection long press
