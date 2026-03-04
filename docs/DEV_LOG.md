@@ -26,3 +26,4 @@ Automated engineering journal & milestones.
 - `2026-03-03 20:53:47`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-03-04 09:25:43`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-03-04 14:44:05`: chore: update gradle dependencies and compose compiler flags
+- `2026-03-04 14:45:21`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
