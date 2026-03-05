@@ -27,3 +27,4 @@ Automated engineering journal & milestones.
 - `2026-03-04 09:25:43`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-03-04 14:44:05`: chore: update gradle dependencies and compose compiler flags
 - `2026-03-04 14:45:21`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-03-05 12:25:21`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
