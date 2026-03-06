@@ -35,3 +35,4 @@ Automated engineering journal & milestones.
 - `2026-03-06 14:20:00`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-03-06 16:52:45`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-03-06 20:04:46`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-03-06 21:57:48`: refactor(ml): streamline face embedding pre-processing pipeline
