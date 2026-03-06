@@ -29,3 +29,4 @@ Automated engineering journal & milestones.
 - `2026-03-04 14:45:21`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-03-05 12:25:21`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-03-05 17:08:07`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-03-06 10:09:57`: feat(ui): add haptic feedback on multi-selection long press
