@@ -36,3 +36,4 @@ Automated engineering journal & milestones.
 - `2026-03-06 16:52:45`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-03-06 20:04:46`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-03-06 21:57:48`: refactor(ml): streamline face embedding pre-processing pipeline
+- `2026-03-07 10:20:02`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
