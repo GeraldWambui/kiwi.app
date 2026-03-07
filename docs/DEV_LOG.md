@@ -41,3 +41,4 @@ Automated engineering journal & milestones.
 - `2026-03-07 12:25:05`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-03-07 14:58:01`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-03-07 15:38:37`: refactor(ui): extract reusable media action bar into design system component
+- `2026-03-07 15:49:09`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
