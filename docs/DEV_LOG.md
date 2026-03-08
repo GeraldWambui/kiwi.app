@@ -50,3 +50,4 @@ Automated engineering journal & milestones.
 - `2026-03-08 11:21:09`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-03-08 15:12:22`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-03-08 19:52:12`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
+- `2026-03-08 22:16:16`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
