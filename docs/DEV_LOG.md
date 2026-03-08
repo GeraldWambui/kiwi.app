@@ -45,3 +45,4 @@ Automated engineering journal & milestones.
 - `2026-03-07 20:41:31`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-03-07 21:23:01`: test: add integration test for MediaStore trash request helper
 - `2026-03-07 22:16:38`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
+- `2026-03-08 09:45:59`: docs: document on-device neural model pipeline and quantization specs
