@@ -47,3 +47,4 @@ Automated engineering journal & milestones.
 - `2026-03-07 22:16:38`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-03-08 09:45:59`: docs: document on-device neural model pipeline and quantization specs
 - `2026-03-08 10:17:33`: feat(search): index video titles and audio transcript tokens
+- `2026-03-08 11:21:09`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
