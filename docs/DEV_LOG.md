@@ -54,3 +54,4 @@ Automated engineering journal & milestones.
 - `2026-03-09 10:11:59`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-03-09 11:31:30`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-03-09 14:08:26`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
+- `2026-03-09 14:14:36`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
