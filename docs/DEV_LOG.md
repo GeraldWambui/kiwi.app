@@ -55,3 +55,4 @@ Automated engineering journal & milestones.
 - `2026-03-09 11:31:30`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-03-09 14:08:26`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-03-09 14:14:36`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-03-09 15:14:34`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
