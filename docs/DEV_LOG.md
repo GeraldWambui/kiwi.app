@@ -52,3 +52,4 @@ Automated engineering journal & milestones.
 - `2026-03-08 19:52:12`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-03-08 22:16:16`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-03-09 10:11:59`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-03-09 11:31:30`: feat(backup): add retry backoff strategy for Immich chunk uploads
