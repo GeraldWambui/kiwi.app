@@ -59,3 +59,4 @@ Automated engineering journal & milestones.
 - `2026-03-09 19:53:40`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-03-09 21:55:46`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-03-10 09:51:55`: docs: document on-device neural model pipeline and quantization specs
+- `2026-03-10 11:51:17`: feat(ui): add haptic feedback on multi-selection long press
