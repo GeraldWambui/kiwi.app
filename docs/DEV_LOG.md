@@ -61,3 +61,4 @@ Automated engineering journal & milestones.
 - `2026-03-10 09:51:55`: docs: document on-device neural model pipeline and quantization specs
 - `2026-03-10 11:51:17`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-03-10 13:34:01`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-03-10 14:10:58`: perf(image): enable hardware bitmap config for thumbnail rendering
