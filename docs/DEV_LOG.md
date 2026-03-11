@@ -66,3 +66,4 @@ Automated engineering journal & milestones.
 - `2026-03-10 19:40:46`: test: add integration test for MediaStore trash request helper
 - `2026-03-10 21:31:51`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-03-10 22:00:40`: docs: add setup instructions for self-hosted Immich backup
+- `2026-03-11 14:25:46`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
