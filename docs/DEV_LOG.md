@@ -76,3 +76,4 @@ Automated engineering journal & milestones.
 - `2026-03-12 13:59:37`: chore: update gradle dependencies and compose compiler flags
 - `2026-03-12 14:44:33`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-03-12 15:13:49`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
+- `2026-03-12 15:34:20`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
