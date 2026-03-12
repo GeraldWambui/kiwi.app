@@ -78,3 +78,4 @@ Automated engineering journal & milestones.
 - `2026-03-12 15:13:49`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-03-12 15:34:20`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-03-12 15:59:39`: test: verify battery guard thresholds under simulated power states
+- `2026-03-12 20:54:35`: feat(search): add quick filter chips for screenshots and documents
