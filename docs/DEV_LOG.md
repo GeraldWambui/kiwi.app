@@ -74,3 +74,4 @@ Automated engineering journal & milestones.
 - `2026-03-12 09:50:54`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-12 10:06:34`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-03-12 13:59:37`: chore: update gradle dependencies and compose compiler flags
+- `2026-03-12 14:44:33`: feat(ui): refine photo grid spacing and elevation in timeline view
