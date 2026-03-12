@@ -71,3 +71,4 @@ Automated engineering journal & milestones.
 - `2026-03-11 17:24:17`: test: add unit tests for face clustering centroid distance calculation
 - `2026-03-11 21:10:08`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-11 22:25:38`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
+- `2026-03-12 09:50:54`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
