@@ -87,3 +87,4 @@ Automated engineering journal & milestones.
 - `2026-03-13 19:40:59`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-03-13 20:04:56`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-03-13 20:08:55`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
+- `2026-03-13 20:26:22`: test: add integration test for MediaStore trash request helper
