@@ -83,3 +83,4 @@ Automated engineering journal & milestones.
 - `2026-03-13 09:10:02`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-03-13 10:00:25`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-13 10:59:25`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-03-13 11:49:02`: test: verify battery guard thresholds under simulated power states
