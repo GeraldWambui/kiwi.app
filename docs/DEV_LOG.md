@@ -90,3 +90,4 @@ Automated engineering journal & milestones.
 - `2026-03-13 20:26:22`: test: add integration test for MediaStore trash request helper
 - `2026-03-13 22:02:39`: docs: add setup instructions for self-hosted Immich backup
 - `2026-03-14 11:00:28`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-03-14 11:46:53`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
