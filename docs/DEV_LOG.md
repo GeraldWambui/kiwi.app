@@ -93,3 +93,4 @@ Automated engineering journal & milestones.
 - `2026-03-14 11:46:53`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-03-14 15:16:02`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-03-14 20:23:27`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-03-14 21:37:12`: feat(cleaner): highlight duplicate burst photos for quick cleanup
