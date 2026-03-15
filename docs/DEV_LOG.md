@@ -97,3 +97,4 @@ Automated engineering journal & milestones.
 - `2026-03-14 21:41:29`: docs: add setup instructions for self-hosted Immich backup
 - `2026-03-15 09:08:33`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-03-15 09:56:58`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
+- `2026-03-15 14:50:55`: feat(search): add quick filter chips for screenshots and documents
