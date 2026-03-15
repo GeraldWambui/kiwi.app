@@ -100,3 +100,4 @@ Automated engineering journal & milestones.
 - `2026-03-15 14:50:55`: feat(search): add quick filter chips for screenshots and documents
 - `2026-03-15 19:59:37`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-03-15 20:59:01`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
+- `2026-03-15 21:10:56`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
