@@ -103,3 +103,4 @@ Automated engineering journal & milestones.
 - `2026-03-15 21:10:56`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-03-16 09:31:16`: docs: document on-device neural model pipeline and quantization specs
 - `2026-03-16 11:40:16`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-03-16 15:47:01`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
