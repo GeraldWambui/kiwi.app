@@ -102,3 +102,4 @@ Automated engineering journal & milestones.
 - `2026-03-15 20:59:01`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-03-15 21:10:56`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-03-16 09:31:16`: docs: document on-device neural model pipeline and quantization specs
+- `2026-03-16 11:40:16`: feat(cleaner): highlight duplicate burst photos for quick cleanup
