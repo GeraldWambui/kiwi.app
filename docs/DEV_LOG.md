@@ -106,3 +106,4 @@ Automated engineering journal & milestones.
 - `2026-03-16 15:47:01`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-03-17 10:13:15`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-03-17 13:33:33`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-03-17 14:50:23`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
