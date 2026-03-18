@@ -113,3 +113,4 @@ Automated engineering journal & milestones.
 - `2026-03-18 16:58:21`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-03-18 20:14:56`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-18 20:52:59`: docs: document on-device neural model pipeline and quantization specs
+- `2026-03-18 21:40:53`: test: verify battery guard thresholds under simulated power states
