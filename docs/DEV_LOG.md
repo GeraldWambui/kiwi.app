@@ -108,3 +108,4 @@ Automated engineering journal & milestones.
 - `2026-03-17 13:33:33`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-03-17 14:50:23`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-03-17 14:50:45`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-03-18 10:48:48`: feat(map): cluster map pins dynamically based on zoom level
