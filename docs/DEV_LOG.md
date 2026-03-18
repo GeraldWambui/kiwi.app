@@ -111,3 +111,4 @@ Automated engineering journal & milestones.
 - `2026-03-18 10:48:48`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-03-18 11:11:01`: test: add integration test for MediaStore trash request helper
 - `2026-03-18 16:58:21`: feat(ui): refine photo grid spacing and elevation in timeline view
+- `2026-03-18 20:14:56`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
