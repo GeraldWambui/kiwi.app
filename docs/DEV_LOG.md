@@ -116,3 +116,4 @@ Automated engineering journal & milestones.
 - `2026-03-18 21:40:53`: test: verify battery guard thresholds under simulated power states
 - `2026-03-18 22:23:57`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-03-19 11:02:21`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-03-19 11:41:20`: refactor(ui): extract reusable media action bar into design system component
