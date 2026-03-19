@@ -119,3 +119,4 @@ Automated engineering journal & milestones.
 - `2026-03-19 11:41:20`: refactor(ui): extract reusable media action bar into design system component
 - `2026-03-19 13:33:11`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-19 15:53:12`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-03-19 16:12:26`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
