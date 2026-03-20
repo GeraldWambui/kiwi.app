@@ -123,3 +123,4 @@ Automated engineering journal & milestones.
 - `2026-03-19 16:39:31`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-03-19 19:33:23`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-03-20 09:10:29`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-03-20 10:31:07`: docs: add setup instructions for self-hosted Immich backup
