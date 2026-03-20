@@ -130,3 +130,4 @@ Automated engineering journal & milestones.
 - `2026-03-20 15:15:48`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-03-20 15:32:55`: refactor(ui): extract reusable media action bar into design system component
 - `2026-03-20 16:26:13`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-03-20 20:06:06`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
