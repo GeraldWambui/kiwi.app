@@ -128,3 +128,4 @@ Automated engineering journal & milestones.
 - `2026-03-20 14:14:21`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-20 15:03:22`: refactor(ui): extract reusable media action bar into design system component
 - `2026-03-20 15:15:48`: perf(ui): memoize derived state calculations in photo timeline header
+- `2026-03-20 15:32:55`: refactor(ui): extract reusable media action bar into design system component
