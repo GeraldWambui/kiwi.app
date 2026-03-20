@@ -125,3 +125,4 @@ Automated engineering journal & milestones.
 - `2026-03-20 09:10:29`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-03-20 10:31:07`: docs: add setup instructions for self-hosted Immich backup
 - `2026-03-20 11:52:23`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
+- `2026-03-20 14:14:21`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
