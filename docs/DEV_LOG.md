@@ -127,3 +127,4 @@ Automated engineering journal & milestones.
 - `2026-03-20 11:52:23`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-03-20 14:14:21`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-20 15:03:22`: refactor(ui): extract reusable media action bar into design system component
+- `2026-03-20 15:15:48`: perf(ui): memoize derived state calculations in photo timeline header
