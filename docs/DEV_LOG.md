@@ -135,3 +135,4 @@ Automated engineering journal & milestones.
 - `2026-03-21 10:31:06`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-03-21 11:59:21`: feat(search): add quick filter chips for screenshots and documents
 - `2026-03-21 13:35:33`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-03-21 13:47:37`: perf(image): enable hardware bitmap config for thumbnail rendering
