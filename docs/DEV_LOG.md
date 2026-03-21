@@ -137,3 +137,4 @@ Automated engineering journal & milestones.
 - `2026-03-21 13:35:33`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-03-21 13:47:37`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-03-21 16:10:21`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
+- `2026-03-21 16:12:41`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
