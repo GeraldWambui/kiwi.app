@@ -147,3 +147,4 @@ Automated engineering journal & milestones.
 - `2026-03-22 13:53:26`: docs: add setup instructions for self-hosted Immich backup
 - `2026-03-22 15:59:29`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-03-22 16:17:20`: refactor(ml): streamline face embedding pre-processing pipeline
+- `2026-03-22 16:23:32`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
