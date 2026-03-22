@@ -141,3 +141,4 @@ Automated engineering journal & milestones.
 - `2026-03-21 19:38:40`: test: add integration test for MediaStore trash request helper
 - `2026-03-21 21:15:35`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-03-21 22:16:51`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
+- `2026-03-22 10:55:12`: docs: document on-device neural model pipeline and quantization specs
