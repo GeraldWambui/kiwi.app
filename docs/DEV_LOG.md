@@ -144,3 +144,4 @@ Automated engineering journal & milestones.
 - `2026-03-22 10:55:12`: docs: document on-device neural model pipeline and quantization specs
 - `2026-03-22 11:29:34`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-03-22 12:14:38`: feat(map): cluster map pins dynamically based on zoom level
+- `2026-03-22 13:53:26`: docs: add setup instructions for self-hosted Immich backup
