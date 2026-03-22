@@ -145,3 +145,4 @@ Automated engineering journal & milestones.
 - `2026-03-22 11:29:34`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-03-22 12:14:38`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-03-22 13:53:26`: docs: add setup instructions for self-hosted Immich backup
+- `2026-03-22 15:59:29`: feat(backup): support automatic background sync on unmetered Wi-Fi
