@@ -143,3 +143,4 @@ Automated engineering journal & milestones.
 - `2026-03-21 22:16:51`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-03-22 10:55:12`: docs: document on-device neural model pipeline and quantization specs
 - `2026-03-22 11:29:34`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
+- `2026-03-22 12:14:38`: feat(map): cluster map pins dynamically based on zoom level
