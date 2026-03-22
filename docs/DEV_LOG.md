@@ -148,3 +148,4 @@ Automated engineering journal & milestones.
 - `2026-03-22 15:59:29`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-03-22 16:17:20`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-03-22 16:23:32`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-03-22 16:57:01`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
