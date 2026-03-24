@@ -152,3 +152,4 @@ Automated engineering journal & milestones.
 - `2026-03-22 19:45:50`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-03-23 10:10:07`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-03-23 16:10:50`: feat(search): add quick filter chips for screenshots and documents
+- `2026-03-24 12:28:22`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
