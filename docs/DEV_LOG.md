@@ -155,3 +155,4 @@ Automated engineering journal & milestones.
 - `2026-03-24 12:28:22`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-03-24 16:16:53`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-03-24 21:23:40`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
+- `2026-03-25 09:04:47`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
