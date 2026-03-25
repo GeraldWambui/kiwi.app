@@ -157,3 +157,4 @@ Automated engineering journal & milestones.
 - `2026-03-24 21:23:40`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-03-25 09:04:47`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-03-25 09:18:12`: feat(ml): optimize depth map edge refinement for portrait blur
+- `2026-03-25 09:33:08`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
