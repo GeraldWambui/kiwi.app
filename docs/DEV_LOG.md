@@ -158,3 +158,4 @@ Automated engineering journal & milestones.
 - `2026-03-25 09:04:47`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-03-25 09:18:12`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-03-25 09:33:08`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
+- `2026-03-25 15:31:04`: feat(ui): refine photo grid spacing and elevation in timeline view
