@@ -163,3 +163,4 @@ Automated engineering journal & milestones.
 - `2026-03-25 16:33:11`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-03-25 16:38:48`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-03-25 17:47:56`: feat(search): index video titles and audio transcript tokens
+- `2026-03-25 20:49:34`: refactor(service): decouple battery monitoring from index worker lifecycle
