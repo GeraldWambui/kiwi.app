@@ -172,3 +172,4 @@ Automated engineering journal & milestones.
 - `2026-03-26 14:30:49`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-03-26 15:49:41`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-03-26 19:55:08`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
+- `2026-03-26 20:10:23`: feat(backup): support automatic background sync on unmetered Wi-Fi
