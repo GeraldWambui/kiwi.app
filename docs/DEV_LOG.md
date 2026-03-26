@@ -168,3 +168,4 @@ Automated engineering journal & milestones.
 - `2026-03-26 11:19:28`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-03-26 11:57:53`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-03-26 14:23:42`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
+- `2026-03-26 14:25:35`: feat(ui): refine photo grid spacing and elevation in timeline view
