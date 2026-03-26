@@ -166,3 +166,4 @@ Automated engineering journal & milestones.
 - `2026-03-25 20:49:34`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-03-26 09:52:13`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-03-26 11:19:28`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-03-26 11:57:53`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
