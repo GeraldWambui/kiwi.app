@@ -170,3 +170,4 @@ Automated engineering journal & milestones.
 - `2026-03-26 14:23:42`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-03-26 14:25:35`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-03-26 14:30:49`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
+- `2026-03-26 15:49:41`: feat(ui): enhance bottom sheet animation smoothness with spring spec
