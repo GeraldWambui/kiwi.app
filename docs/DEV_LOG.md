@@ -176,3 +176,4 @@ Automated engineering journal & milestones.
 - `2026-03-26 22:25:05`: feat(search): index video titles and audio transcript tokens
 - `2026-03-27 16:26:30`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-03-27 16:52:55`: feat(ui): refine photo grid spacing and elevation in timeline view
+- `2026-03-27 17:09:49`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
