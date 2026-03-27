@@ -175,3 +175,4 @@ Automated engineering journal & milestones.
 - `2026-03-26 20:10:23`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-03-26 22:25:05`: feat(search): index video titles and audio transcript tokens
 - `2026-03-27 16:26:30`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
+- `2026-03-27 16:52:55`: feat(ui): refine photo grid spacing and elevation in timeline view
