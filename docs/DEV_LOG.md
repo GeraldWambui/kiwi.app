@@ -180,3 +180,4 @@ Automated engineering journal & milestones.
 - `2026-03-27 19:33:18`: feat(search): index video titles and audio transcript tokens
 - `2026-03-27 20:03:43`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-03-27 21:58:22`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
+- `2026-03-27 22:14:02`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
