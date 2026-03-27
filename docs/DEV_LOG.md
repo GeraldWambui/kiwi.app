@@ -179,3 +179,4 @@ Automated engineering journal & milestones.
 - `2026-03-27 17:09:49`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-03-27 19:33:18`: feat(search): index video titles and audio transcript tokens
 - `2026-03-27 20:03:43`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-03-27 21:58:22`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
