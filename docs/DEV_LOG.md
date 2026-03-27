@@ -174,3 +174,4 @@ Automated engineering journal & milestones.
 - `2026-03-26 19:55:08`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-03-26 20:10:23`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-03-26 22:25:05`: feat(search): index video titles and audio transcript tokens
+- `2026-03-27 16:26:30`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
