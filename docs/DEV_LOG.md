@@ -178,3 +178,4 @@ Automated engineering journal & milestones.
 - `2026-03-27 16:52:55`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-03-27 17:09:49`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-03-27 19:33:18`: feat(search): index video titles and audio transcript tokens
+- `2026-03-27 20:03:43`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
