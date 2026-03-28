@@ -182,3 +182,4 @@ Automated engineering journal & milestones.
 - `2026-03-27 21:58:22`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-03-27 22:14:02`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-03-28 11:33:19`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
+- `2026-03-28 17:06:43`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
