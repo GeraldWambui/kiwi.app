@@ -191,3 +191,4 @@ Automated engineering journal & milestones.
 - `2026-03-29 15:49:45`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-03-29 17:22:21`: chore: update gradle dependencies and compose compiler flags
 - `2026-03-29 20:56:10`: docs: add setup instructions for self-hosted Immich backup
+- `2026-03-29 21:15:45`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
