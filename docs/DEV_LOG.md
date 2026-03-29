@@ -186,3 +186,4 @@ Automated engineering journal & milestones.
 - `2026-03-28 19:35:35`: test: add unit tests for face clustering centroid distance calculation
 - `2026-03-28 21:52:18`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-03-29 09:47:54`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
+- `2026-03-29 10:43:15`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
