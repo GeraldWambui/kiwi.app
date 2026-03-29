@@ -188,3 +188,4 @@ Automated engineering journal & milestones.
 - `2026-03-29 09:47:54`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-03-29 10:43:15`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-03-29 11:44:11`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
+- `2026-03-29 15:49:45`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
