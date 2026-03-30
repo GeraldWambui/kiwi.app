@@ -195,3 +195,4 @@ Automated engineering journal & milestones.
 - `2026-03-29 22:28:36`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-03-30 10:11:34`: feat(search): index video titles and audio transcript tokens
 - `2026-03-30 12:06:38`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-03-30 12:25:28`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
