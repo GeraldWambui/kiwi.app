@@ -194,3 +194,4 @@ Automated engineering journal & milestones.
 - `2026-03-29 21:15:45`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-03-29 22:28:36`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-03-30 10:11:34`: feat(search): index video titles and audio transcript tokens
+- `2026-03-30 12:06:38`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
