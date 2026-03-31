@@ -203,3 +203,4 @@ Automated engineering journal & milestones.
 - `2026-03-31 12:13:00`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-03-31 13:39:57`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-03-31 15:47:39`: feat(search): index video titles and audio transcript tokens
+- `2026-03-31 17:51:54`: docs: add setup instructions for self-hosted Immich backup
