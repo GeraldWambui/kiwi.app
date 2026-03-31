@@ -201,3 +201,4 @@ Automated engineering journal & milestones.
 - `2026-03-30 17:13:33`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-03-30 21:03:06`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-03-31 12:13:00`: refactor(ml): streamline face embedding pre-processing pipeline
+- `2026-03-31 13:39:57`: feat(ui): add haptic feedback on multi-selection long press
