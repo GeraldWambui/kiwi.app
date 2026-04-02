@@ -216,3 +216,4 @@ Automated engineering journal & milestones.
 - `2026-04-02 17:57:40`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-04-02 19:41:16`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-04-02 19:44:57`: feat(map): cluster map pins dynamically based on zoom level
+- `2026-04-02 20:22:06`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
