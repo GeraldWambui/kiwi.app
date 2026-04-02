@@ -213,3 +213,4 @@ Automated engineering journal & milestones.
 - `2026-04-02 11:24:26`: refactor(ui): extract reusable media action bar into design system component
 - `2026-04-02 11:57:21`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-04-02 13:57:16`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-04-02 17:57:40`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
