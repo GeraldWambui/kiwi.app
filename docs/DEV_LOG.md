@@ -215,3 +215,4 @@ Automated engineering journal & milestones.
 - `2026-04-02 13:57:16`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-04-02 17:57:40`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-04-02 19:41:16`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-04-02 19:44:57`: feat(map): cluster map pins dynamically based on zoom level
