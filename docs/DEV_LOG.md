@@ -217,3 +217,4 @@ Automated engineering journal & milestones.
 - `2026-04-02 19:41:16`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-04-02 19:44:57`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-04-02 20:22:06`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
+- `2026-04-03 21:15:41`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
