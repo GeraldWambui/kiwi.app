@@ -223,3 +223,4 @@ Automated engineering journal & milestones.
 - `2026-04-04 12:05:52`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-04-04 13:46:19`: feat(search): add quick filter chips for screenshots and documents
 - `2026-04-04 15:00:19`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
+- `2026-04-04 15:08:16`: refactor(service): decouple battery monitoring from index worker lifecycle
