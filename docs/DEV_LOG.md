@@ -225,3 +225,4 @@ Automated engineering journal & milestones.
 - `2026-04-04 15:00:19`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-04-04 15:08:16`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-04-04 15:11:09`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-04-04 15:56:47`: refactor(service): decouple battery monitoring from index worker lifecycle
