@@ -221,3 +221,4 @@ Automated engineering journal & milestones.
 - `2026-04-03 21:28:29`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-04-04 11:15:11`: refactor(ui): extract reusable media action bar into design system component
 - `2026-04-04 12:05:52`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-04-04 13:46:19`: feat(search): add quick filter chips for screenshots and documents
