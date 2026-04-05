@@ -229,3 +229,4 @@ Automated engineering journal & milestones.
 - `2026-04-04 16:42:08`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-04-04 20:21:25`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-04-04 21:06:40`: feat(search): add quick filter chips for screenshots and documents
+- `2026-04-05 09:43:17`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
