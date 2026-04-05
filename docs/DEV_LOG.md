@@ -233,3 +233,4 @@ Automated engineering journal & milestones.
 - `2026-04-05 12:17:34`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-04-05 12:18:22`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-04-05 14:14:20`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-04-05 15:33:11`: docs: add setup instructions for self-hosted Immich backup
