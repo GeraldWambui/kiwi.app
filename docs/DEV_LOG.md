@@ -231,3 +231,4 @@ Automated engineering journal & milestones.
 - `2026-04-04 21:06:40`: feat(search): add quick filter chips for screenshots and documents
 - `2026-04-05 09:43:17`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-04-05 12:17:34`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-04-05 12:18:22`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
