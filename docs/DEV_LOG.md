@@ -237,3 +237,4 @@ Automated engineering journal & milestones.
 - `2026-04-05 16:54:25`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-04-05 21:05:40`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-04-05 21:54:03`: feat(search): add quick filter chips for screenshots and documents
+- `2026-04-06 10:35:07`: refactor(service): decouple battery monitoring from index worker lifecycle
