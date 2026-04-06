@@ -240,3 +240,4 @@ Automated engineering journal & milestones.
 - `2026-04-06 10:35:07`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-04-06 15:20:46`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-04-06 16:14:45`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-04-06 16:45:12`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
