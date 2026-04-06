@@ -239,3 +239,4 @@ Automated engineering journal & milestones.
 - `2026-04-05 21:54:03`: feat(search): add quick filter chips for screenshots and documents
 - `2026-04-06 10:35:07`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-04-06 15:20:46`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-04-06 16:14:45`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
