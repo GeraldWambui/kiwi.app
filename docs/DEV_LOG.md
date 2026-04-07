@@ -244,3 +244,4 @@ Automated engineering journal & milestones.
 - `2026-04-06 19:58:52`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-04-06 20:33:02`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-04-06 22:29:07`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-04-07 09:57:35`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
