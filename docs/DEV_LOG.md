@@ -252,3 +252,4 @@ Automated engineering journal & milestones.
 - `2026-04-08 14:18:44`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-04-08 16:35:16`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-04-08 17:08:46`: feat(search): index video titles and audio transcript tokens
+- `2026-04-08 19:40:20`: feat(ml): add smile and eye-open detection threshold filters in clustering
