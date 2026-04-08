@@ -246,3 +246,4 @@ Automated engineering journal & milestones.
 - `2026-04-06 22:29:07`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-04-07 09:57:35`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-04-07 14:45:11`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-04-08 11:39:49`: test: add integration test for MediaStore trash request helper
