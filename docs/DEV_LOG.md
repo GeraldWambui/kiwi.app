@@ -248,3 +248,4 @@ Automated engineering journal & milestones.
 - `2026-04-07 14:45:11`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-04-08 11:39:49`: test: add integration test for MediaStore trash request helper
 - `2026-04-08 11:50:28`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-04-08 12:26:35`: feat(ui): add haptic feedback on multi-selection long press
