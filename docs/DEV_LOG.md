@@ -259,3 +259,4 @@ Automated engineering journal & milestones.
 - `2026-04-09 09:29:38`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-04-09 11:14:23`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-04-09 11:16:12`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
+- `2026-04-09 12:00:20`: perf(db): optimize batch insert transaction size for image embeddings
