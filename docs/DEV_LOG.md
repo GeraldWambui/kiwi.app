@@ -255,3 +255,4 @@ Automated engineering journal & milestones.
 - `2026-04-08 19:40:20`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-04-08 21:18:16`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-04-08 21:55:39`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-04-09 09:11:20`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
