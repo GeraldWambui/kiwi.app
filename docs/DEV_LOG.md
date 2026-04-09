@@ -263,3 +263,4 @@ Automated engineering journal & milestones.
 - `2026-04-09 15:08:38`: test: verify battery guard thresholds under simulated power states
 - `2026-04-09 16:50:43`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-04-09 21:08:44`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-04-09 21:11:58`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
