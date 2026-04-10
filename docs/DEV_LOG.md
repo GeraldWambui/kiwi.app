@@ -269,3 +269,4 @@ Automated engineering journal & milestones.
 - `2026-04-10 10:45:13`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-04-10 11:21:46`: docs: add setup instructions for self-hosted Immich backup
 - `2026-04-10 16:08:06`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-04-10 20:42:42`: feat(cleaner): add size threshold selector for storage analysis
