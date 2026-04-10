@@ -266,3 +266,4 @@ Automated engineering journal & milestones.
 - `2026-04-09 21:11:58`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-04-09 22:03:23`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-04-10 09:13:25`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-04-10 10:45:13`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
