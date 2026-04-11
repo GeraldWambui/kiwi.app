@@ -274,3 +274,4 @@ Automated engineering journal & milestones.
 - `2026-04-11 11:13:23`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-04-11 14:43:53`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-04-11 17:21:59`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
+- `2026-04-11 19:43:40`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
