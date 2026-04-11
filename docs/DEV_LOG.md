@@ -275,3 +275,4 @@ Automated engineering journal & milestones.
 - `2026-04-11 14:43:53`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-04-11 17:21:59`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-04-11 19:43:40`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
+- `2026-04-11 20:21:45`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
