@@ -271,3 +271,4 @@ Automated engineering journal & milestones.
 - `2026-04-10 16:08:06`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-04-10 20:42:42`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-04-11 09:16:35`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-04-11 11:13:23`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
