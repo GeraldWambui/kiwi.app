@@ -273,3 +273,4 @@ Automated engineering journal & milestones.
 - `2026-04-11 09:16:35`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-04-11 11:13:23`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-04-11 14:43:53`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-04-11 17:21:59`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
