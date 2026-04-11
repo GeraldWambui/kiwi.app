@@ -277,3 +277,4 @@ Automated engineering journal & milestones.
 - `2026-04-11 19:43:40`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-04-11 20:21:45`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-04-11 21:31:33`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-04-11 22:24:02`: feat(cleaner): add size threshold selector for storage analysis
