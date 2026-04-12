@@ -279,3 +279,4 @@ Automated engineering journal & milestones.
 - `2026-04-11 21:31:33`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-04-11 22:24:02`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-04-12 12:07:45`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-04-12 21:06:27`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
