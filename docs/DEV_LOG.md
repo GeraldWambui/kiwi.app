@@ -282,3 +282,4 @@ Automated engineering journal & milestones.
 - `2026-04-12 21:06:27`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-04-13 09:22:40`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-04-13 11:15:25`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-04-13 11:39:16`: feat(ml): add smile and eye-open detection threshold filters in clustering
