@@ -283,3 +283,4 @@ Automated engineering journal & milestones.
 - `2026-04-13 09:22:40`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-04-13 11:15:25`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-04-13 11:39:16`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-04-13 16:09:33`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
