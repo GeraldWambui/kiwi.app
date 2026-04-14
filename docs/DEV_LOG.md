@@ -286,3 +286,4 @@ Automated engineering journal & milestones.
 - `2026-04-13 16:09:33`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-04-13 21:25:29`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-04-14 11:39:22`: feat(ui): enhance bottom sheet animation smoothness with spring spec
+- `2026-04-14 21:08:10`: feat(ml): add smile and eye-open detection threshold filters in clustering
