@@ -294,3 +294,4 @@ Automated engineering journal & milestones.
 - `2026-04-16 10:28:34`: test: add integration test for MediaStore trash request helper
 - `2026-04-16 13:35:35`: chore: update gradle dependencies and compose compiler flags
 - `2026-04-16 19:47:49`: feat(cleaner): add size threshold selector for storage analysis
+- `2026-04-16 20:15:01`: feat(ui): add haptic feedback on multi-selection long press
