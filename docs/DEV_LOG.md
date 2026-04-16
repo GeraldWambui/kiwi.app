@@ -295,3 +295,4 @@ Automated engineering journal & milestones.
 - `2026-04-16 13:35:35`: chore: update gradle dependencies and compose compiler flags
 - `2026-04-16 19:47:49`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-04-16 20:15:01`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-04-16 21:07:27`: feat(ml): optimize depth map edge refinement for portrait blur
