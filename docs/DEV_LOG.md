@@ -300,3 +300,4 @@ Automated engineering journal & milestones.
 - `2026-04-17 11:29:35`: feat(search): add quick filter chips for screenshots and documents
 - `2026-04-17 14:43:38`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-04-17 15:04:58`: feat(backup): support automatic background sync on unmetered Wi-Fi
+- `2026-04-17 16:45:52`: docs: document on-device neural model pipeline and quantization specs
