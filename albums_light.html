@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gallery - Kiwi Nature</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- BEGIN: Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            kiwi: {
+              DEFAULT: '#4A6741', // Moss Green
+              light: '#8DA082',   // Soft Sage
+              dark: '#2D3E27',    // Forest Green
+            },
+            earth: {
+              cream: '#F9F7F2',   // Earthy Cream
+              sand: '#EAE5D8',    // Earthy Sand
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '12px',
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: Tailwind Configuration -->
+<style data-purpose="custom-layout">
+    body {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    .safe-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .safe-top {
+      padding-top: env(safe-area-inset-top);
+    }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head>
+<body class="text-slate-900 font-sans bg-earth-cream">
+<!-- BEGIN: Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-earth-cream/80 backdrop-blur-md border-b border-earth-sand safe-top" data-purpose="navigation-header">
+<div class="px-4 py-3 flex justify-between items-center"><button aria-label="Search" class="p-2 text-kiwi-dark">
+<span class="material-symbols-outlined">search</span>
+</button>
+<h1 class="text-xl font-bold text-kiwi-dark">Kiwi Gallery</h1>
+<button aria-label="Menu" class="p-2 text-kiwi-dark">
+<span class="material-symbols-outlined">more_vert</span>
+</button></div>
+</header><section class="px-4 py-4 flex justify-center" data-purpose="view-toggle">
+<div class="inline-flex items-center bg-earth-sand/30 p-1 rounded-full border border-earth-sand"><button class="px-8 py-1.5 text-sm font-semibold rounded-full text-kiwi-dark/60 hover:text-kiwi-dark transition-all">Photos</button><button class="px-8 py-1.5 text-sm font-semibold rounded-full bg-kiwi text-white shadow-sm transition-all">Albums</button></div>
+</section>
+<!-- END: Top Navigation Bar -->
+<main class="pb-24">
+<!-- BEGIN: Time Filter Segments -->
+<!-- END: Time Filter Segments -->
+<!-- BEGIN: Gallery Grid -->
+<section class="px-4" data-purpose="album-grid"><div class="grid grid-cols-2 gap-x-5 gap-y-7"><!-- Album Item: Recents --><div class="flex flex-col gap-2.5"><div class="w-full aspect-square rounded-custom overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-earth-sand bg-white"><img alt="Recents" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX3mov2RD4qEUW1Mi3Ov7JWvF7OwwbhUqnSpzreuWHkturdcbrabzlvqQ688r9vVNkDNaBp3xD8aiLuqY1x-f38IZpxUuVBbmI4r5nAeKdwzL-A4tmc5HcvN4JrX4hcSfIUM5HKX6c9KXuZM-H_pucqCHETy6WVx1YkxPK-KEYXwkMTXtbG3vzOX7GMamm13WaqIWQA_J3OtZxEoxfgXL25Mb6jLagTkHsr82fvGT1Us-YdJN9benP1x2MiEQ8joUT2sD5_Ut9BDQ"/></div><div class="px-0.5"><h3 class="font-semibold text-[15px] text-kiwi-dark">Recents</h3><p class="text-xs text-kiwi-light font-medium">1,248</p></div></div><!-- Album Item: Favorites --><div class="flex flex-col gap-2.5"><div class="w-full aspect-square rounded-custom overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-earth-sand bg-white"><img alt="Favorites" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWFrrnJ9NqijrmTeaF425wvd0NUm6AtuxCcXr6rF9I8npYRHpa_KfMYGxhPDxepLURMmRBG4nOLHKAk9SiPGT9Dztqf7txwKSU_vWnYSsyH1CsumtRt9FyxWcWxG99A3QBn72r-4LNXCOks_qUy9FqBx3RZBJC9Xgm2_Mq46QbhvlEM_Qt6Fk33Y_52YB36Jpjzf72zHWebgR2Y1B4F0NEzjJmtMmrblFdU-6FOsbWrNL4W_5sRmWWteZPCLaUTGQ_n0ze9s7DdPY"/></div><div class="px-0.5"><h3 class="font-semibold text-[15px] text-kiwi-dark">Favorites</h3><p class="text-xs text-kiwi-light font-medium">84</p></div></div><!-- Album Item: Nature --><div class="flex flex-col gap-2.5"><div class="w-full aspect-square rounded-custom overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-earth-sand bg-white"><img alt="Nature" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8c1phpTSTPOx1szrCYaApPGDUIa9liD0LW7MimB2eQwWVB_subiWWVoNb7ym24mBfmygUGCONfVNL0RRBJ1fOX3-MBve01uoOvVJC43o2CD1wn793NZYZ6Z_CHrL1AZVLYOYQGyG98h1XiFuU84kKi2v3iwy8lyE9LvkTDIs5R6B8E_ea1gzGtLtbr9pf-4z-BYpZ8ss-LKxwdk4gkfHrNIkmgwSU08FQGV30XUqEfTDmrHS2SwP8OngkvdwcSO6ZB9ttbskMFIA"/></div><div class="px-0.5"><h3 class="font-semibold text-[15px] text-kiwi-dark">Nature</h3><p class="text-xs text-kiwi-light font-medium">312</p></div></div><!-- Album Item: Kiwi Harvest --><div class="flex flex-col gap-2.5"><div class="w-full aspect-square rounded-custom overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border-2 border-kiwi bg-white"><img alt="Kiwi Harvest" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEFzGo4NY6Xic9clTSG_5JRmWOWELYjm6xOuPWE8xtCQVk0SwamBFsnC8UvP_1w550LPPIbxxxIckKgd1YCkGprhWJnRiF3vf8qE1UrQ6YvOyHiz0GLymofSTrt3E1GZ2pSYz0M58YnMAT60McCyTD0NIG8MPecDjnZLep3oWOauClZyBtlBZlc3UJdZg1GtOFpNJWzwNJnjMMjCx6HARVqWZ19Fmnh6ZlfAYN0KtLNsl-hePBJGCoh2I0QTUonFqO1VCdquh9HIA"/></div><div class="px-0.5"><h3 class="font-semibold text-[15px] text-kiwi-dark flex items-center gap-1.5">Kiwi Harvest <span class="w-1.5 h-1.5 rounded-full bg-kiwi"></span></h3><p class="text-xs text-kiwi-light font-medium">56</p></div></div><!-- Album Item: Travel --><div class="flex flex-col gap-2.5"><div class="w-full aspect-square rounded-custom overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-earth-sand bg-white"><img alt="Travel" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdyEU0Wii-PTFxMmiYv6vnICbBshOHKJ1AUmWzupE8V8jypXn1Dfznu68G7sGwhIJnguRdZtAEVB9WweS5xW-C1qcd06cw94WRS4txLAOAw_N2Ncu8UT-vC0NM4La6znhqzIF7_eFPawkJ9bfY0G-AYogm2yukQI0MiGFztjktSayvsVXdV4gnhDTquIQ1YymqX5j91TEW061Z0gdNfIKte6Due-EZlZGysG9E9etMjITtotIqybpxLe7cCyQb4KCPYZGS2se_5Zg"/></div><div class="px-0.5"><h3 class="font-semibold text-[15px] text-kiwi-dark">Travel</h3><p class="text-xs text-kiwi-light font-medium">203</p></div></div><!-- Album Item: Social --><div class="flex flex-col gap-2.5"><div class="w-full aspect-square rounded-custom overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-earth-sand bg-white"><img alt="Social" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcWQ3l9LPHxus8t1g889SCuS0LTfvUtGwyghYuEv_AZN5ULcDaxzXmtfG2jVhfYmNilZSAN1E1JHplpdqfBeThG9re_UG2QaFsujqTNUqo1euqFirHRYhEZ1_UnHaAgM_d_YeRAaXpanjO-2qutggK4pb-oTtjd_nIkvqq4ik9WMcE0dDHMfBefoDWcPYl8hvszgj-yuMOa8efQ9uKaHI2WYEJLYUt0oaEg2FUiJBC2-U-eTWcWCzUnaoJyBgqqBoYCoQ2An9y1os"/></div><div class="px-0.5"><h3 class="font-semibold text-[15px] text-kiwi-dark">Social</h3><p class="text-xs text-kiwi-light font-medium">419</p></div></div></div></section><section class="mt-12 mb-6 px-4"><div class="flex justify-between items-center mb-5"><h2 class="text-xl font-bold text-kiwi-dark">Shared Albums</h2><button class="text-[13px] font-bold text-kiwi tracking-wide">See All</button></div><div class="flex gap-5 overflow-x-auto no-scrollbar -mx-4 px-4"><!-- Shared Item 1 --><div class="flex-shrink-0 w-36"><div class="w-36 h-36 rounded-custom bg-white border border-earth-sand shadow-[0_4px_15px_-3px_rgba(0,0,0,0.08)] overflow-hidden mb-3"><img alt="Shared" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVSl3wBozzUPwK5BGxwh9FNA_i7UeII3uNYQmFtQovTXmy16s-Gdp7WKFGFdMtOfZHPZHjQ6vErnn6W3AHWUu3pQvxJj6LTBt34SK7ds07LAwepRxDalsHL1SE84lkStgmLjWxjGpO4FGo64rA8Y6F6INuaSXk9xSFgLBkbpdAFRrzQLcAq_hObyZL238eG34ow4BuwECkZj3M-B5U4u5BohVKmQDVxGUWxbsMdqiIN0e5_GXPZRY7Q5zGolsJ_NKRiFCKgZta0s0"/></div><p class="text-[13px] font-semibold truncate text-kiwi-dark text-center px-1">Friends &amp; Family</p></div><!-- Shared Item 2 --><div class="flex-shrink-0 w-36"><div class="w-36 h-36 rounded-custom bg-white border border-earth-sand shadow-[0_4px_15px_-3px_rgba(0,0,0,0.08)] overflow-hidden mb-3"><img alt="Shared" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEaRtUGwV1nVp3MiY-esQmABULjkhCCS8VsrhgcMQTIdoHnQeqXZ4dP1Wmbd7_ESNgI-JDRGxuz7nXDRlXe8ro5wKj2Nr-dQUNiVdPUorIiRu8nHwd72hrC2ZRzy3DxGAVetb1yBaHTU1TUnJsmntIiL5Umgy5vn00x8lMVAVBwXh9wRryHAVZvt7pr7qZ2_U2r8UXqjmS74Xt8mZo4j-j-vzrsFB0M-MdnK6YiOrWT5Wvd2svJtdspoAAnxLkqUZyggqnaPX0xbI"/></div><p class="text-[13px] font-semibold truncate text-kiwi-dark text-center px-1">Work Projects</p></div></div></section>
+<!-- END: Gallery Grid -->
+</main>
+<!-- BEGIN: Bottom Tab Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-earth-cream/90 backdrop-blur-lg border-t border-earth-sand safe-bottom z-50" data-purpose="tab-bar">
+<div class="flex justify-around items-center h-16"><!-- Library Tab --><button class="flex flex-col items-center justify-center space-y-1 text-gray-400"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span class="text-[10px] font-medium">Library</span></button><!-- For You Tab --><button class="flex flex-col items-center justify-center space-y-1 text-gray-400"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span class="text-[10px] font-medium">For You</span></button><!-- Albums Tab --><button class="flex flex-col items-center justify-center space-y-1 text-kiwi-dark"><svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg><span class="text-[10px] font-bold">Albums</span></button><!-- Search Tab --><button class="flex flex-col items-center justify-center space-y-1 text-gray-400"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span class="text-[10px] font-medium">Search</span></button></div>
+</nav>
+<!-- END: Bottom Tab Bar -->
+</body></html><!-- MISSING_IMAGES:
+- High-quality Kiwi CloseUp photo
+- Lush Forest Path photo
+- Waterfall Nature Video thumbnail
+- Green Leaves CloseUp photo
+- Fresh Kiwi Slices photo
+- Mossy Rocks Nature photo
+- Mountain View Nature photo
+- Morning Dew Drops photo
+- Kiwi Tree photo
+- Fern Leaf detail photo
+- Tropical Greenery photo
+- Kiwi Smoothie lifestyle photo
+- Spring Buds photo
+- Kiwi Vines photo
+- Forest Sunlight photo
+-->

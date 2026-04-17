@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "325837935196",
+    "project_id": "juneai-897b3",
+    "storage_bucket": "juneai-897b3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325837935196:android:c7b940b749aa9189b20c99",
+        "android_client_info": {
+          "package_name": "co.juneai.june"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy0vYdBHk_acXCBUZATeCPnqF8ZG7QEog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kiwi Gallery - Dark Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#1a1c18", // Dark forest charcoal
+                        "forest-accent": "#2d362a", // Forest green accent
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header Section -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-slate-200 dark:border-forest-accent/30">
+<div class="flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-300 cursor-pointer">search</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Kiwi Gallery</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-xl h-12 bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-forest-accent/50 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Navigation Tabs -->
+<nav class="pb-3 bg-background-light dark:bg-background-dark">
+<div class="flex border-b border-slate-200 dark:border-forest-accent/30 px-4 gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 pb-[13px] pt-4 hover:text-primary transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">All Photos</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-slate-900 dark:text-white pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Albums</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 pb-[13px] pt-4 hover:text-primary transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Favorites</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 pb-[13px] pt-4 hover:text-primary transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Recent</p>
+</a>
+</div>
+</nav>
+<!-- Main Album Grid -->
+<main class="flex-1 overflow-y-auto">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+<!-- Recents Album -->
+<div class="group relative overflow-hidden rounded-xl aspect-square bg-slate-200 dark:bg-forest-accent">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Misty dark forest with evergreen trees" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDddtJ9TlQ2n06VPYvVoSWUHWlJnfBMWXENzHVmK5a0PYHkfwFYPw4XDZ1DTLdYc5WM2Cm7iE8bifm5jHE49uATfmYDS4UDayZ9OE28Qhb7g3xQGFXtM-RWOVtJkuOYg-OGTsyG3u1R-AP-zPE_a5gfVTX7xRvC9bGkHcJ_GfeR1JeE8JBGYkPvLRM7N-NJv6r4PCgNetZClNF6XWpGTvBHlLu9SkGvv-174D3asHEBS4gHrPIXXVkJLr947vglk61H6ETbP8Q0q7o");'>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<p class="text-white text-base font-bold leading-tight">Recents</p>
+<p class="text-slate-300 text-xs">1,284 photos</p>
+</div>
+</div>
+<!-- Favorites Album -->
+<div class="group relative overflow-hidden rounded-xl aspect-square bg-slate-200 dark:bg-forest-accent">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Sunlight filtering through lush forest canopy" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOHIqd1YKJqboqFymbz9XauHw6liK5WP8yBSpwnkFJjyxwjYLJN1t_-WoNNnzI3MNpjZPKo-rPtfaX0DFtHwOYoHa5jEza0vJXPdMFUczNHzcsrJC7LDuAkpw3I-tfU5jBhut7KCcwj8mTvfhpigmyoEXFEoB1uJAKrtamzhPgUwZDl6qfRRu-OmVPcJNyvWMkvThtJthk8OupNym-zHMpdFVm9D4QbOOWDmfdarLiNE6cODiidrTYHWOLwaJ5XStdq3izTktALVY");'>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<p class="text-white text-base font-bold leading-tight">Favorites</p>
+<p class="text-slate-300 text-xs">432 photos</p>
+</div>
+</div>
+<!-- Nature Album -->
+<div class="group relative overflow-hidden rounded-xl aspect-square bg-slate-200 dark:bg-forest-accent">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Deep green dense pine forest landscape" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHhab9lIKtHNG-8Iqx18-JW7mdV_9rFOqCjBZ8KU-cDY7G2WJSd09Mfp3snwG7nov68sSCJUda-FxiYwXrjBN2ubw3JG3zixth69XkOAfZQHdeD9mql57MdN-57AfuR0AsNJLtLdtQm1F9R2UbObH8Pk8NVtThzUqVJynxWGR5kXHaSwcOmRCSWGQY-lfqpRjSWpg7cFGllECeHAGkHJCpssIhEEK5ospVNFnPNZBzmieQpf4QhhMjakWtZNuUk_QXacJ7gOjdJVU");'>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<p class="text-white text-base font-bold leading-tight">Nature</p>
+<p class="text-slate-300 text-xs">856 photos</p>
+</div>
+</div>
+<!-- Kiwi Harvest Album -->
+<div class="group relative overflow-hidden rounded-xl aspect-square bg-slate-200 dark:bg-forest-accent">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Fresh sliced kiwi fruit on dark surface" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCT6gYCkJn9TLTbs2HkFzDqHt_sZ2c7Bak1ItTN4zIi121o2dYEDmO266gjg2uFKtqo30WOjqLPEL5FBCqCCfRrxWBLFfDtQmQN-9PSHQgfUGEHXkoyiYLP-zvmQ8LbDJTQQhdj-z3HwrXoBafKKaD_c5nQgDxHJwoLWix73QnWWLhqY7-y4KebyvbXhW02udJvu0vHt0BnaWI4emMS-z1cVjWfFmIQXbPC4u6V4FEluZ3ba1zIBDz6PqHJyCTNWtwvs9Sv7Mi9_28");'>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<p class="text-white text-base font-bold leading-tight">Kiwi Harvest</p>
+<p class="text-slate-300 text-xs">124 photos</p>
+</div>
+</div>
+</div>
+<div class="px-4 pb-2 pt-6 flex justify-between items-center">
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">More Albums</h3>
+<span class="material-symbols-outlined text-primary text-sm cursor-pointer">add_circle</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+<!-- Adventure Album -->
+<div class="group relative overflow-hidden rounded-xl aspect-square bg-slate-200 dark:bg-forest-accent">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="High mountain peaks under clear sky" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDm0z62yIKt4moKm8AAzBoCyNdQHjEwj91k5rQOMdNYKbI8usYYxbhh5vfd-t5KwP6wM2pgjz-jymxF01hAKac6tP8HUu3BBn0gjG9g3ktO-8zdK9ou-lvx3OMUws9JFS3JBNpH1_l3SZ6_dqhrhqTCy0-ZcCVfXDqD0K2jqdCFpht-oVNst4nAUjqs57jLchiUsAU2CIifuObjcXes-xr3aPtUI3OSXTyzvB7j3J5Zwfi0difbSFKnMG8ONezIJlQ2wjv9htcCijI");'>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<p class="text-white text-sm font-bold">Mountains</p>
+</div>
+</div>
+<!-- Travel Album -->
+<div class="group relative overflow-hidden rounded-xl aspect-square bg-slate-200 dark:bg-forest-accent">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Serene lake reflection at dusk" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAxzPjOET7daWI48V0trNhaJLYccQXDevxSa8CRg8vI_ilwVYaI_M9piPnwxBQ6fKGAbflVYy4kU1Z7b9R8sBx3ZrKVZZxO_OSMj5I3SNGTp4vZ5XZsZjdDR6vJLeUw7xr3eP0vRx1uYbrpo944gtEPrfJ-zk1k1AjmfkAm_GNzfWzCzw_ZK8AR4G6lvkX6Cv4UWH_ORGVJh3wIr4ujGl9U76sn3IlAAICFn87MegQeLNlRJSBrz-y03W-37uEZlI0rnakemQJtw7U");'>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<p class="text-white text-sm font-bold">Reflections</p>
+</div>
+</div>
+</div>
+<div class="h-20"></div> <!-- Spacer for Bottom Nav -->
+</main>
+<!-- Bottom Navigation Bar -->
+<footer class="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 dark:border-forest-accent bg-background-light dark:bg-background-dark/95 backdrop-blur-md px-4 pb-3 pt-2">
+<div class="flex gap-2 max-w-lg mx-auto">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">photo_library</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Library</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">For You</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">folder_open</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Albums</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Sharing</p>
+</a>
+</div>
+</footer>
+</div>
+</body></html>

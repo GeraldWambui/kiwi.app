@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gallery - Kiwi Nature</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- BEGIN: Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            kiwi: {
+              DEFAULT: '#4A6741', // Moss Green
+              light: '#8DA082',   // Soft Sage
+              dark: '#2D3E27',    // Forest Green
+            },
+            earth: {
+              cream: '#F9F7F2',   // Earthy Cream
+              sand: '#EAE5D8',    // Earthy Sand
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '12px',
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: Tailwind Configuration -->
+<style data-purpose="custom-layout">
+    body {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    .safe-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .safe-top {
+      padding-top: env(safe-area-inset-top);
+    }
+  </style>
+</head>
+<body class="text-slate-900 font-sans bg-[#0A0F09]">
+<!-- BEGIN: Top Navigation Bar -->
+<header class="sticky top-0 z-50 backdrop-blur-md border-b safe-top bg-[#0A0F09] border-white/10" data-purpose="navigation-header">
+<div class="px-4 py-3 flex justify-between items-center">
+<button aria-label="Search" class="p-2 text-slate-200 hover:bg-white/10 rounded-full transition-colors">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</button>
+<h1 class="text-xl font-bold tracking-tight text-white">Kiwi Gallery</h1>
+<button aria-label="Menu" class="p-2 text-slate-200 hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined block">more_vert</span>
+</button>
+</div>
+</header><section class="px-4 py-4 flex justify-center" data-purpose="view-toggle">
+<div class="inline-flex items-center p-1 rounded-full border bg-white/5 border-white/10">
+<button class="px-8 py-1.5 text-sm font-semibold rounded-full text-white shadow-sm transition-all bg-[#6B8E23] text-[#0A0F09]">
+      Photos
+    </button>
+<button class="px-8 py-1.5 text-sm font-semibold rounded-full hover:text-kiwi-dark transition-all text-kiwi-light">
+      Albums
+    </button>
+</div>
+</section>
+<!-- END: Top Navigation Bar -->
+<main class="pb-24">
+<!-- BEGIN: Time Filter Segments -->
+<!-- END: Time Filter Segments -->
+<!-- BEGIN: Gallery Grid -->
+<section class="px-4" data-purpose="photo-grid">
+<div class="grid grid-cols-3 gap-3">
+<!-- Photo 1 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Kiwi Detail" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAur-oA0DtkL7uDwC4MQqtemhU9DnKsKrKzg5n1Jc3xJbOciGo4h0VYiumT1C5nUYbk8A9hp3UVcTjarz3e606ETjX6h5oa6KRyMsnW8DWlBT0RAXT5rnm98jPOuSCKZp0ViyrFYJ-fhA1OUiN1dE7m2NCkaiNa2E7ySiVZsWFZa-1maqjAnyBK-tf9nuxi7jkNGnEwG4_Hi6Trcx0sPrhe-OvL7QXTy0FNwkD8e9H5sM1SJBLlcIb7NBPGY48ENbjQ9PRPxPDiF_w"/>
+</div>
+<!-- Photo 2 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Nature Trail" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRA43jfLSLND_Ypl6ejAFcNeTKsvUixx5ye_FYdTyBsBWrq9uen0aFCNYhxgkni4qoKQ-piGbp5IsDK8qA1Hlk3IdRrq_bjk4SW1cqmezT0C7Qd5aFBaUE5EYOKb_J8sqmU3F5xZmZz1yI1Ks234p-dNHzBQf5WvECywpE-dG6fzeo7FDrWBWDeLevYsBVUSGUH67KCukm8K7NPtwrNTGA24D_sP_293J5ZblHf36XZmAt50ANxLz_eH0hsgvcEa_jsQwXV19lP7Y"/>
+</div>
+<!-- Video 3 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Waterfall Video" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFkEW2oAU9CuYzJsvowMAg6YcIiO4YlEP_3YoQ6J-TZt6Qw7ZHOh-fjJsMZHcD7_3P-Wc6kzRvakBLktJxPqo5KmkBX7fiGGB7deHw651VEkeUIARltDAfUau9oo83-tce6HoUyInwm1OcL633VVZrz8G29OVqBqsiqGG9gOLyUZfb0o2Jq46CzkKTjzm4L9B3DuABVVeqxe27rrCMmyQwtYbILNxFJAkYBVn_Jc_kXn2GlqlwAYLOph4QaY2uIQIDfpix7Cbc4YM"/>
+<div class="absolute bottom-1 right-1 text-white text-[10px] font-bold bg-black/20 px-1 rounded">2:14</div>
+<div class="absolute top-1 right-1">
+<svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+</div>
+</div>
+<!-- Photo 4 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Nature Foliage" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsnL15dJ85oASHJ7Si9M-Xf8KcB9iunX4WNFRA3nQSuB5N0iUTk_19hyASA4RQmYnHJcD0K6J53Lnk3nscz8tzjElViBe6zSqVNKhtB_ElXyTe9ccY31OeqJ0KSuJqkyErWhv0o7AYMBRyBxbPrA8nji1cS_LKiMtYny3xj19sMKViRhT55gUrBHkG_UYqvh0VJ41qE8YxmbZmVcDbOt-6O2dmnP0aZrPNyPFW1OM7W82UR6MNqXSyjtTD4k7RndU3_LMGLnIMN6g"/>
+</div>
+<!-- Photo 5 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Kiwi Fruit" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB225OFJTG_HGeYqyQHfB6j1ieMY3V4N2rbrKOLXcbZ3kIcl_q-wmDdgi6MwKBRBQu9UdRcC0rZuzY_qhQSR69dXlX1h3yaDqVByhnvoaf57F5iwN8RogO2LV02vxvt3AOwaCKaEATQRbOntg66PERwz04lb--3c59Q1e15y8mU3CBBmV7h-ryjUUdKFtxlfJRKXNgN2UXt_x8xvyFvNFo3YwqdHecqLo9t_6XEInurbFwmETcp_eEJn2FahPBe7exexSRYZAm4wZI"/>
+</div>
+<!-- Photo 6 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Mossy Nature" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAxgTbd35MAo71Q2A352dV6LllULRN5pFvhU-bRPahRWfL2NZ-r4qrI37RoKyOsTg_sXIdYzMiWnZaMyw8u4q04ArPsg8qG0hmlZCS10sKzXZt1PvCtJv22Br1RQOVeGvAhwcYDT9AQOFW583peB2PdFDrp327f7F9UjQm0NP25AWF3u5LlTNSMlaqs_W4WuZ7pu5NlEAIrfizinTX3X48zV20ZZ9z9JjXqmT6cDTmYr2IeMbK1kUa0HUbMjT7vNDKa-8RT6SZccs"/>
+</div>
+<!-- Photo 7 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Mountains" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt_0QVK-8eRCrGkJhI2auuKWJX69W8sNOO6l_WH-4huBy_9nPQ1VZIyHkcjFaAXFnYnd100vUn-yGBnbzDdqgcDm2j8ssKm3aCTpfKdgp70CtPKUlc0afZFTg1K8gfOa87wZecBs5v_Vo3G0SBT2hpxVVIPTFa0A8Jp7beZYcAVmuKNstjwJyKGt8uNtaMqWOG_zT4DD1IweXF3FVh5p9nkYNR6EZsjE6fKRJPyxUhhfKTMQeGD8fYqCtrTktGE9mN75Wy1edL5rw"/>
+</div>
+<!-- Photo 8 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Morning Dew" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWZQpUJzVOJ1Co60BYkCwjlbAjudGkiGRqdDUN-3tdC_3qqBpOFNwqBW7V4LfmCZXLykjSzaSZdz7v9CcRzXLAqohF--9bAGhlKC6CchNZgKxLKnP9VmVsU4khfNxaqxpa8kiCmx8kt3J94QgSiNvCGmgLz7H9ZUxhbPKzJvj5eq9qI_RNTJodkahOfVNWRMF3G-G_tMZBBPmiE3uLjv4NgC7cQbMrOPjm51-Tzts7uL4uqUwXX_-DeTRGViN-2xPaNpo71_TYqlo"/>
+</div>
+<!-- Photo 9 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Kiwi Tree" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs6W54oLny5mLcibvCu9tQqEzh2OwLtNrOnjMgMqo4__AFEE3JXN4LX_iPXDEHC8Ncz7Ntn9PQWe0N97xfxFuolVEHTLzvK9aS9eDYXC3JixmXYznsVSJUpM5Dui0BQo_YsoOtj3LtLYb-ZkSUHcPEugA5jcz9vN-8ipUOFj9uDO0quX4SJ3i-dJqQODZJ7tGh-5E2V_4FOKAGRFWZ1AP3dliN5CWM_zQJcEIgSd76ZLDJPeMRWGPXevBGMYQ36_HFAYAYYR-JOXU"/>
+</div>
+<!-- Photo 10 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Fern" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1u41yutreLo71htJUAmn0MXVs2igO0ZJmILVb9m2UAjsNsbgZU-rszgcJEpNDxNJhLutVvAnJq1Dr3oxYg2C1pPiA6wt_hgJhDYx1Az3556Yb01GYmD1m5Zo4M274GEyPogipAgN0gMlMawFVpDxKpmbF7MV0LpZhrdQ-RZgUdKb341uK-M6tJoNwbwpqBDXtlglMkNiOtBs5klG2KN0c5dMzK4Aw0fFEM7_R1oClrwS2ahRlfpayLLW1WwLIVFUbfA2_2z7qwpA"/>
+</div>
+<!-- Photo 11 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Tropical" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBX-jo6NUyw9h3ETVd23NZPUFAFq1SzJ26m2CYRbSNnH5TV9SF4_EVZpR66zM5P8CuX3Zppi0-mg4YbuMR2Z_CnUO6fH90fNvqZQKY0QSep84dvR8SHQO1e0b6SXRozwYLvVn0DE2E0lUYTrIFL5W97ZlUBbix33XPbb1ZUPXxM3QyotP2pLL62KYN0Gj-uGihVrQxQpWG7MLA2ybqWfyB1IE5SGQ-wc9oc6fRM2wvH5CFJjJj32PC31uRPa-2zBxj_W3cseO6FDg"/>
+</div>
+<!-- Photo 12 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Smoothie" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6REQKB_m3ja4N1SQwpmcuYqSnwLPyTUqZJrn2B0wxTaXEAoKEinFaPR2xvM_me7E876rkMF0Ar03-SrwafuPxdOyMmtR1LGm6C78Pdzlbj5_qmTl4xeJD1xIHny7bsiljCfwViYKe393D92E94_Bykpe2mlDGByzDGwTVFDWVz5Uq76uJeGyHWv_MKZDovZXc6dV0JPwePJcX985Xt5it85p-C2_QDrb_a52fL3v-7xIYSjuf5zGmdWGIR1F4y0MTmy8Uk2jB9fk"/>
+</div>
+<!-- Photo 13 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Spring" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFuMyCLxC8u17gnFqb_qtuLHQ81nZ-Y01ViPpqwQo6XGB0oNPub2zl0Thlowms_UoBEHE2jlg-31E5apjPmLboVfItGYOuDznyLpWHCDjvnFl5nqGybqrTXOFQdFR6kH5rSWVsPOwBo0A7-8CdXmoVoUA_5hiNadDv2CPCb99q3myb_seNw-Y_ELh75q-EmRTLWTsFGrt0eambhMc5cJE3pCtHKq22uq-5Bk2sGDBZHf-ovo03t2xX8ufjbNl6Z-3E6Xd_O2ZgEAU"/>
+</div>
+<!-- Photo 14 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Vines" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIPjH612MX0HhyCSvPrCiBVj5zeGJvTI6vAjFxpvtVivLq-tUv92BsWxI9TZIsltkQ18wLaNOuBJesQMfdDw5PN_hPyqRpefpmMlJ2mOT469_VLeiuFpqcbE-W7NqZe34IHY7j3hJ9TJyvm03-9qsQLUHew-OfMrKaT_O9fXaDIgq8sb0QKKDdI-iupgLrux6myRt6ARYFw4M6FB6BMOSFqsrlLEYAODXrtsodNP2-qGYx7VffvsF1K3kfmXoLtcBhSjlqACXlw1M"/>
+</div>
+<!-- Photo 15 -->
+<div class="aspect-square relative overflow-hidden rounded-lg">
+<img alt="Sunlight" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5I_bVrvSmMa8RfK3wY6X0AvhZy7HwuRgTj0zAQspDnD0bvtado_FUYfOh6xPvUs2L5_VL6veh6d5E98bAvica8lf83e-PrQGmBARP-8JIr501gOaAK6Icw1u7kObwHWYY8rf10APIQvoAiI4IDJBZ4xOntSzQka3HLjGMgS0XbbU8UwjbHUapvDJxYQ4hLIn7G3j_FcUKkHoELI7tORLwBaOw322hLYw61vgRFhd5c6SivOyp3d_iT6zeD0ObL7D0ve6fqm4JTdE"/>
+</div>
+</div>
+</section>
+<!-- END: Gallery Grid -->
+</main>
+<!-- BEGIN: Bottom Tab Bar -->
+<nav class="fixed bottom-0 left-0 right-0 backdrop-blur-lg border-t safe-bottom z-50 bg-[#0A0F09]/95 border-white/10" data-purpose="tab-bar">
+<div class="flex justify-around items-center h-16">
+<!-- Library Tab -->
+<button class="flex flex-col items-center justify-center space-y-1 text-[#A7C080]">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"></path>
+</svg>
+<span class="text-[10px] font-medium">Library</span>
+</button>
+<!-- For You Tab -->
+<button class="flex flex-col items-center justify-center space-y-1 text-white/40">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-medium">For You</span>
+</button>
+<!-- Albums Tab -->
+<button class="flex flex-col items-center justify-center space-y-1 text-white/40">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-medium">Albums</span>
+</button>
+<!-- Search Tab -->
+<button class="flex flex-col items-center justify-center space-y-1 text-white/40">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-medium">Search</span>
+</button>
+</div>
+</nav>
+<!-- END: Bottom Tab Bar -->
+</body></html><!-- MISSING_IMAGES:
+- High-quality Kiwi CloseUp photo
+- Lush Forest Path photo
+- Waterfall Nature Video thumbnail
+- Green Leaves CloseUp photo
+- Fresh Kiwi Slices photo
+- Mossy Rocks Nature photo
+- Mountain View Nature photo
+- Morning Dew Drops photo
+- Kiwi Tree photo
+- Fern Leaf detail photo
+- Tropical Greenery photo
+- Kiwi Smoothie lifestyle photo
+- Spring Buds photo
+- Kiwi Vines photo
+- Forest Sunlight photo
+-->

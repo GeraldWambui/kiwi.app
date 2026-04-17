@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="photos"
+        android:enabled="true"
+        android:icon="@drawable/ic_ios_search"
+        android:shortcutShortLabel="@string/shortcut_photos"
+        android:shortcutLongLabel="@string/shortcut_photos_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="co.juneai.june"
+            android:targetClass="co.juneai.june.MainActivity"
+            android:data="june://photos" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="recents"
+        android:enabled="true"
+        android:icon="@drawable/ic_stitch_albums_filled"
+        android:shortcutShortLabel="@string/shortcut_recents"
+        android:shortcutLongLabel="@string/shortcut_recents_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="co.juneai.june"
+            android:targetClass="co.juneai.june.MainActivity"
+            android:data="june://recents" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="camera_album"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_camera_kiwi"
+        android:shortcutShortLabel="@string/shortcut_camera"
+        android:shortcutLongLabel="@string/shortcut_camera_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="co.juneai.june"
+            android:targetClass="co.juneai.june.MainActivity"
+            android:data="june://camera_album" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="videos"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_video_kiwi"
+        android:shortcutShortLabel="@string/shortcut_videos"
+        android:shortcutLongLabel="@string/shortcut_videos_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="co.juneai.june"
+            android:targetClass="co.juneai.june.MainActivity"
+            android:data="june://videos" />
+    </shortcut>
+
+</shortcuts>

@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Background circle with kiwi green -->
+    <path
+        android:pathData="M54,54m-42,0a42,42 0,1 1,84 0a42,42 0,1 1,-84 0"
+        android:fillColor="#6B8E23"
+        android:fillAlpha="0.15" />
+    <path
+        android:pathData="M54,54m-32,0a32,32 0,1 1,64 0a32,32 0,1 1,-64 0"
+        android:fillColor="#6B8E23"
+        android:fillAlpha="0.3" />
+    <!-- Film/Video icon with olive leaf accent -->
+    <path
+        android:pathData="M35,38h26c2.2,0 4,1.8 4,4v16c0,2.2 -1.8,4 -4,4h-26c-2.2,0 -4,-1.8 -4,-4v-16c0,-2.2 1.8,-4 4,-4z"
+        android:fillColor="#6B8E23" />
+    <!-- Play triangle -->
+    <path
+        android:pathData="M46,46l12,8l-12,8z"
+        android:fillColor="#FFFFFF" />
+    <!-- Olive leaf detail -->
+    <path
+        android:pathData="M68,36c4,-6 10,-8 14,-6c-2,4 -6,8 -12,10c-2,0.7 -3.5,-2 -2,-4z"
+        android:fillColor="#8BBB3A"
+        android:fillAlpha="0.7" />
+</vector>

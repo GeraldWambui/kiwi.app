@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Outer circle -->
+    <path
+        android:fillColor="#80000000"
+        android:pathData="M32,2C15.42,2 2,15.42 2,32s13.42,30 30,30 30,-13.42 30,-30S48.58,2 32,2z"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1"/>
+
+    <!-- Inner circle -->
+    <path
+        android:fillColor="#80000000"
+        android:pathData="M32,10C20.95,10 12,18.95 12,30s8.95,20 20,20 20,-8.95 20,-20S43.05,10 32,10z"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1"/>
+
+    <!-- Play icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M26,22v16l12,-8z"/>
+
+</vector>

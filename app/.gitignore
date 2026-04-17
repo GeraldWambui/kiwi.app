@@ -1,0 +1,6 @@
+/build
+*.aab
+*.apk
+
+# ML models
+*.tflite

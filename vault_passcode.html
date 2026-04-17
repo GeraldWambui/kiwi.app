@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2d5a27", // Forest Green
+                        "accent": "#9dc183", // Kiwi/Sage Green
+                        "background-light": "#f8f9f8",
+                        "background-dark": "#121812", // Deep Charcoal with green tint
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Kiwi Gallery - Secure Vault</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-between py-12 px-6">
+<!-- Top Navigation / Branding -->
+<div class="w-full max-w-md flex flex-col items-center">
+<div class="mb-8 p-4 rounded-full bg-primary/20 border border-primary/30 text-accent">
+<span class="material-symbols-outlined text-4xl">lock</span>
+</div>
+<h1 class="text-3xl font-bold tracking-tight text-center mb-2">Enter Passcode</h1>
+<p class="text-slate-500 dark:text-slate-400 text-center max-w-[280px]">Enter your 6-digit passcode to unlock the Kiwi Gallery vault</p>
+</div>
+<!-- Passcode Dots Area -->
+<div class="w-full max-w-md flex justify-center gap-4 my-12">
+<!-- Empty dots representing the 6 digits -->
+<div class="w-4 h-4 rounded-full border-2 border-primary/50 bg-transparent"></div>
+<div class="w-4 h-4 rounded-full border-2 border-primary/50 bg-transparent"></div>
+<div class="w-4 h-4 rounded-full border-2 border-primary/50 bg-transparent"></div>
+<div class="w-4 h-4 rounded-full border-2 border-primary/50 bg-transparent"></div>
+<div class="w-4 h-4 rounded-full border-2 border-primary/50 bg-transparent"></div>
+<div class="w-4 h-4 rounded-full border-2 border-primary/50 bg-transparent"></div>
+</div>
+<!-- Numeric Keypad -->
+<div class="w-full max-w-[320px] grid grid-cols-3 gap-6 mb-8">
+<!-- Row 1 -->
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">1</button>
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">2</button>
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">3</button>
+<!-- Row 2 -->
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">4</button>
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">5</button>
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">6</button>
+<!-- Row 3 -->
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">7</button>
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">8</button>
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">9</button>
+<!-- Row 4 -->
+<button class="aspect-square flex items-center justify-center rounded-full text-slate-400 text-sm font-semibold uppercase tracking-wider">Cancel</button>
+<button class="aspect-square flex flex-col items-center justify-center rounded-full bg-slate-200/50 dark:bg-primary/10 hover:bg-primary/20 transition-colors text-2xl font-medium">0</button>
+<button class="aspect-square flex items-center justify-center rounded-full text-primary">
+<span class="material-symbols-outlined text-3xl">backspace</span>
+</button>
+</div>
+<!-- Bottom Actions/Options -->
+<div class="w-full max-w-md flex flex-col items-center gap-4">
+<button class="text-accent text-sm font-medium hover:underline">Forgot Passcode?</button>
+<div class="flex items-center gap-2 text-slate-500 text-xs">
+<span class="material-symbols-outlined text-sm">eco</span>
+<span>Kiwi Gallery Security</span>
+</div>
+</div>
+</body></html>

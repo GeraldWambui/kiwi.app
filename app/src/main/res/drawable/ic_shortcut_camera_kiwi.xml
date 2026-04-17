@@ -1,0 +1,41 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Background circle with kiwi green -->
+    <path
+        android:pathData="M54,54m-42,0a42,42 0,1 1,84 0a42,42 0,1 1,-84 0"
+        android:fillColor="#6B8E23"
+        android:fillAlpha="0.15" />
+    <path
+        android:pathData="M54,54m-32,0a32,32 0,1 1,64 0a32,32 0,1 1,-64 0"
+        android:fillColor="#6B8E23"
+        android:fillAlpha="0.3" />
+    <!-- Camera body -->
+    <path
+        android:pathData="M32,42h44c2.2,0 4,1.8 4,4v18c0,2.2 -1.8,4 -4,4h-44c-2.2,0 -4,-1.8 -4,-4v-18c0,-2.2 1.8,-4 4,-4z"
+        android:fillColor="#6B8E23" />
+    <!-- Camera lens mount -->
+    <path
+        android:pathData="M44,40h20l4,4h-28z"
+        android:fillColor="#6B8E23" />
+    <!-- Lens circle -->
+    <path
+        android:pathData="M54,54m-9,0a9,9 0,1 1,18 0a9,9 0,1 1,-18 0"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3" />
+    <path
+        android:pathData="M54,54m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"
+        android:fillColor="#FFFFFF" />
+    <!-- Flash -->
+    <path
+        android:pathData="M70,48m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6" />
+    <!-- Olive leaf detail -->
+    <path
+        android:pathData="M72,34c4,-6 10,-8 14,-6c-2,4 -6,8 -12,10c-2,0.7 -3.5,-2 -2,-4z"
+        android:fillColor="#8BBB3A"
+        android:fillAlpha="0.7" />
+</vector>
