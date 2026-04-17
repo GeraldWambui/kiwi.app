@@ -301,3 +301,4 @@ Automated engineering journal & milestones.
 - `2026-04-17 14:43:38`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-04-17 15:04:58`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-04-17 16:45:52`: docs: document on-device neural model pipeline and quantization specs
+- `2026-04-17 21:42:57`: refactor(ui): extract reusable media action bar into design system component
