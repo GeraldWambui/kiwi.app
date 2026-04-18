@@ -303,3 +303,4 @@ Automated engineering journal & milestones.
 - `2026-04-17 16:45:52`: docs: document on-device neural model pipeline and quantization specs
 - `2026-04-17 21:42:57`: refactor(ui): extract reusable media action bar into design system component
 - `2026-04-18 09:13:23`: refactor(ui): extract reusable media action bar into design system component
+- `2026-04-18 09:30:27`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
