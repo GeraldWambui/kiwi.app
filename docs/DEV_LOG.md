@@ -306,3 +306,4 @@ Automated engineering journal & milestones.
 - `2026-04-18 09:30:27`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-04-18 15:03:32`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-04-18 17:05:53`: feat(map): cluster map pins dynamically based on zoom level
+- `2026-04-18 19:45:47`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
