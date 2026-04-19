@@ -314,3 +314,4 @@ Automated engineering journal & milestones.
 - `2026-04-19 16:08:24`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-04-19 20:42:33`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-04-19 20:55:44`: feat(backup): support automatic background sync on unmetered Wi-Fi
+- `2026-04-19 21:41:28`: feat(cleaner): highlight duplicate burst photos for quick cleanup
