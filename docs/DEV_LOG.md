@@ -312,3 +312,4 @@ Automated engineering journal & milestones.
 - `2026-04-19 11:22:39`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-04-19 11:27:28`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-04-19 16:08:24`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-04-19 20:42:33`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
