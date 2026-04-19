@@ -307,3 +307,4 @@ Automated engineering journal & milestones.
 - `2026-04-18 15:03:32`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-04-18 17:05:53`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-04-18 19:45:47`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
+- `2026-04-19 10:43:08`: perf(ui): memoize derived state calculations in photo timeline header
