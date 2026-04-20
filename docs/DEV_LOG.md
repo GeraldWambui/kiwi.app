@@ -316,3 +316,4 @@ Automated engineering journal & milestones.
 - `2026-04-19 20:55:44`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-04-19 21:41:28`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-04-19 21:59:51`: docs: add setup instructions for self-hosted Immich backup
+- `2026-04-20 09:41:48`: feat(map): cluster map pins dynamically based on zoom level
