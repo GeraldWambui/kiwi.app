@@ -326,3 +326,4 @@ Automated engineering journal & milestones.
 - `2026-04-20 21:31:20`: test: add unit tests for face clustering centroid distance calculation
 - `2026-04-21 09:25:33`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-04-21 10:13:37`: feat(search): index video titles and audio transcript tokens
+- `2026-04-21 20:45:50`: feat(cleaner): add size threshold selector for storage analysis
