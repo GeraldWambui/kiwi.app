@@ -327,3 +327,4 @@ Automated engineering journal & milestones.
 - `2026-04-21 09:25:33`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-04-21 10:13:37`: feat(search): index video titles and audio transcript tokens
 - `2026-04-21 20:45:50`: feat(cleaner): add size threshold selector for storage analysis
+- `2026-04-21 22:21:51`: refactor(service): decouple battery monitoring from index worker lifecycle
