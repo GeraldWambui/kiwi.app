@@ -331,3 +331,4 @@ Automated engineering journal & milestones.
 - `2026-04-22 09:03:22`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-04-22 09:18:40`: docs: add setup instructions for self-hosted Immich backup
 - `2026-04-22 11:01:33`: test: add unit tests for face clustering centroid distance calculation
+- `2026-04-22 16:56:22`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
