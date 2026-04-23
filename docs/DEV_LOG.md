@@ -336,3 +336,4 @@ Automated engineering journal & milestones.
 - `2026-04-22 20:24:24`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-04-22 21:26:06`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-04-22 22:02:30`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
+- `2026-04-23 10:53:40`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
