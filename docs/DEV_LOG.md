@@ -341,3 +341,4 @@ Automated engineering journal & milestones.
 - `2026-04-23 14:04:31`: test: verify battery guard thresholds under simulated power states
 - `2026-04-23 14:14:39`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-04-23 17:03:55`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-04-23 17:35:21`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
