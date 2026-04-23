@@ -339,3 +339,4 @@ Automated engineering journal & milestones.
 - `2026-04-23 10:53:40`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-04-23 13:31:49`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-04-23 14:04:31`: test: verify battery guard thresholds under simulated power states
+- `2026-04-23 14:14:39`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
