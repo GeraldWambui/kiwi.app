@@ -346,3 +346,4 @@ Automated engineering journal & milestones.
 - `2026-04-23 22:00:05`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-04-24 19:32:22`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-04-24 21:09:50`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-04-24 21:28:28`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
