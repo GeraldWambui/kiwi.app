@@ -344,3 +344,4 @@ Automated engineering journal & milestones.
 - `2026-04-23 17:35:21`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-04-23 19:53:44`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-04-23 22:00:05`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-04-24 19:32:22`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
