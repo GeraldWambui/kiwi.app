@@ -349,3 +349,4 @@ Automated engineering journal & milestones.
 - `2026-04-24 21:28:28`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-04-24 22:24:36`: docs: add setup instructions for self-hosted Immich backup
 - `2026-04-25 10:18:15`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-04-25 19:49:07`: feat(cleaner): highlight duplicate burst photos for quick cleanup
