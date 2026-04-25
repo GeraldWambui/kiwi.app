@@ -352,3 +352,4 @@ Automated engineering journal & milestones.
 - `2026-04-25 19:49:07`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-04-25 20:53:21`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-04-25 21:01:42`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-04-25 22:00:35`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
