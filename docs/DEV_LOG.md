@@ -359,3 +359,4 @@ Automated engineering journal & milestones.
 - `2026-04-27 09:14:15`: test: add unit tests for face clustering centroid distance calculation
 - `2026-04-27 10:35:21`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-04-27 10:52:32`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-04-27 10:59:46`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
