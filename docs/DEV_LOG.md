@@ -358,3 +358,4 @@ Automated engineering journal & milestones.
 - `2026-04-26 21:24:47`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-04-27 09:14:15`: test: add unit tests for face clustering centroid distance calculation
 - `2026-04-27 10:35:21`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
+- `2026-04-27 10:52:32`: feat(backup): add retry backoff strategy for Immich chunk uploads
