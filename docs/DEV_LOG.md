@@ -357,3 +357,4 @@ Automated engineering journal & milestones.
 - `2026-04-26 17:57:53`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-04-26 21:24:47`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-04-27 09:14:15`: test: add unit tests for face clustering centroid distance calculation
+- `2026-04-27 10:35:21`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
