@@ -364,3 +364,4 @@ Automated engineering journal & milestones.
 - `2026-04-27 19:44:52`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-04-27 21:15:28`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-04-27 21:20:04`: test: add unit tests for face clustering centroid distance calculation
+- `2026-04-27 21:24:32`: docs: add setup instructions for self-hosted Immich backup
