@@ -356,3 +356,4 @@ Automated engineering journal & milestones.
 - `2026-04-26 15:07:34`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-04-26 17:57:53`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-04-26 21:24:47`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-04-27 09:14:15`: test: add unit tests for face clustering centroid distance calculation
