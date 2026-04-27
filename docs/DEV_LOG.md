@@ -362,3 +362,4 @@ Automated engineering journal & milestones.
 - `2026-04-27 10:59:46`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-04-27 17:23:49`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-04-27 19:44:52`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-04-27 21:15:28`: feat(cleaner): highlight duplicate burst photos for quick cleanup
