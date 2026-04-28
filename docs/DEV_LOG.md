@@ -368,3 +368,4 @@ Automated engineering journal & milestones.
 - `2026-04-27 21:25:42`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-04-28 10:13:46`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-04-28 11:23:45`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
+- `2026-04-28 14:10:30`: feat(ml): add smile and eye-open detection threshold filters in clustering
