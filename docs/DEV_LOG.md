@@ -370,3 +370,4 @@ Automated engineering journal & milestones.
 - `2026-04-28 11:23:45`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-04-28 14:10:30`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-04-28 14:58:04`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
+- `2026-04-28 15:49:50`: docs: document on-device neural model pipeline and quantization specs
