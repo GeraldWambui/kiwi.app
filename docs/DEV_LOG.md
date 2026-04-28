@@ -372,3 +372,4 @@ Automated engineering journal & milestones.
 - `2026-04-28 14:58:04`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-04-28 15:49:50`: docs: document on-device neural model pipeline and quantization specs
 - `2026-04-28 20:09:01`: feat(search): add quick filter chips for screenshots and documents
+- `2026-04-28 22:14:29`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
