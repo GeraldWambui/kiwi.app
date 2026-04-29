@@ -378,3 +378,4 @@ Automated engineering journal & milestones.
 - `2026-04-29 11:38:48`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-04-29 11:54:30`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-04-29 11:58:28`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-04-29 12:23:01`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
