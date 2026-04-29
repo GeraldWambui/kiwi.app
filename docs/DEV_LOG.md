@@ -381,3 +381,4 @@ Automated engineering journal & milestones.
 - `2026-04-29 12:23:01`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-04-29 18:00:20`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-04-29 20:19:21`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-04-29 21:49:16`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
