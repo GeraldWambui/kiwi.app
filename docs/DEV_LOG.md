@@ -377,3 +377,4 @@ Automated engineering journal & milestones.
 - `2026-04-29 11:15:09`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-04-29 11:38:48`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-04-29 11:54:30`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
+- `2026-04-29 11:58:28`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
