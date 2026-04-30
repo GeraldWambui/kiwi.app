@@ -386,3 +386,4 @@ Automated engineering journal & milestones.
 - `2026-04-30 10:58:47`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-04-30 14:23:00`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-04-30 16:11:02`: test: add unit tests for face clustering centroid distance calculation
+- `2026-04-30 17:24:52`: feat(cleaner): add size threshold selector for storage analysis
