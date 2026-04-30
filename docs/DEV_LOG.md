@@ -389,3 +389,4 @@ Automated engineering journal & milestones.
 - `2026-04-30 17:24:52`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-04-30 20:27:31`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-04-30 21:53:40`: perf(ui): memoize derived state calculations in photo timeline header
+- `2026-04-30 22:15:25`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
