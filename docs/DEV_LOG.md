@@ -390,3 +390,4 @@ Automated engineering journal & milestones.
 - `2026-04-30 20:27:31`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-04-30 21:53:40`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-04-30 22:15:25`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
+- `2026-05-01 09:56:17`: feat(ui): refine photo grid spacing and elevation in timeline view
