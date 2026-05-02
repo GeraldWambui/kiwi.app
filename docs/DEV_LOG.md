@@ -398,3 +398,4 @@ Automated engineering journal & milestones.
 - `2026-05-02 09:10:49`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-05-02 09:24:23`: feat(search): index video titles and audio transcript tokens
 - `2026-05-02 09:46:51`: refactor(ml): streamline face embedding pre-processing pipeline
+- `2026-05-02 12:09:08`: feat(map): cluster map pins dynamically based on zoom level
