@@ -17,8 +17,8 @@ android {
         applicationId = "co.juneai.june"
         minSdk = 24
         targetSdk = 36
-        versionCode = 12
-        versionName = "1.2"
+        versionCode = 15
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.material:material")
+    implementation(libs.androidx.compose.ui.text)
 
 
     testImplementation(libs.junit)
@@ -146,10 +147,6 @@ dependencies {
     implementation("io.objectbox:objectbox-android:5.4.1")
     implementation("io.objectbox:objectbox-kotlin:5.4.1")
 
-    
-    // ONNX Runtime
-    //implementation("com.microsoft.onnxruntime:onnxruntime-android:latest.release")
-
     //Work Around
     // Forces the fixed 16 KB-aligned version of shared ML Kit utilities
     implementation("androidx.camera:camera-core:1.6.0")
@@ -157,5 +154,9 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.6.0")
 
     implementation("com.google.code.gson:gson:2.13.2")
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.biometric:biometric:1.1.0")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
 }

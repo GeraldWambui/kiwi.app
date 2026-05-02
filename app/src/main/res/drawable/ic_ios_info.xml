@@ -4,18 +4,26 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
 
-    <!-- Circle -->
+    <!-- Outer circle -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M12,2 A10,10 0 1,1 12,22 A10,10 0 1,1 12,2" />
+
+    <!-- Dot -->
     <path
         android:fillColor="#000000"
-        android:pathData="M12,2A10,10 0 1,0 12,22A10,10 0 1,0 12,2Z"/>
+        android:pathData="M12,7 a1,1 0 1,0 0.01,0" />
 
-    <!-- i dot -->
+    <!-- Vertical line -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M12,7A1.5,1.5 0 1,0 12,10A1.5,1.5 0 1,0 12,7Z"/>
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M12,11 V17" />
 
-    <!-- i line -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M11,11H13V17H11Z"/>
 </vector>

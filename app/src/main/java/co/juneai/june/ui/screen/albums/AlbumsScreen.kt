@@ -32,9 +32,6 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.HorizontalDivider
@@ -56,6 +53,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -65,46 +63,40 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.R
-import co.juneai.june.data.model.AlbumItem2
+import co.juneai.june.data.model.AlbumItem
 import co.juneai.june.data.model.AlbumType
-import co.juneai.june.ui.theme.CardWhite
 import co.juneai.june.ui.theme.EarthCream
 import co.juneai.june.ui.theme.EarthSand
-import co.juneai.june.ui.theme.Kiwi
-import co.juneai.june.ui.theme.KiwiDark
-import co.juneai.june.ui.theme.KiwiLight
-import co.juneai.june.ui.screen.gallery.GalleryViewModel
+import co.juneai.june.ui.theme.AccentColor
+import co.juneai.june.ui.theme.BorderColor
+import co.juneai.june.ui.theme.CardBg
+import co.juneai.june.ui.theme.CardShadowColor
+import co.juneai.june.ui.theme.CountColor
+import co.juneai.june.ui.theme.TitleColor
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-private val TitleColor = KiwiDark
-private val CountColor = KiwiLight
-private val AccentColor = Kiwi
-private val BorderColor = EarthSand
-private val CardBg = CardWhite
-private val CardShadowColor = Color.Black.copy(alpha = .1f)
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AlbumsScreen(
     initialAlbumName: String? = null,
-    onAlbumClick: (AlbumItem2) -> Unit = {},
+    onAlbumClick: (AlbumItem) -> Unit = {},
     onCreateAlbum: () -> Unit = {},
     onNavigateToPhotos: () -> Unit = {},
     onNavigateToVault: () -> Unit = {},
     onNavigateToTrash: () -> Unit = {},
-    onNavigateToAlbumDetail: (AlbumItem2) -> Unit = {},
+    onNavigateToAlbumDetail: (AlbumItem) -> Unit = {},
     onMediaClick: (Long, Long?) -> Unit = { _, _ -> },
     onNavigateToVideo: (uri: String, title: String?) -> Unit = { _, _ -> },
     onVoiceSearch: () -> Unit = {},
-    viewModel: GalleryViewModel = hiltViewModel()
+    viewModel: AlbumsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val albums = uiState.allAlbums
     val scope = rememberCoroutineScope()
     var showAllAlbums by remember { mutableStateOf(false) }
-    var selectedAlbum by remember { mutableStateOf<AlbumItem2?>(null) }
+    var selectedAlbum by remember { mutableStateOf<AlbumItem?>(null) }
     val mainAlbums = albums.filter { it.type != AlbumType.MORE }
     val sharedAlbums = albums.filter { it.type == AlbumType.MORE }
     val displayAlbums = if (showAllAlbums) mainAlbums else mainAlbums.take(6)
@@ -155,7 +147,7 @@ fun AlbumsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
-            contentPadding = PaddingValues(start = 24.dp, end = 24.dp, top = 0.dp, bottom = 120.dp),
+            contentPadding = PaddingValues(start = 4.dp, end = 4.dp, top = 0.dp, bottom = 120.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalArrangement = Arrangement.spacedBy(28.dp)
         ) {
@@ -221,8 +213,8 @@ fun AlbumsScreen(
 }
 @Composable
 fun AlbumDetailView(
-    album: AlbumItem2,
-    viewModel: GalleryViewModel,
+    album: AlbumItem,
+    viewModel: AlbumsViewModel,
     onBack: () -> Unit,
     onMediaClick: (Long) -> Unit
 ) {
@@ -335,7 +327,6 @@ private fun AlbumsTopBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(headerBgColor)
-            .statusBarsPadding()
     ) {
         Row(
             modifier = Modifier
@@ -344,11 +335,12 @@ private fun AlbumsTopBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /* create an album */ }) {
+            IconButton(onClick = onVoiceSearch) {
                 Icon(
-                    Icons.Default.Add,
-                    contentDescription = stringResource(R.string.create_album),
-                    tint = MaterialTheme.colorScheme.onSurface
+                    painter = painterResource(R.drawable.ic_ios_mic),
+                    contentDescription = stringResource(R.string.voice_search),
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(28.dp)
                 )
             }
             
@@ -359,23 +351,16 @@ private fun AlbumsTopBar(
                 color = MaterialTheme.colorScheme.onSurface,
                 letterSpacing = (-0.5).sp
             )
-            
+            Spacer(Modifier.width(10.dp))
             Row {
                 IconButton(onClick = onNavigateToTrash) {
                     Icon(
-                        Icons.Default.Delete,
+                        painter = painterResource(R.drawable.ic_ios_trash),
                         contentDescription = stringResource(R.string.trash_bin),
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                IconButton(onClick = onVoiceSearch) {
-                    Icon(
-                        Icons.Default.Mic,
-                        contentDescription = stringResource(R.string.voice_search),
-                        tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.size(22.dp)
-                    )
-                }
+
                 IconButton(onClick = { /* Menu */ }) {
                     Icon(
                         Icons.Default.MoreVert,
@@ -428,14 +413,13 @@ private fun AlbumsTopBar(
                 }
             }
         }
-        
         HorizontalDivider(color = headerBorderColor, thickness = 1.dp)
     }
 }
 
 @Composable
 fun AlbumCard(
-    album: AlbumItem2,
+    album: AlbumItem,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -521,9 +505,9 @@ fun AlbumCard(
 
 @Composable
 private fun SharedAlbumsSection(
-    albums: List<AlbumItem2>,
+    albums: List<AlbumItem>,
     onSeeAll: () -> Unit,
-    onAlbumClick: (AlbumItem2) -> Unit
+    onAlbumClick: (AlbumItem) -> Unit
 ) {
     Column {
         Row(
@@ -564,7 +548,7 @@ private fun SharedAlbumsSection(
 
 @Composable
 private fun SharedAlbumCard(
-    album: AlbumItem2,
+    album: AlbumItem,
     onClick: () -> Unit
 ) {
     Column(

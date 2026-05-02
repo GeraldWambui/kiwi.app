@@ -6,24 +6,22 @@ import android.net.Uri
 import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.MediaStore
-import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
-import co.juneai.june.data.model.AlbumItem2
+import co.juneai.june.data.model.AlbumItem
 import co.juneai.june.data.model.AlbumType
-import co.juneai.june.data.model.MediaItem2
+import co.juneai.june.data.model.MediaItem
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class MediaStoreRepository(
-    @ApplicationContext val context: Context
+    @param:ApplicationContext val context: Context
 ) {
 
 
     @SuppressLint("InlinedApi", "Range")
-    suspend fun loadAllMedia(): List<MediaItem2> = withContext(Dispatchers.IO) {
-        val items = mutableListOf<MediaItem2>()
+    suspend fun loadAllMedia(): List<MediaItem> = withContext(Dispatchers.IO) {
+        val items = mutableListOf<MediaItem>()
 
         val projection = arrayOf(
             MediaStore.Files.FileColumns._ID,
@@ -109,7 +107,7 @@ class MediaStoreRepository(
                         ).toString()
                     }
 
-                    items += MediaItem2(
+                    items += MediaItem(
                         id = id,
                         uri = uriString, // Now it's a String
                         mimeType = mime,
@@ -133,7 +131,7 @@ class MediaStoreRepository(
         items
     }
 
-    suspend fun loadAlbums(media: List<MediaItem2>? = null): List<AlbumItem2> = withContext(Dispatchers.IO) {
+    suspend fun loadAlbums(media: List<MediaItem>? = null): List<AlbumItem> = withContext(Dispatchers.IO) {
         val items = media ?: loadAllMedia()
 
         items
@@ -141,7 +139,7 @@ class MediaStoreRepository(
             .map { (albumId, items) ->
                 val newest = items.maxByOrNull { it.dateTaken }
 
-                AlbumItem2(
+                AlbumItem(
                     id = albumId ?: items.first().id,
                     name = items.first().albumName,
                     count = items.size,
@@ -151,10 +149,10 @@ class MediaStoreRepository(
                     type = classifyAlbum(items)
                 )
             }
-            .sortedWith(compareBy<AlbumItem2> { it.type.ordinal }.thenBy { it.name })
+            .sortedWith(compareBy<AlbumItem> { it.type.ordinal }.thenBy { it.name })
     }
 
-    private fun classifyAlbum(items: List<MediaItem2>): AlbumType {
+    private fun classifyAlbum(items: List<MediaItem>): AlbumType {
         if (items.isEmpty()) return AlbumType.MORE
 
         val path = items.first().relativePath.lowercase()
@@ -184,10 +182,10 @@ class MediaStoreRepository(
         }
     }
 
-    suspend fun buildSystemAlbums(mediaList: List<MediaItem2>? = null): List<AlbumItem2> = withContext(Dispatchers.IO) {
+    suspend fun buildSystemAlbums(mediaList: List<MediaItem>? = null): List<AlbumItem> = withContext(Dispatchers.IO) {
         val media = mediaList ?: loadAllMedia()
 
-        val allPhotosAlbum = AlbumItem2(
+        val allPhotosAlbum = AlbumItem(
             id = -1L,
             name = "All Photos",
             count = media.size,
@@ -202,7 +200,7 @@ class MediaStoreRepository(
             path.contains("dcim/camera") || path.contains("/camera/")
         }
 
-        val cameraAlbum = AlbumItem2(
+        val cameraAlbum = AlbumItem(
             id = -2L,
             name = "Camera",
             count = cameraItems.size,
@@ -213,7 +211,7 @@ class MediaStoreRepository(
         )
 
         val videoItems = media.filter { it.isVideo }
-        val videosAlbum = AlbumItem2(
+        val videosAlbum = AlbumItem(
             id = -3L,
             name = "Videos",
             count = videoItems.size,
@@ -238,10 +236,10 @@ class MediaStoreRepository(
         )
     }
 
-    suspend fun buildAllPhotosAlbum(mediaList: List<MediaItem2>? = null): AlbumItem2 {
+    suspend fun buildAllPhotosAlbum(mediaList: List<MediaItem>? = null): AlbumItem {
         val media = mediaList ?: loadAllMedia()
 
-        return AlbumItem2(
+        return AlbumItem(
             id = -1,
             name = "All Photos",
             count = media.size,
@@ -252,14 +250,14 @@ class MediaStoreRepository(
         )
     }
 
-    suspend fun buildCameraAlbum(mediaList: List<MediaItem2>? = null): AlbumItem2 {
+    suspend fun buildCameraAlbum(mediaList: List<MediaItem>? = null): AlbumItem {
         val media = mediaList ?: loadAllMedia()
 
         val cameraItems = media.filter {
             it.relativePath.contains("dcim", true) || it.relativePath.contains("/camera/", true)
         }
 
-        return AlbumItem2(
+        return AlbumItem(
             id = -2,
             name = "Camera",
             count = cameraItems.size,
@@ -285,7 +283,7 @@ class MediaStoreRepository(
     }
 
     // In MediaStoreRepository.kt
-    suspend fun getMediaByIds(ids: List<Long>): List<MediaItem2> = withContext(Dispatchers.IO) {
+    suspend fun getMediaByIds(ids: List<Long>): List<MediaItem> = withContext(Dispatchers.IO) {
         if (ids.isEmpty()) return@withContext emptyList()
 
         val selection = "${MediaStore.MediaColumns._ID} IN (${ids.joinToString(",") { "?" }})"
@@ -309,7 +307,7 @@ class MediaStoreRepository(
         )
 
         cursor?.use { cursor ->
-            val mediaItems = mutableListOf<MediaItem2>()
+            val mediaItems = mutableListOf<MediaItem>()
             while (cursor.moveToNext()) {
                 mediaItems.add(createMediaItemFromCursor(cursor))
             }
@@ -319,7 +317,7 @@ class MediaStoreRepository(
         emptyList()
     }
     @SuppressLint("Range")
-    suspend fun getMediaById(mediaId: Long): MediaItem2 = withContext(Dispatchers.IO) {
+    suspend fun getMediaById(mediaId: Long): MediaItem = withContext(Dispatchers.IO) {
         val imageUri = ContentUris.withAppendedId(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             mediaId
@@ -339,7 +337,7 @@ class MediaStoreRepository(
         throw NoSuchElementException("Media not found: $mediaId")
     }
 
-    private fun tryLoadFromUri(uri: Uri, isVideo: Boolean): MediaItem2? {
+    private fun tryLoadFromUri(uri: Uri, isVideo: Boolean): MediaItem? {
         return try {
             val projection = arrayOf(
                 MediaStore.MediaColumns._ID,
@@ -367,7 +365,7 @@ class MediaStoreRepository(
                     val bucketName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
                     val relativePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.RELATIVE_PATH))
 
-                    MediaItem2(
+                    MediaItem(
                         id = id,
                         uri = uri.toString(),
                         mimeType = mimeType,
@@ -478,8 +476,8 @@ class MediaStoreRepository(
     }
 
     @SuppressLint("Range", "InlinedApi")
-    suspend fun getMediaForAlbum(albumId: Long): List<MediaItem2> = withContext(Dispatchers.IO) {
-        val mediaItems = mutableListOf<MediaItem2>()
+    suspend fun getMediaForAlbum(albumId: Long): List<MediaItem> = withContext(Dispatchers.IO) {
+        val mediaItems = mutableListOf<MediaItem>()
 
         val projection = arrayOf(
             MediaStore.Files.FileColumns._ID,
@@ -529,7 +527,7 @@ class MediaStoreRepository(
                 }
 
                 mediaItems.add(
-                    MediaItem2(
+                    MediaItem(
                         id,
                         contentUri.toString(),
                         mime,
@@ -579,7 +577,7 @@ class MediaStoreRepository(
     }
 
 
-    suspend fun textSearch(query: String): List<MediaItem2> {
+    suspend fun textSearch(query: String): List<MediaItem> {
         return withContext(Dispatchers.IO) {
             if (query.isBlank()) return@withContext emptyList()
             val allMedia = loadAllMedia()
@@ -593,7 +591,7 @@ class MediaStoreRepository(
     }
 
 
-    private fun createMediaItemFromCursor(cursor: android.database.Cursor): MediaItem2 {
+    private fun createMediaItemFromCursor(cursor: android.database.Cursor): MediaItem {
         val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
         val displayName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
         val dateTaken = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_TAKEN))
@@ -613,7 +611,7 @@ class MediaStoreRepository(
         )
 
 
-        return MediaItem2(
+        return MediaItem(
             id = id,
             uri = uri.toString(),
             name = displayName,

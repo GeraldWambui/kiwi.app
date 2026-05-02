@@ -30,18 +30,17 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
+import androidx.compose.material.icons.filled.ClosedCaption
 import androidx.compose.material.icons.filled.Forward10
 import androidx.compose.material.icons.filled.Replay10
-import androidx.compose.material.icons.filled.ClosedCaption
 import androidx.compose.material.icons.filled.Speed
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -77,7 +76,6 @@ import androidx.media3.ui.PlayerView
 import co.juneai.june.MainActivity
 import co.juneai.june.R
 import kotlinx.coroutines.delay
-import androidx.compose.material3.MaterialTheme
 
 @SuppressLint("AutoboxingStateCreation")
 @OptIn(UnstableApi::class)
@@ -631,9 +629,6 @@ private fun BottomTab(
         )
     }
 }
-
-private enum class SeekDirection { FORWARD, BACKWARD }
-
 @SuppressLint("DefaultLocale")
 private fun formatTime(millis: Long): String {
     val totalSeconds = millis / 1000

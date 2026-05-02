@@ -55,21 +55,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import co.juneai.june.R
 
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel(),
     onNavigateToStorage: () -> Unit = {},
     onNavigateToVault: () -> Unit = {},
     onNavigateToVaultSetup: () -> Unit = {},
     onNavigateToTrash: () -> Unit = {},
     onNavigateToReferral: () -> Unit = {},
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val cloudSyncEnabled by viewModel.cloudSyncEnabled.collectAsState()
-    val faceIdEnabled by viewModel.faceIdEnabled.collectAsState()
-    val storage by viewModel.storageBreakdown.collectAsState()
+    val cloudSyncEnabled by viewModel.cloudSyncEnabled.collectAsStateWithLifecycle()
+    val faceIdEnabled by viewModel.faceIdEnabled.collectAsStateWithLifecycle()
+    val storage by viewModel.storageBreakdown.collectAsStateWithLifecycle()
 
     // Theme-sourced colors
     val SettingsBg = MaterialTheme.colorScheme.background
@@ -99,7 +102,6 @@ fun SettingsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(SettingsBg)
-            .statusBarsPadding()
     ) {
         // ── Top Bar ────────────────────────────────────────
         SettingsTopBar(onBack = onBack)
@@ -200,13 +202,12 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             // NSFW Content Protection
-            val nsfwProtectionEnabled by viewModel.nsfwProtectionEnabled.collectAsState()
             SettingsToggleRow(
                 icon = Icons.Default.Shield,
                 iconBg = AccentGreen.copy(alpha = 0.15f),
                 title = "Content Protection",
                 subtitle = "Blur sensitive / nude content",
-                checked = nsfwProtectionEnabled,
+                checked = true,//placeholder
                 onCheckedChange = { viewModel.toggleNsfwProtection() }
             )
 
@@ -373,7 +374,7 @@ private fun SettingsTopBar(onBack: () -> Unit) {
         }
 
         Text(
-            text = "Kiwi Gallery",
+            text = stringResource(R.string.kiwi_gallery),
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             color = PrimaryText

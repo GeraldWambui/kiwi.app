@@ -15,12 +15,10 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.juneai.june.data.model.MediaItem2
+import co.juneai.june.data.model.MediaItem
 import co.juneai.june.data.repository.MediaStoreRepository
-import co.juneai.june.ui.screen.mediadetail.ui.FileInfo
-import co.juneai.june.ui.screen.mediadetail.ui.MediaDetail
-import co.juneai.june.ui.screen.mediadetail.ui.MediaDetailEvent
-import co.juneai.june.ui.screen.mediadetail.ui.MediaDetailState
+import co.juneai.june.domain.model.FileInfo
+import co.juneai.june.domain.model.MediaDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +31,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
@@ -178,7 +175,7 @@ class MediaDetailViewModel @Inject constructor(
         _state.update { it.copy(showInfoSheet = true) }
     }
 
-    private suspend fun createMediaDetail(mediaItem: MediaItem2): MediaDetail {
+    private suspend fun createMediaDetail(mediaItem: MediaItem): MediaDetail {
         return withContext(Dispatchers.IO) {
             val fileInfo = getFileInfo(mediaItem.uri.toUri())
 

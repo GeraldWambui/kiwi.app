@@ -45,15 +45,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import co.juneai.june.ui.screen.settings.SettingsViewModel
 
+@Preview
 @Composable
 fun ForgotPasswordScreen(
-    settingsViewModel: SettingsViewModel = hiltViewModel(),
     onResetComplete: () -> Unit = {},
     onCancel: () -> Unit = {}
 ) {
+    val settingsViewModel: SettingsViewModel = hiltViewModel()
+
     val context = LocalContext.current
     val ForgotBg = MaterialTheme.colorScheme.background
     val AccentGreen = MaterialTheme.colorScheme.tertiary
@@ -74,9 +77,7 @@ fun ForgotPasswordScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(ForgotBg)
-            .statusBarsPadding()
-            .navigationBarsPadding(),
+            .background(ForgotBg),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Top bar

@@ -25,26 +25,26 @@
 
     <!-- For video playback -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"
+        tools:ignore="ForegroundServicesPolicy" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
 
     <application
-        android:name=".AIGalleryApp"
+        android:name=".KiwiPhotos"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_kiwi_mascot_logo"
+        android:icon="@drawable/ic_kiwi_app"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_kiwi_mascot_logo_round"
+        android:roundIcon="@drawable/ic_kiwi_app"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/Theme.June">
+        android:theme="@style/Theme.June"
+        tools:ignore="RemoveWorkManagerInitializer">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.June"
             android:supportsPictureInPicture="true"
             android:resizeableActivity="true"
@@ -100,11 +100,6 @@
             android:value="androidx.startup.InitializationProvider"
             tools:node="remove" />
         </provider>
-
-        <service
-            android:name="androidx.work.impl.foreground.SystemForegroundService"
-            android:foregroundServiceType="dataSync"
-            tools:node="merge" />
 
         <service
             android:name=".service.PlaybackService"

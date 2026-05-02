@@ -1,0 +1,73 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Soft radial petals -->
+    <group android:pivotX="24" android:pivotY="24">
+
+        <!-- Petal 1 -->
+        <path
+            android:fillColor="#FF6B6B"
+            android:pathData="M24,6
+                              C27,10 27,14 24,18
+                              C21,14 21,10 24,6 Z"/>
+
+        <!-- Petal 2 -->
+        <group android:rotation="45" android:pivotX="24" android:pivotY="24">
+            <path
+                android:fillColor="#FFB86B"
+                android:pathData="M24,6 C27,10 27,14 24,18 C21,14 21,10 24,6 Z"/>
+        </group>
+
+        <!-- Petal 3 -->
+        <group android:rotation="90" android:pivotX="24" android:pivotY="24">
+            <path
+                android:fillColor="#FFD93D"
+                android:pathData="M24,6 C27,10 27,14 24,18 C21,14 21,10 24,6 Z"/>
+        </group>
+
+        <!-- Petal 4 -->
+        <group android:rotation="135" android:pivotX="24" android:pivotY="24">
+            <path
+                android:fillColor="#6BCB77"
+                android:pathData="M24,6 C27,10 27,14 24,18 C21,14 21,10 24,6 Z"/>
+        </group>
+
+        <!-- Petal 5 -->
+        <group android:rotation="180" android:pivotX="24" android:pivotY="24">
+            <path
+                android:fillColor="#4D96FF"
+                android:pathData="M24,6 C27,10 27,14 24,18 C21,14 21,10 24,6 Z"/>
+        </group>
+
+        <!-- Petal 6 -->
+        <group android:rotation="225" android:pivotX="24" android:pivotY="24">
+            <path
+                android:fillColor="#9D4EDD"
+                android:pathData="M24,6 C27,10 27,14 24,18 C21,14 21,10 24,6 Z"/>
+        </group>
+
+        <!-- Petal 7 -->
+        <group android:rotation="270" android:pivotX="24" android:pivotY="24">
+            <path
+                android:fillColor="#FF6F91"
+                android:pathData="M24,6 C27,10 27,14 24,18 C21,14 21,10 24,6 Z"/>
+        </group>
+
+        <!-- Petal 8 -->
+        <group android:rotation="315" android:pivotX="24" android:pivotY="24">
+            <path
+                android:fillColor="#00C9A7"
+                android:pathData="M24,6 C27,10 27,14 24,18 C21,14 21,10 24,6 Z"/>
+        </group>
+    </group>
+
+    <!-- Center aperture -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,20
+                          a4,4 0 1,0 0.001,0 Z"/>
+
+</vector>

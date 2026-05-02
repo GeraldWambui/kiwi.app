@@ -37,4 +37,20 @@
     <string name="photo">Photo</string>
     <string name="untitled">Untitled</string>
     <string name="play">Play</string>
+    <string name="photos_and_videos">%1$d photos and %2$d videos</string>
+    <string name="itemscount">%1$d items</string>
+    <string name="items_selected">%1$d items selected</string>
+    <string name="invite">Invite</string>
+    <string name="rewards">Rewards</string>
+    <string name="give_5gb_get_5gb">Give 5GB, Get 5GB</string>
+    <string name="share_the_love_of_nature_invite_your_friends_and_you_both_get_5gb_bonus_storage">Share the love of nature. Invite your friends\nand you both get 5GB bonus storage.</string>
+    <string name="your_unique_code">YOUR UNIQUE CODE</string>
+    <string name="message">Message</string>
+    <string name="email">Email</string>
+    <string name="other">Other</string>
+    <string name="your_rewards">Your Rewards</string>
+    <string name="gb_earned">%1$d GB earned</string>
+    <string name="progress_to_next_tier">Progress to next tier</string>
+    <string name="referrals">%1$d/%2$d Referrals</string>
+    <string name="friends_referred">FRIENDS REFERRED</string>
 </resources>

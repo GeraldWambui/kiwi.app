@@ -147,7 +147,7 @@ private val AlpineColorScheme = lightColorScheme(
 )
 
 @Composable
-fun GalleryAppTheme(
+fun KiwiPhotosTheme(
     theme: AppTheme = AppTheme.LIGHT,
     content: @Composable () -> Unit
 ) {

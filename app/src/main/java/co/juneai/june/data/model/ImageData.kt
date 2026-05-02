@@ -10,21 +10,17 @@ data class ImageData(
     val folderName: String,
     val mimeType: String,
 
-    // Timestamps
     val dateAdded: Long,
     val dateModified: Long,
     val dateTaken: Long? = null,
 
-    // Dimensions & size
     val width: Int,
     val height: Int,
     val fileSize: Long,
 
-    // Location (optional)
     val latitude: Double? = null,
     val longitude: Double? = null,
 
-    // Camera metadata (optional)
     val cameraModel: String? = null,
     val isoValue: Int? = null,
     val exposureTime: Float? = null,
@@ -32,7 +28,6 @@ data class ImageData(
     val aperture: Float? = null,
     val flashFired: Boolean = false,
 
-    // AI Features
     val embedding512: ByteArray? = null,
     val embedding128: ByteArray? = null,
     val semanticTags: List<String> = emptyList(),
@@ -41,7 +36,6 @@ data class ImageData(
     val faceCount: Int = 0,
     val ocrText: String? = null,
 
-    // Status
     val indexed: Boolean = false,
     val indexedAt: Long = 0,
     val isSelected: Boolean = false,

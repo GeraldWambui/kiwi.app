@@ -6,21 +6,42 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import co.juneai.june.data.local.entities.VaultItemEntity
+import co.juneai.june.data.local.entities.VaultMediaEntity
+import co.juneai.june.data.model.VaultMediaType
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface VaultDao {
+    @Query("SELECT * FROM vault_media ORDER BY timestamp DESC")
+    fun getAllMedia(): Flow<List<VaultMediaEntity>>
+
+    @Query("SELECT * FROM vault_media WHERE id = :id")
+    suspend fun getMediaById(id: String): VaultMediaEntity?
+
+    @Query("SELECT * FROM vault_media WHERE type = :type")
+    fun getMediaByType(type: VaultMediaType): Flow<List<VaultMediaEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: VaultItemEntity)
+    suspend fun insertMedia(media: VaultMediaEntity)
 
-    @Query("SELECT * FROM vault_items ORDER BY addedAt DESC")
-    suspend fun getAllVaultItems(): List<VaultItemEntity>
-
-    @Query("SELECT COUNT(*) FROM vault_items")
-    suspend fun getVaultItemsCount(): Int
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMultipleMedia(mediaList: List<VaultMediaEntity>)
 
     @Delete
-    suspend fun delete(item: VaultItemEntity)
+    suspend fun deleteMedia(media: VaultMediaEntity)
 
-    @Query("DELETE FROM vault_items WHERE mediaId = :mediaId")
-    suspend fun deleteByMediaId(mediaId: Long)
+    @Query("DELETE FROM vault_media WHERE id IN (:ids)")
+    suspend fun deleteMultipleMedia(ids: List<String>)
+
+    @Query("SELECT COUNT(*) FROM vault_media")
+    suspend fun getMediaCount(): Int
+
+    @Query("SELECT SUM(fileSize) FROM vault_media")
+    suspend fun getTotalSize(): Long?
+
+    @Query("SELECT * FROM vault_media WHERE timestamp > :since")
+    fun getMediaSince(since: Long): Flow<List<VaultMediaEntity>>
+
+    @Query("DELETE FROM vault_media")
+    suspend fun clearAll()
 }

@@ -1,0 +1,48 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Mic capsule (rounded, elegant) -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M12,3
+                          C10.3,3 9,4.3 9,6
+                          L9,11
+                          C9,12.7 10.3,14 12,14
+                          C13.7,14 15,12.7 15,11
+                          L15,6
+                          C15,4.3 13.7,3 12,3 Z" />
+
+    <!-- Stem -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M12,14 L12,18" />
+
+    <!-- Base curve -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M9,18 Q12,20 15,18" />
+
+    <!-- Outer sensitivity arc (subtle, iOS-like feedback shape) -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.4"
+        android:strokeLineCap="round"
+        android:pathData="M7.5,10
+                          C7.5,13 9.5,15 12,15
+                          C14.5,15 16.5,13 16.5,10" />
+
+</vector>

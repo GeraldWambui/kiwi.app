@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.MaterialTheme
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun StorageDetailsScreen(
@@ -56,8 +57,8 @@ fun StorageDetailsScreen(
     onBack: () -> Unit = {},
     onNavigateToSubscription: () -> Unit = {}
 ) {
-    val storage by viewModel.storageBreakdown.collectAsState()
-    val optimizeEnabled by viewModel.optimizeStorageEnabled.collectAsState()
+    val storage by viewModel.storageBreakdown.collectAsStateWithLifecycle()
+    val optimizeEnabled by viewModel.optimizeStorageEnabled.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     // Theme-sourced colors
@@ -91,7 +92,6 @@ fun StorageDetailsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(StorageBg)
-            .statusBarsPadding()
     ) {
         // ── Top Bar ───────────────────────────────────────
         Row(

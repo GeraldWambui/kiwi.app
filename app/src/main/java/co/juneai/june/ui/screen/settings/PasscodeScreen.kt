@@ -41,19 +41,22 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlin.math.roundToInt
 
+@Preview
 @Composable
 fun PasscodeScreen(
-    viewModel: SettingsViewModel = hiltViewModel(),
     onSuccess: () -> Unit = {},
     onCancel: () -> Unit = {},
-    onForgotPasscode: () -> Unit = {}
+    onForgotPasscode: () -> Unit = {},
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val digits by viewModel.passcodeDigits.collectAsState()
-    val hasError by viewModel.passcodeError.collectAsState()
-    val isSuccess by viewModel.passcodeSuccess.collectAsState()
+    val digits by viewModel.passcodeDigits.collectAsStateWithLifecycle()
+    val hasError by viewModel.passcodeError.collectAsStateWithLifecycle()
+    val isSuccess by viewModel.passcodeSuccess.collectAsStateWithLifecycle()
 
     // Theme-sourced colors
     val PasscodeBg = MaterialTheme.colorScheme.background
@@ -87,9 +90,7 @@ fun PasscodeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(PasscodeBg)
-            .statusBarsPadding()
-            .navigationBarsPadding(),
+            .background(PasscodeBg),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(60.dp))
@@ -121,7 +122,7 @@ fun PasscodeScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Enter your 6-digit passcode to unlock\nthe Kiwi Gallery vault",
+            text = "Enter your 6-digit passcode to unlock\nthe Kiwi Photos vault",
             fontSize = 14.sp,
             color = SecondaryText,
             textAlign = TextAlign.Center,

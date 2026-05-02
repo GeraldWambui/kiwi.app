@@ -6,7 +6,7 @@ import android.content.Context
 import android.provider.MediaStore
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import co.juneai.june.data.model.MediaItem2
+import co.juneai.june.data.model.MediaItem
 
 /**
  * PagingSource that loads media from MediaStore in pages,
@@ -15,9 +15,9 @@ import co.juneai.june.data.model.MediaItem2
 class MediaPagingSource(
     private val context: Context,
     private val albumFilter: String? = null
-) : PagingSource<Int, MediaItem2>() {
+) : PagingSource<Int, MediaItem>() {
 
-    override fun getRefreshKey(state: PagingState<Int, MediaItem2>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, MediaItem>): Int? {
         return state.anchorPosition?.let { anchor ->
             state.closestPageToPosition(anchor)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchor)?.nextKey?.minus(1)
@@ -25,12 +25,12 @@ class MediaPagingSource(
     }
 
     @SuppressLint("InlinedApi", "Range")
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MediaItem2> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MediaItem> {
         val page = params.key ?: 0
         val pageSize = params.loadSize
 
         return try {
-            val items = mutableListOf<MediaItem2>()
+            val items = mutableListOf<MediaItem>()
 
             val imageProjection = arrayOf(
                 MediaStore.Images.Media._ID,
@@ -78,7 +78,7 @@ class MediaPagingSource(
                         val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
 
                         items.add(
-                            MediaItem2(
+                            MediaItem(
                                 id = id,
                                 uri = uri.toString(),
                                 name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)) ?: "",
@@ -106,7 +106,7 @@ class MediaPagingSource(
                         val uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
 
                         items.add(
-                            MediaItem2(
+                            MediaItem(
                                 id = id,
                                 uri = uri.toString(),
                                 name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)) ?: "",

@@ -3,10 +3,14 @@ package co.juneai.june.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // ── Bright High-Contrast Green Accent (used across ALL themes) ──
-val KiwiAccent           = Color(0xFFA3E635)  // Bright lime green — primary accent
-val KiwiAccentLight      = Color(0xFFD4F990)  // Pastel lime — containers, backgrounds
-val KiwiAccentDark       = Color(0xFF6B9C15)  // Deep lime — pressed states
-val KiwiAccentSubtle     = Color(0x33A3E635)  // 20% lime — subtle highlights
+val KiwiAccent           = Color(0xFFA3E635)
+val KiwiAccentLight      = Color(0xFFD4F990)
+val KiwiAccentDark       = Color(0xFF6B9C15)
+val KiwiAccentSubtle     = Color(0x33A3E635)
+
+val KiwiBright = Color(0xFF66FF99)
+val KiwiCore = Color(0xFF66BB6A)
+val KiwiDeep = Color(0xFF2E7D32)
 
 // ── Light Theme Palette ────────────────────────────────────
 val LightBgColor       = Color(0xFFEAE5D8)  // Background color
@@ -14,7 +18,7 @@ val KiwiDark           = Color(0xFF2D3E27)  // Active icons, gallery name
 val Kiwi               = Color(0xFF4A6741)  // Selected container
 val KiwiLight          = Color(0xFF8DA082)  // Soft sage — secondary text
 val EarthCream         = Color(0xFFF9F7F2)  // Earthy cream
-val EarthSand          = Color(0xFFEAE5D8)  // Card borders, search bar bg
+val EarthSand          = Color(0xFFEAE5D8)
 val NavUnselected      = Color(0xFF9CA3AF)  // Unselected icons in bottom nav
 val SelectedText       = Color(0xFFFFFFFF)  // Selected text
 
@@ -110,3 +114,11 @@ val Blue   = Color(0xFF2196F3)
 val Red    = Color(0xFFF44336)
 val Green  = Color(0xFF4CAF50)
 val Orange = Color(0xFFFF9800)
+
+//custom albums screen
+val TitleColor = KiwiDark
+val CountColor = KiwiLight
+val AccentColor = Kiwi
+val BorderColor = EarthSand
+val CardBg = CardWhite
+val CardShadowColor = Color.Black.copy(alpha = .1f)

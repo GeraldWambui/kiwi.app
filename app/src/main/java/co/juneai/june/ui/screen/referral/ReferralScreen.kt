@@ -55,7 +55,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import co.juneai.june.R
 
 @Composable
 fun ReferralScreen(
@@ -83,7 +85,6 @@ fun ReferralScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(ReferralBg)
-            .statusBarsPadding()
     ) {
         // ── Top Bar ────────────────────────────────────────
         Row(
@@ -102,7 +103,7 @@ fun ReferralScreen(
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Kiwi Gallery",
+                text = stringResource(R.string.kiwi_gallery),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = PrimaryText
@@ -140,7 +141,7 @@ fun ReferralScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        "Invite",
+                        stringResource(R.string.invite),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = if (selectedTab == 0) Color.White else SecondaryText
@@ -161,7 +162,7 @@ fun ReferralScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        "Rewards",
+                        stringResource(R.string.rewards),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = if (selectedTab == 1) Color.White else SecondaryText
@@ -179,9 +180,6 @@ fun ReferralScreen(
     }
 }
 
-// ════════════════════════════════════════════════════════════
-// INVITE TAB (Image 2 design)
-// ════════════════════════════════════════════════════════════
 @Composable
 private fun InviteTab(
     state: ReferralState,
@@ -242,7 +240,7 @@ private fun InviteTab(
 
         // ── Title ──────────────────────────────────────
         Text(
-            text = "Give 5GB, Get 5GB",
+            text = stringResource(R.string.give_5gb_get_5gb),
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold,
             color = PrimaryText,
@@ -252,7 +250,7 @@ private fun InviteTab(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Share the love of nature. Invite your friends\nand you both get 5GB bonus storage.",
+            text = stringResource(R.string.share_the_love_of_nature_invite_your_friends_and_you_both_get_5gb_bonus_storage),
             fontSize = 14.sp,
             color = SecondaryText,
             textAlign = TextAlign.Center,
@@ -271,7 +269,7 @@ private fun InviteTab(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "YOUR UNIQUE CODE",
+                text = stringResource(R.string.your_unique_code),
                 fontSize = 11.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = SecondaryText,
@@ -332,19 +330,19 @@ private fun InviteTab(
             ) {
                 ShareOption(
                     icon = Icons.AutoMirrored.Filled.Message,
-                    label = "Message",
+                    label = stringResource(R.string.message),
                     bgColor = AccentGreen,
                     onClick = { viewModel.shareViaMessage() }
                 )
                 ShareOption(
                     icon = Icons.Default.Email,
-                    label = "Email",
+                    label = stringResource(R.string.email),
                     bgColor = AccentGreen,
                     onClick = { viewModel.shareViaEmail() }
                 )
                 ShareOption(
                     icon = Icons.Default.Share,
-                    label = "Other",
+                    label = stringResource(R.string.other),
                     bgColor = AccentGreen,
                     onClick = { viewModel.shareViaOther() }
                 )
@@ -360,13 +358,13 @@ private fun InviteTab(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Your Rewards",
+                text = stringResource(R.string.your_rewards),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = PrimaryText
             )
             Text(
-                text = "${state.totalEarnedGb} GB earned",
+                text = stringResource(R.string.gb_earned, state.totalEarnedGb),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = AccentGreenBright
@@ -388,12 +386,16 @@ private fun InviteTab(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Progress to next tier",
+                    text = stringResource(R.string.progress_to_next_tier),
                     fontSize = 13.sp,
                     color = SecondaryText
                 )
                 Text(
-                    text = "${state.referralCount}/${state.referralsNeeded} Referrals",
+                    text = stringResource(
+                        R.string.referrals,
+                        state.referralCount,
+                        state.referralsNeeded
+                    ),
                     fontSize = 13.sp,
                     color = SecondaryText
                 )
@@ -428,9 +430,6 @@ private fun InviteTab(
     }
 }
 
-// ════════════════════════════════════════════════════════════
-// REWARDS TAB (Image 1 design)
-// ════════════════════════════════════════════════════════════
 @Composable
 private fun RewardsTab(
     state: ReferralState,
@@ -503,7 +502,7 @@ private fun RewardsTab(
                     )
                 }
                 Text(
-                    text = "FRIENDS REFERRED",
+                    text = stringResource(R.string.friends_referred),
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = SecondaryText,
@@ -622,10 +621,6 @@ private fun RewardsTab(
         Spacer(modifier = Modifier.height(40.dp))
     }
 }
-
-// ═══════════════════════════════════════════════════════════
-// SUB‑COMPONENTS
-// ═══════════════════════════════════════════════════════════
 
 @Composable
 private fun RewardItem(

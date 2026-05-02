@@ -23,13 +23,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import co.juneai.june.ui.screen.gallery.GalleryViewModel
+import co.juneai.june.ui.screen.albums.AlbumsViewModel
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.R
-import co.juneai.june.data.model.MediaItem2
+import co.juneai.june.data.model.MediaItem
 import coil.compose.AsyncImage
 import coil.decode.VideoFrameDecoder
 import coil.request.ImageRequest
@@ -40,7 +40,7 @@ import java.util.Locale
 @Composable
 fun ForYouScreen(
     onMediaClick: (Long) -> Unit = {},
-    viewModel: GalleryViewModel = hiltViewModel()
+    viewModel: AlbumsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val media = uiState.allMedia
@@ -72,8 +72,7 @@ fun ForYouScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .statusBarsPadding(),
+            .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(bottom = 100.dp)
     ) {
         item { ForYouTopBar() }
@@ -196,7 +195,7 @@ private fun ForYouTopBar() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_stitch_search_outline),
+            painter = painterResource(id = R.drawable.ic_ios_search),
             contentDescription = stringResource(R.string.search),
             tint = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.size(24.dp)
@@ -251,7 +250,7 @@ private fun SectionHeader(title: String, badge: String = "") {
 }
 
 @Composable
-private fun MemoryCard(mediaItem: MediaItem2, onClick: () -> Unit) {
+private fun MemoryCard(mediaItem: MediaItem, onClick: () -> Unit) {
     val dateStr = remember(mediaItem.dateTaken) {
         val sdf = SimpleDateFormat("MMM d", Locale.getDefault())
         sdf.format(Date(mediaItem.dateTaken))
@@ -294,7 +293,7 @@ private fun MemoryCard(mediaItem: MediaItem2, onClick: () -> Unit) {
 
 @Composable
 private fun FeaturedPhotoCard(
-    mediaItem: MediaItem2,
+    mediaItem: MediaItem,
     label: String,
     onClick: () -> Unit
 ) {
@@ -355,7 +354,7 @@ private fun FeaturedPhotoCard(
 }
 
 @Composable
-private fun VideoCard(mediaItem: MediaItem2, onClick: () -> Unit) {
+private fun VideoCard(mediaItem: MediaItem, onClick: () -> Unit) {
     val durationStr = remember(mediaItem.duration) {
         mediaItem.duration?.let { ms ->
             val secs = (ms / 1000).toInt()
@@ -416,7 +415,7 @@ private fun VideoCard(mediaItem: MediaItem2, onClick: () -> Unit) {
 }
 
 @Composable
-private fun AlbumRow(albumName: String, items: List<MediaItem2>, onMediaClick: (Long) -> Unit) {
+private fun AlbumRow(albumName: String, items: List<MediaItem>, onMediaClick: (Long) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(
             text = albumName,

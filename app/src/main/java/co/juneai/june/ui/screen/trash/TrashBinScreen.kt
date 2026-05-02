@@ -1,6 +1,7 @@
 package co.juneai.june.ui.screen.trash
 
 import android.text.format.DateUtils
+import androidx.appcompat.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +50,9 @@ import androidx.compose.ui.unit.sp
 import co.juneai.june.data.model.ImageData
 import coil.compose.AsyncImage
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.res.painterResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun TrashBinScreen(
@@ -73,13 +76,12 @@ fun TrashBinScreen(
         viewModel.loadTrash()
     }
 
-    val trashImages by viewModel.trashImages.collectAsState()
+    val trashImages by viewModel.trashImages.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(TrashBg)
-            .statusBarsPadding()
     ) {
         // ── Top Bar ───────────────────────────────────────
         Row(
@@ -141,7 +143,7 @@ fun TrashBinScreen(
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
-                        Icons.Default.DeleteOutline,
+                        painter = painterResource(co.juneai.june.R.drawable.ic_ios_trash),
                         contentDescription = "Empty trash",
                         tint = AccentGreen,
                         modifier = Modifier.size(64.dp)

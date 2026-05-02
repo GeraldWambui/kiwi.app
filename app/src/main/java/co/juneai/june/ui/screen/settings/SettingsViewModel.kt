@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.juneai.june.ui.theme.AppTheme
 import co.juneai.june.ui.theme.ThemePreferences
-import co.juneai.june.data.repository.nsfw.NsfwFlagStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,20 +19,9 @@ import java.io.File
 import java.security.MessageDigest
 import javax.inject.Inject
 
-data class StorageBreakdown(
-    val photosBytes: Long = 0L,
-    val videosBytes: Long = 0L,
-    val vaultBytes: Long = 0L,
-    val systemBytes: Long = 0L,
-    val totalUsedBytes: Long = 0L,
-    val totalCapacityBytes: Long = 0L,
-    val cacheBytes: Long = 0L
-)
-
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val application: Application,
-    private val nsfwFlagStore: NsfwFlagStore
 ) : ViewModel() {
 
     private val _cloudSyncEnabled = MutableStateFlow(true)
@@ -67,9 +55,6 @@ class SettingsViewModel @Inject constructor(
     )
     val isVaultConfigured: StateFlow<Boolean> = _isVaultConfigured.asStateFlow()
 
-    private val _nsfwProtectionEnabled = MutableStateFlow(nsfwFlagStore.isProtectionEnabled)
-    val nsfwProtectionEnabled: StateFlow<Boolean> = _nsfwProtectionEnabled.asStateFlow()
-
     init {
         loadStorageInfo()
     }
@@ -98,9 +83,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun toggleNsfwProtection() {
-        val newState = !nsfwFlagStore.isProtectionEnabled
-        nsfwFlagStore.isProtectionEnabled = newState
-        _nsfwProtectionEnabled.value = newState
+
     }
 
     fun appendPasscodeDigit(digit: Int) {
