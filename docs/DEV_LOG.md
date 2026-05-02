@@ -397,3 +397,4 @@ Automated engineering journal & milestones.
 - `2026-05-01 22:21:02`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-05-02 09:10:49`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-05-02 09:24:23`: feat(search): index video titles and audio transcript tokens
+- `2026-05-02 09:46:51`: refactor(ml): streamline face embedding pre-processing pipeline
