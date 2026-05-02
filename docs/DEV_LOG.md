@@ -400,3 +400,4 @@ Automated engineering journal & milestones.
 - `2026-05-02 09:46:51`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-05-02 12:09:08`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-05-02 15:28:46`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-05-02 16:39:41`: feat(ui): add haptic feedback on multi-selection long press
