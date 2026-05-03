@@ -404,3 +404,4 @@ Automated engineering journal & milestones.
 - `2026-05-03 09:25:46`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-05-03 11:08:18`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-05-03 15:27:52`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-05-03 16:30:14`: test: verify battery guard thresholds under simulated power states
