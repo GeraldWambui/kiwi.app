@@ -405,3 +405,4 @@ Automated engineering journal & milestones.
 - `2026-05-03 11:08:18`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-05-03 15:27:52`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-05-03 16:30:14`: test: verify battery guard thresholds under simulated power states
+- `2026-05-03 20:21:10`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
