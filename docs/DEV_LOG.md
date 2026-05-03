@@ -401,3 +401,4 @@ Automated engineering journal & milestones.
 - `2026-05-02 12:09:08`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-05-02 15:28:46`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-02 16:39:41`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-05-03 09:25:46`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
