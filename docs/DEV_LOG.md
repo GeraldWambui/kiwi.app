@@ -402,3 +402,4 @@ Automated engineering journal & milestones.
 - `2026-05-02 15:28:46`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-02 16:39:41`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-03 09:25:46`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-05-03 11:08:18`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
