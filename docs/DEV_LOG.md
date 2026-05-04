@@ -411,3 +411,4 @@ Automated engineering journal & milestones.
 - `2026-05-03 21:15:08`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-04 09:59:32`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-05-04 10:07:06`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-05-04 20:48:19`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
