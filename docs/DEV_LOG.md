@@ -410,3 +410,4 @@ Automated engineering journal & milestones.
 - `2026-05-03 20:56:15`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-05-03 21:15:08`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-04 09:59:32`: feat(ml): optimize depth map edge refinement for portrait blur
+- `2026-05-04 10:07:06`: perf(image): enable hardware bitmap config for thumbnail rendering
