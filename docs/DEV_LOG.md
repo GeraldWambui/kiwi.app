@@ -409,3 +409,4 @@ Automated engineering journal & milestones.
 - `2026-05-03 20:52:09`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-05-03 20:56:15`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-05-03 21:15:08`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
+- `2026-05-04 09:59:32`: feat(ml): optimize depth map edge refinement for portrait blur
