@@ -413,3 +413,4 @@ Automated engineering journal & milestones.
 - `2026-05-04 10:07:06`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-05-04 20:48:19`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-05-05 13:38:15`: feat(ui): enhance bottom sheet animation smoothness with spring spec
+- `2026-05-05 15:29:34`: refactor(ml): streamline face embedding pre-processing pipeline
