@@ -415,3 +415,4 @@ Automated engineering journal & milestones.
 - `2026-05-05 13:38:15`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-05-05 15:29:34`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-05-05 16:41:35`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-05-05 16:45:57`: perf(image): enable hardware bitmap config for thumbnail rendering
