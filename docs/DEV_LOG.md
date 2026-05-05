@@ -418,3 +418,4 @@ Automated engineering journal & milestones.
 - `2026-05-05 16:45:57`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-05-05 20:04:24`: test: add unit tests for face clustering centroid distance calculation
 - `2026-05-05 20:19:15`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-05-05 20:32:24`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
