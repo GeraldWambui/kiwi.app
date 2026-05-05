@@ -416,3 +416,4 @@ Automated engineering journal & milestones.
 - `2026-05-05 15:29:34`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-05-05 16:41:35`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-05-05 16:45:57`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-05-05 20:04:24`: test: add unit tests for face clustering centroid distance calculation
