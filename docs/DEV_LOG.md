@@ -421,3 +421,4 @@ Automated engineering journal & milestones.
 - `2026-05-05 20:32:24`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-05-06 13:51:13`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-06 19:32:25`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-05-07 09:41:40`: feat(ml): optimize depth map edge refinement for portrait blur
