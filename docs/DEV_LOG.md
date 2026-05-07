@@ -422,3 +422,4 @@ Automated engineering journal & milestones.
 - `2026-05-06 13:51:13`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-06 19:32:25`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-07 09:41:40`: feat(ml): optimize depth map edge refinement for portrait blur
+- `2026-05-07 09:52:16`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
