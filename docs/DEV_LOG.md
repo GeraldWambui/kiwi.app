@@ -424,3 +424,4 @@ Automated engineering journal & milestones.
 - `2026-05-07 09:41:40`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-05-07 09:52:16`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-05-07 15:14:57`: perf(db): optimize batch insert transaction size for image embeddings
+- `2026-05-07 16:18:04`: feat(ml): add smile and eye-open detection threshold filters in clustering
