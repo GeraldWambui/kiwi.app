@@ -428,3 +428,4 @@ Automated engineering journal & milestones.
 - `2026-05-08 10:04:58`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-05-08 10:07:25`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-05-08 11:25:15`: refactor(ui): extract reusable media action bar into design system component
+- `2026-05-08 14:27:06`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
