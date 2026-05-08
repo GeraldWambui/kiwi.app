@@ -427,3 +427,4 @@ Automated engineering journal & milestones.
 - `2026-05-07 16:18:04`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-05-08 10:04:58`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-05-08 10:07:25`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
+- `2026-05-08 11:25:15`: refactor(ui): extract reusable media action bar into design system component
