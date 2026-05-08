@@ -430,3 +430,4 @@ Automated engineering journal & milestones.
 - `2026-05-08 11:25:15`: refactor(ui): extract reusable media action bar into design system component
 - `2026-05-08 14:27:06`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-05-08 15:13:07`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-05-08 16:40:30`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
