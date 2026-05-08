@@ -425,3 +425,4 @@ Automated engineering journal & milestones.
 - `2026-05-07 09:52:16`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-05-07 15:14:57`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-05-07 16:18:04`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-05-08 10:04:58`: refactor(service): decouple battery monitoring from index worker lifecycle
