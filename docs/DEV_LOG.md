@@ -432,3 +432,4 @@ Automated engineering journal & milestones.
 - `2026-05-08 15:13:07`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-05-08 16:40:30`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-05-08 17:42:05`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
+- `2026-05-08 19:57:44`: refactor(ml): streamline face embedding pre-processing pipeline
