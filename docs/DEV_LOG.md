@@ -435,3 +435,4 @@ Automated engineering journal & milestones.
 - `2026-05-08 19:57:44`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-05-08 20:26:28`: test: add integration test for MediaStore trash request helper
 - `2026-05-08 21:00:30`: perf(db): optimize batch insert transaction size for image embeddings
+- `2026-05-09 09:59:35`: feat(ml): optimize depth map edge refinement for portrait blur
