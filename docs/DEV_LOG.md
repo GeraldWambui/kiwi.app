@@ -443,3 +443,4 @@ Automated engineering journal & milestones.
 - `2026-05-10 13:39:16`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-05-10 14:45:35`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-05-10 14:55:25`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-05-10 16:00:14`: test: add integration test for MediaStore trash request helper
