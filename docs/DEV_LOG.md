@@ -440,3 +440,4 @@ Automated engineering journal & milestones.
 - `2026-05-09 14:51:39`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-05-09 16:53:27`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-05-09 20:55:10`: test: verify battery guard thresholds under simulated power states
+- `2026-05-10 13:39:16`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
