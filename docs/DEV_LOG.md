@@ -445,3 +445,4 @@ Automated engineering journal & milestones.
 - `2026-05-10 14:55:25`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-05-10 16:00:14`: test: add integration test for MediaStore trash request helper
 - `2026-05-10 21:54:31`: feat(ui): refine photo grid spacing and elevation in timeline view
+- `2026-05-11 09:30:46`: test: verify battery guard thresholds under simulated power states
