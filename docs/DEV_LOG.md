@@ -453,3 +453,4 @@ Automated engineering journal & milestones.
 - `2026-05-11 14:46:20`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-05-11 15:12:04`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-05-11 17:07:36`: test: add unit tests for face clustering centroid distance calculation
+- `2026-05-11 22:15:02`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
