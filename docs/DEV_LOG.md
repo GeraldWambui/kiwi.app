@@ -448,3 +448,4 @@ Automated engineering journal & milestones.
 - `2026-05-11 09:30:46`: test: verify battery guard thresholds under simulated power states
 - `2026-05-11 09:41:58`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-05-11 11:17:12`: test: add unit tests for face clustering centroid distance calculation
+- `2026-05-11 11:52:55`: feat(search): index video titles and audio transcript tokens
