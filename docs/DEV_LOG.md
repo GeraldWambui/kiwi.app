@@ -450,3 +450,4 @@ Automated engineering journal & milestones.
 - `2026-05-11 11:17:12`: test: add unit tests for face clustering centroid distance calculation
 - `2026-05-11 11:52:55`: feat(search): index video titles and audio transcript tokens
 - `2026-05-11 14:07:09`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-05-11 14:46:20`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
