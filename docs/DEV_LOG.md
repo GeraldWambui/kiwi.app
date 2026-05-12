@@ -454,3 +454,4 @@ Automated engineering journal & milestones.
 - `2026-05-11 15:12:04`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-05-11 17:07:36`: test: add unit tests for face clustering centroid distance calculation
 - `2026-05-11 22:15:02`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
+- `2026-05-12 11:13:44`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
