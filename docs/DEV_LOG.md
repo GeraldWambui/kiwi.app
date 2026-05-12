@@ -457,3 +457,4 @@ Automated engineering journal & milestones.
 - `2026-05-12 11:13:44`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-05-12 16:28:26`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-12 16:37:02`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-05-12 17:33:15`: feat(search): index video titles and audio transcript tokens
