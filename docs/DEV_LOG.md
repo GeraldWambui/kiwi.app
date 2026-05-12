@@ -458,3 +458,4 @@ Automated engineering journal & milestones.
 - `2026-05-12 16:28:26`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-12 16:37:02`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-05-12 17:33:15`: feat(search): index video titles and audio transcript tokens
+- `2026-05-12 19:47:18`: docs: add setup instructions for self-hosted Immich backup
