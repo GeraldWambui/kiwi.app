@@ -463,3 +463,4 @@ Automated engineering journal & milestones.
 - `2026-05-13 09:31:32`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-05-13 09:49:43`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-13 10:48:30`: refactor(ml): streamline face embedding pre-processing pipeline
+- `2026-05-13 12:03:36`: chore: update gradle dependencies and compose compiler flags
