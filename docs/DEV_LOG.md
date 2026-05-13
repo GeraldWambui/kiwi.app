@@ -466,3 +466,4 @@ Automated engineering journal & milestones.
 - `2026-05-13 12:03:36`: chore: update gradle dependencies and compose compiler flags
 - `2026-05-13 12:18:24`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-05-13 14:48:15`: feat(search): add quick filter chips for screenshots and documents
+- `2026-05-13 15:26:01`: feat(search): index video titles and audio transcript tokens
