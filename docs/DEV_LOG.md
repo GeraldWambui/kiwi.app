@@ -461,3 +461,4 @@ Automated engineering journal & milestones.
 - `2026-05-12 19:47:18`: docs: add setup instructions for self-hosted Immich backup
 - `2026-05-12 19:54:56`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-05-13 09:31:32`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-05-13 09:49:43`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
