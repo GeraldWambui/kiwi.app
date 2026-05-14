@@ -473,3 +473,4 @@ Automated engineering journal & milestones.
 - `2026-05-14 12:20:15`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-05-14 20:39:07`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-05-14 21:34:42`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-05-14 22:01:10`: docs: add setup instructions for self-hosted Immich backup
