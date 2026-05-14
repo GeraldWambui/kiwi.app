@@ -470,3 +470,4 @@ Automated engineering journal & milestones.
 - `2026-05-13 20:21:00`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-05-13 21:03:51`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-05-14 09:28:51`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-05-14 12:20:15`: refactor(service): decouple battery monitoring from index worker lifecycle
