@@ -479,3 +479,4 @@ Automated engineering journal & milestones.
 - `2026-05-15 11:42:49`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-15 14:23:37`: chore: update gradle dependencies and compose compiler flags
 - `2026-05-15 17:00:26`: test: add integration test for MediaStore trash request helper
+- `2026-05-15 22:01:09`: feat(cleaner): highlight duplicate burst photos for quick cleanup
