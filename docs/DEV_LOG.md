@@ -477,3 +477,4 @@ Automated engineering journal & milestones.
 - `2026-05-15 09:18:04`: test: add unit tests for face clustering centroid distance calculation
 - `2026-05-15 11:30:19`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-05-15 11:42:49`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-05-15 14:23:37`: chore: update gradle dependencies and compose compiler flags
