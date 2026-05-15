@@ -475,3 +475,4 @@ Automated engineering journal & milestones.
 - `2026-05-14 21:34:42`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-05-14 22:01:10`: docs: add setup instructions for self-hosted Immich backup
 - `2026-05-15 09:18:04`: test: add unit tests for face clustering centroid distance calculation
+- `2026-05-15 11:30:19`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
