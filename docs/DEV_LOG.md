@@ -481,3 +481,4 @@ Automated engineering journal & milestones.
 - `2026-05-15 17:00:26`: test: add integration test for MediaStore trash request helper
 - `2026-05-15 22:01:09`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-05-16 13:38:16`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
+- `2026-05-16 17:15:17`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
