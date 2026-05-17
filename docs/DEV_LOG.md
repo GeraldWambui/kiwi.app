@@ -485,3 +485,4 @@ Automated engineering journal & milestones.
 - `2026-05-16 19:48:34`: docs: add setup instructions for self-hosted Immich backup
 - `2026-05-16 21:57:14`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-05-17 09:54:15`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-05-17 10:13:06`: perf(db): optimize batch insert transaction size for image embeddings
