@@ -488,3 +488,4 @@ Automated engineering journal & milestones.
 - `2026-05-17 10:13:06`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-05-17 16:56:19`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-05-17 20:32:33`: refactor(ui): extract reusable media action bar into design system component
+- `2026-05-17 22:10:26`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
