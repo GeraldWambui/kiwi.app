@@ -484,3 +484,4 @@ Automated engineering journal & milestones.
 - `2026-05-16 17:15:17`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-05-16 19:48:34`: docs: add setup instructions for self-hosted Immich backup
 - `2026-05-16 21:57:14`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
+- `2026-05-17 09:54:15`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
