@@ -496,3 +496,4 @@ Automated engineering journal & milestones.
 - `2026-05-18 15:39:33`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-05-18 17:19:16`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-05-18 20:41:44`: feat(search): index video titles and audio transcript tokens
+- `2026-05-18 20:49:57`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
