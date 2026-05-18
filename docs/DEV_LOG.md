@@ -491,3 +491,4 @@ Automated engineering journal & milestones.
 - `2026-05-17 22:10:26`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-05-18 09:07:44`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-05-18 11:42:35`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
+- `2026-05-18 12:27:49`: docs: add setup instructions for self-hosted Immich backup
