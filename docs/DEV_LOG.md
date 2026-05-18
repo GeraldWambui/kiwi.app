@@ -490,3 +490,4 @@ Automated engineering journal & milestones.
 - `2026-05-17 20:32:33`: refactor(ui): extract reusable media action bar into design system component
 - `2026-05-17 22:10:26`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-05-18 09:07:44`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
+- `2026-05-18 11:42:35`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
