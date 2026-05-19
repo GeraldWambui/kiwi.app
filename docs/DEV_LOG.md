@@ -502,3 +502,4 @@ Automated engineering journal & milestones.
 - `2026-05-19 17:06:57`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-05-19 20:30:50`: docs: document on-device neural model pipeline and quantization specs
 - `2026-05-19 20:47:59`: feat(map): cluster map pins dynamically based on zoom level
+- `2026-05-19 21:48:46`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
