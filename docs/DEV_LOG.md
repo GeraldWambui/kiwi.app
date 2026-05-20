@@ -507,3 +507,4 @@ Automated engineering journal & milestones.
 - `2026-05-19 22:09:04`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-05-20 16:31:47`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-05-20 20:04:14`: test: add integration test for MediaStore trash request helper
+- `2026-05-20 20:37:21`: chore: update gradle dependencies and compose compiler flags
