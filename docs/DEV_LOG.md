@@ -512,3 +512,4 @@ Automated engineering journal & milestones.
 - `2026-05-21 09:07:13`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-05-21 12:00:19`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-05-21 14:00:09`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
+- `2026-05-21 15:01:25`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
