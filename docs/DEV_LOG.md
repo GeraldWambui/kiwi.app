@@ -514,3 +514,4 @@ Automated engineering journal & milestones.
 - `2026-05-21 14:00:09`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-05-21 15:01:25`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-05-21 15:59:04`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
+- `2026-05-21 17:10:39`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
