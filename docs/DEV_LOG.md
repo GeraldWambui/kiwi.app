@@ -516,3 +516,4 @@ Automated engineering journal & milestones.
 - `2026-05-21 15:59:04`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-05-21 17:10:39`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-05-21 17:16:51`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-05-21 21:25:45`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
