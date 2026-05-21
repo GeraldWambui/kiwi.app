@@ -510,3 +510,4 @@ Automated engineering journal & milestones.
 - `2026-05-20 20:37:21`: chore: update gradle dependencies and compose compiler flags
 - `2026-05-20 21:47:46`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-05-21 09:07:13`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
+- `2026-05-21 12:00:19`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
