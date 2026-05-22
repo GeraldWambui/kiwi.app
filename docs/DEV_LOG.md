@@ -518,3 +518,4 @@ Automated engineering journal & milestones.
 - `2026-05-21 17:16:51`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-05-21 21:25:45`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-05-22 11:52:41`: feat(search): index video titles and audio transcript tokens
+- `2026-05-22 17:00:35`: feat(cleaner): highlight duplicate burst photos for quick cleanup
