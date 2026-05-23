@@ -522,3 +522,4 @@ Automated engineering journal & milestones.
 - `2026-05-22 20:34:52`: test: verify battery guard thresholds under simulated power states
 - `2026-05-23 09:49:09`: feat(search): add quick filter chips for screenshots and documents
 - `2026-05-23 10:36:18`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-05-23 11:49:22`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
