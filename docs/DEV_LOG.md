@@ -523,3 +523,4 @@ Automated engineering journal & milestones.
 - `2026-05-23 09:49:09`: feat(search): add quick filter chips for screenshots and documents
 - `2026-05-23 10:36:18`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-23 11:49:22`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
+- `2026-05-23 19:50:09`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
