@@ -521,3 +521,4 @@ Automated engineering journal & milestones.
 - `2026-05-22 17:00:35`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-05-22 20:34:52`: test: verify battery guard thresholds under simulated power states
 - `2026-05-23 09:49:09`: feat(search): add quick filter chips for screenshots and documents
+- `2026-05-23 10:36:18`: feat(ui): add haptic feedback on multi-selection long press
