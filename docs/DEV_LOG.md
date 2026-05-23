@@ -524,3 +524,4 @@ Automated engineering journal & milestones.
 - `2026-05-23 10:36:18`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-23 11:49:22`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-05-23 19:50:09`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
+- `2026-05-23 19:52:12`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
