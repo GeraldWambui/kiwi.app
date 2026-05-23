@@ -520,3 +520,4 @@ Automated engineering journal & milestones.
 - `2026-05-22 11:52:41`: feat(search): index video titles and audio transcript tokens
 - `2026-05-22 17:00:35`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-05-22 20:34:52`: test: verify battery guard thresholds under simulated power states
+- `2026-05-23 09:49:09`: feat(search): add quick filter chips for screenshots and documents
