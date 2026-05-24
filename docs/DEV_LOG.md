@@ -527,3 +527,4 @@ Automated engineering journal & milestones.
 - `2026-05-23 19:52:12`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-05-24 10:59:32`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-05-24 14:00:17`: refactor(ui): extract reusable media action bar into design system component
+- `2026-05-24 16:10:53`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
