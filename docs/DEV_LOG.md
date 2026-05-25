@@ -529,3 +529,4 @@ Automated engineering journal & milestones.
 - `2026-05-24 14:00:17`: refactor(ui): extract reusable media action bar into design system component
 - `2026-05-24 16:10:53`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-05-24 21:40:35`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
+- `2026-05-25 09:47:38`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
