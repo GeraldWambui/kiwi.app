@@ -532,3 +532,4 @@ Automated engineering journal & milestones.
 - `2026-05-25 09:47:38`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-05-25 14:14:48`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-05-26 20:49:14`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-05-26 21:16:35`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
