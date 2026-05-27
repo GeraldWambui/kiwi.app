@@ -536,3 +536,4 @@ Automated engineering journal & milestones.
 - `2026-05-26 21:47:03`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-05-26 22:21:22`: refactor(ui): extract reusable media action bar into design system component
 - `2026-05-27 19:35:48`: feat(search): index video titles and audio transcript tokens
+- `2026-05-27 21:21:50`: feat(ml): optimize depth map edge refinement for portrait blur
