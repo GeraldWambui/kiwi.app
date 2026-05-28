@@ -541,3 +541,4 @@ Automated engineering journal & milestones.
 - `2026-05-28 20:44:04`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-05-28 21:17:52`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-05-28 21:24:56`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
+- `2026-05-28 22:02:35`: feat(ui): add haptic feedback on multi-selection long press
