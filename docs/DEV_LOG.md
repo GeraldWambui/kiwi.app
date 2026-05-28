@@ -538,3 +538,4 @@ Automated engineering journal & milestones.
 - `2026-05-27 19:35:48`: feat(search): index video titles and audio transcript tokens
 - `2026-05-27 21:21:50`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-05-28 13:48:11`: feat(cleaner): add size threshold selector for storage analysis
+- `2026-05-28 20:44:04`: perf(db): optimize batch insert transaction size for image embeddings
