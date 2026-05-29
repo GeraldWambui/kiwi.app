@@ -549,3 +549,4 @@ Automated engineering journal & milestones.
 - `2026-05-29 17:28:04`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-05-29 19:30:13`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-05-29 20:13:59`: refactor(ml): streamline face embedding pre-processing pipeline
+- `2026-05-29 20:34:42`: feat(backup): support automatic background sync on unmetered Wi-Fi
