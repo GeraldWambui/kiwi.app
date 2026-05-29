@@ -547,3 +547,4 @@ Automated engineering journal & milestones.
 - `2026-05-29 13:54:37`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-05-29 16:09:35`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-05-29 17:28:04`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-05-29 19:30:13`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
