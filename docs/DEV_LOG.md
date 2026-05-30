@@ -551,3 +551,4 @@ Automated engineering journal & milestones.
 - `2026-05-29 20:13:59`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-05-29 20:34:42`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-05-30 09:03:39`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-05-30 11:26:37`: test: verify battery guard thresholds under simulated power states
