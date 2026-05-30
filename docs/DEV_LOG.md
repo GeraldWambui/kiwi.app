@@ -555,3 +555,4 @@ Automated engineering journal & milestones.
 - `2026-05-30 15:55:09`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-05-30 17:52:47`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-05-30 19:39:40`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-05-30 19:40:51`: feat(backup): add retry backoff strategy for Immich chunk uploads
