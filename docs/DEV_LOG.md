@@ -554,3 +554,4 @@ Automated engineering journal & milestones.
 - `2026-05-30 11:26:37`: test: verify battery guard thresholds under simulated power states
 - `2026-05-30 15:55:09`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-05-30 17:52:47`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-05-30 19:39:40`: feat(ml): add smile and eye-open detection threshold filters in clustering
