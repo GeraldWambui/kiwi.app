@@ -561,3 +561,4 @@ Automated engineering journal & milestones.
 - `2026-05-31 10:16:09`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-05-31 10:23:34`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-05-31 10:37:36`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
+- `2026-05-31 10:44:07`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
