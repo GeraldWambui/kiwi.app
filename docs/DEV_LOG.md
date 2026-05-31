@@ -565,3 +565,4 @@ Automated engineering journal & milestones.
 - `2026-05-31 10:50:12`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-05-31 11:29:06`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-05-31 11:54:21`: perf(db): optimize batch insert transaction size for image embeddings
+- `2026-05-31 17:07:01`: chore: update gradle dependencies and compose compiler flags
