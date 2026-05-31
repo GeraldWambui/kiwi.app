@@ -558,3 +558,4 @@ Automated engineering journal & milestones.
 - `2026-05-30 19:40:51`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-05-30 20:19:32`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-05-31 09:25:11`: test: add integration test for MediaStore trash request helper
+- `2026-05-31 10:16:09`: feat(ui): add haptic feedback on multi-selection long press
