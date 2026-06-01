@@ -570,3 +570,4 @@ Automated engineering journal & milestones.
 - `2026-06-01 09:38:31`: feat(search): add quick filter chips for screenshots and documents
 - `2026-06-01 09:42:43`: feat(search): index video titles and audio transcript tokens
 - `2026-06-01 16:18:17`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-06-01 21:16:06`: feat(ui): add haptic feedback on multi-selection long press
