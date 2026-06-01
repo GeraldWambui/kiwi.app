@@ -569,3 +569,4 @@ Automated engineering journal & milestones.
 - `2026-06-01 09:22:22`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-06-01 09:38:31`: feat(search): add quick filter chips for screenshots and documents
 - `2026-06-01 09:42:43`: feat(search): index video titles and audio transcript tokens
+- `2026-06-01 16:18:17`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
