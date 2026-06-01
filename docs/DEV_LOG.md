@@ -568,3 +568,4 @@ Automated engineering journal & milestones.
 - `2026-05-31 17:07:01`: chore: update gradle dependencies and compose compiler flags
 - `2026-06-01 09:22:22`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-06-01 09:38:31`: feat(search): add quick filter chips for screenshots and documents
+- `2026-06-01 09:42:43`: feat(search): index video titles and audio transcript tokens
