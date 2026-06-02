@@ -572,3 +572,4 @@ Automated engineering journal & milestones.
 - `2026-06-01 16:18:17`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-06-01 21:16:06`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-06-01 22:15:50`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-06-02 10:26:55`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
