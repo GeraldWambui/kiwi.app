@@ -574,3 +574,4 @@ Automated engineering journal & milestones.
 - `2026-06-01 22:15:50`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-06-02 10:26:55`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-02 11:20:04`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-06-02 11:47:01`: test: add integration test for MediaStore trash request helper
