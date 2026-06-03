@@ -579,3 +579,4 @@ Automated engineering journal & milestones.
 - `2026-06-02 17:22:33`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-06-02 17:59:30`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-06-03 11:53:39`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-06-03 19:54:19`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
