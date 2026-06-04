@@ -586,3 +586,4 @@ Automated engineering journal & milestones.
 - `2026-06-04 14:52:14`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-06-04 17:08:49`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-06-04 17:50:10`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
+- `2026-06-04 19:49:55`: feat(map): cluster map pins dynamically based on zoom level
