@@ -583,3 +583,4 @@ Automated engineering journal & milestones.
 - `2026-06-04 09:15:15`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-06-04 11:40:12`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-06-04 14:17:29`: feat(backup): support automatic background sync on unmetered Wi-Fi
+- `2026-06-04 14:52:14`: perf(ui): memoize derived state calculations in photo timeline header
