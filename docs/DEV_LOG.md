@@ -581,3 +581,4 @@ Automated engineering journal & milestones.
 - `2026-06-03 11:53:39`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-06-03 19:54:19`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-06-04 09:15:15`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-06-04 11:40:12`: feat(ui): add haptic feedback on multi-selection long press
