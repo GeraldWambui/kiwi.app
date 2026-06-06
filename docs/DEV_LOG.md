@@ -593,3 +593,4 @@ Automated engineering journal & milestones.
 - `2026-06-05 11:16:48`: feat(search): add quick filter chips for screenshots and documents
 - `2026-06-06 09:42:25`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-06-06 10:03:41`: feat(search): add quick filter chips for screenshots and documents
+- `2026-06-06 15:30:08`: refactor(service): decouple battery monitoring from index worker lifecycle
