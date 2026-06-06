@@ -599,3 +599,4 @@ Automated engineering journal & milestones.
 - `2026-06-06 19:56:03`: test: add unit tests for face clustering centroid distance calculation
 - `2026-06-06 20:05:39`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-06-06 21:28:53`: perf(db): optimize batch insert transaction size for image embeddings
+- `2026-06-06 22:13:52`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
