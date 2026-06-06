@@ -596,3 +596,4 @@ Automated engineering journal & milestones.
 - `2026-06-06 15:30:08`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-06-06 16:24:56`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-06-06 16:37:25`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
+- `2026-06-06 19:56:03`: test: add unit tests for face clustering centroid distance calculation
