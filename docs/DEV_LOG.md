@@ -601,3 +601,4 @@ Automated engineering journal & milestones.
 - `2026-06-06 21:28:53`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-06-06 22:13:52`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-06-06 22:30:22`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
+- `2026-06-07 10:16:32`: feat(cleaner): highlight duplicate burst photos for quick cleanup
