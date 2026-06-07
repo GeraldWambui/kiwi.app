@@ -605,3 +605,4 @@ Automated engineering journal & milestones.
 - `2026-06-07 11:44:31`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-06-07 17:40:00`: docs: document on-device neural model pipeline and quantization specs
 - `2026-06-07 19:53:13`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-06-07 22:00:12`: perf(image): enable hardware bitmap config for thumbnail rendering
