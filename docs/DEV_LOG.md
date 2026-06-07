@@ -603,3 +603,4 @@ Automated engineering journal & milestones.
 - `2026-06-06 22:30:22`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-06-07 10:16:32`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-06-07 11:44:31`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
+- `2026-06-07 17:40:00`: docs: document on-device neural model pipeline and quantization specs
