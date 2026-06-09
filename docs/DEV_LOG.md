@@ -608,3 +608,4 @@ Automated engineering journal & milestones.
 - `2026-06-07 22:00:12`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-06-08 11:18:31`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-06-08 14:28:59`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
+- `2026-06-09 11:22:32`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
