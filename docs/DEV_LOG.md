@@ -613,3 +613,4 @@ Automated engineering journal & milestones.
 - `2026-06-09 15:40:57`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-06-09 21:10:39`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-06-09 21:52:23`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
+- `2026-06-09 22:07:49`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
