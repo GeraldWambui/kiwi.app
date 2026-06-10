@@ -615,3 +615,4 @@ Automated engineering journal & milestones.
 - `2026-06-09 21:52:23`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-06-09 22:07:49`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-06-10 11:12:19`: feat(ml): optimize depth map edge refinement for portrait blur
+- `2026-06-10 12:14:47`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
