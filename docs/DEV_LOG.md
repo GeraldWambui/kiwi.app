@@ -618,3 +618,4 @@ Automated engineering journal & milestones.
 - `2026-06-10 12:14:47`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-06-10 14:40:27`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-06-10 15:06:51`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-06-10 17:50:28`: feat(backup): add retry backoff strategy for Immich chunk uploads
