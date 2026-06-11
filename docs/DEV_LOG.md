@@ -621,3 +621,4 @@ Automated engineering journal & milestones.
 - `2026-06-10 17:50:28`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-06-11 09:14:40`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-06-11 10:03:03`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-06-11 12:09:25`: feat(ml): add smile and eye-open detection threshold filters in clustering
