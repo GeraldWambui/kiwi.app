@@ -620,3 +620,4 @@ Automated engineering journal & milestones.
 - `2026-06-10 15:06:51`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-06-10 17:50:28`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-06-11 09:14:40`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-06-11 10:03:03`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
