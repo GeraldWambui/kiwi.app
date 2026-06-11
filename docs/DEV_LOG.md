@@ -623,3 +623,4 @@ Automated engineering journal & milestones.
 - `2026-06-11 10:03:03`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-06-11 12:09:25`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-06-11 16:28:26`: feat(ui): refine photo grid spacing and elevation in timeline view
+- `2026-06-11 17:19:14`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
