@@ -627,3 +627,4 @@ Automated engineering journal & milestones.
 - `2026-06-11 22:27:12`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-12 11:36:39`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-06-12 15:54:38`: refactor(ml): streamline face embedding pre-processing pipeline
+- `2026-06-12 19:50:34`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
