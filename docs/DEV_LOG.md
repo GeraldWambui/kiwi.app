@@ -626,3 +626,4 @@ Automated engineering journal & milestones.
 - `2026-06-11 17:19:14`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-06-11 22:27:12`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-12 11:36:39`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-06-12 15:54:38`: refactor(ml): streamline face embedding pre-processing pipeline
