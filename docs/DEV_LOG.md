@@ -625,3 +625,4 @@ Automated engineering journal & milestones.
 - `2026-06-11 16:28:26`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-06-11 17:19:14`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-06-11 22:27:12`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
+- `2026-06-12 11:36:39`: feat(ml): add smile and eye-open detection threshold filters in clustering
