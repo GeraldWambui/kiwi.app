@@ -632,3 +632,4 @@ Automated engineering journal & milestones.
 - `2026-06-13 09:57:47`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-06-13 10:15:41`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-06-13 10:31:26`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-06-13 12:21:18`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
