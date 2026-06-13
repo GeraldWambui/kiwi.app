@@ -637,3 +637,4 @@ Automated engineering journal & milestones.
 - `2026-06-13 15:37:23`: refactor(ui): extract reusable media action bar into design system component
 - `2026-06-13 20:41:41`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-06-13 20:48:53`: feat(cleaner): add size threshold selector for storage analysis
+- `2026-06-13 21:37:27`: perf(db): optimize batch insert transaction size for image embeddings
