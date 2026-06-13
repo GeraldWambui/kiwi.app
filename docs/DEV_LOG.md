@@ -630,3 +630,4 @@ Automated engineering journal & milestones.
 - `2026-06-12 19:50:34`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-06-12 20:11:06`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-06-13 09:57:47`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
+- `2026-06-13 10:15:41`: perf(image): enable hardware bitmap config for thumbnail rendering
