@@ -639,3 +639,4 @@ Automated engineering journal & milestones.
 - `2026-06-13 20:48:53`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-06-13 21:37:27`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-06-14 10:47:33`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-06-14 11:30:11`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
