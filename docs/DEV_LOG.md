@@ -645,3 +645,4 @@ Automated engineering journal & milestones.
 - `2026-06-14 19:33:06`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-06-14 21:38:24`: refactor(ui): extract reusable media action bar into design system component
 - `2026-06-14 22:24:54`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-06-15 09:34:10`: feat(ui): refine photo grid spacing and elevation in timeline view
