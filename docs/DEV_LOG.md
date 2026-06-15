@@ -647,3 +647,4 @@ Automated engineering journal & milestones.
 - `2026-06-14 22:24:54`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-06-15 09:34:10`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-06-15 11:31:05`: feat(cleaner): add size threshold selector for storage analysis
+- `2026-06-15 11:34:32`: feat(backup): add retry backoff strategy for Immich chunk uploads
