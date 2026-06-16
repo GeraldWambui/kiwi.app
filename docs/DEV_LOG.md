@@ -649,3 +649,4 @@ Automated engineering journal & milestones.
 - `2026-06-15 11:31:05`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-06-15 11:34:32`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-06-15 22:17:27`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-06-16 13:44:31`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
