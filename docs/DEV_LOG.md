@@ -653,3 +653,4 @@ Automated engineering journal & milestones.
 - `2026-06-16 16:55:12`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-06-16 19:36:32`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-06-16 20:08:23`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
+- `2026-06-17 09:03:30`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
