@@ -655,3 +655,4 @@ Automated engineering journal & milestones.
 - `2026-06-16 20:08:23`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-06-17 09:03:30`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-06-17 17:02:32`: perf(ui): memoize derived state calculations in photo timeline header
+- `2026-06-17 21:29:35`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
