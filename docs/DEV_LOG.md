@@ -656,3 +656,4 @@ Automated engineering journal & milestones.
 - `2026-06-17 09:03:30`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-06-17 17:02:32`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-06-17 21:29:35`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-06-17 22:12:25`: perf(image): enable hardware bitmap config for thumbnail rendering
