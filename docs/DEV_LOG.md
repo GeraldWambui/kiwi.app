@@ -658,3 +658,4 @@ Automated engineering journal & milestones.
 - `2026-06-17 21:29:35`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-06-17 22:12:25`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-06-18 11:30:19`: feat(ui): refine photo grid spacing and elevation in timeline view
+- `2026-06-18 12:11:09`: docs: add setup instructions for self-hosted Immich backup
