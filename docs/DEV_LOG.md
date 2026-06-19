@@ -669,3 +669,4 @@ Automated engineering journal & milestones.
 - `2026-06-19 16:52:26`: docs: document on-device neural model pipeline and quantization specs
 - `2026-06-19 17:41:21`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-06-19 20:43:55`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
+- `2026-06-19 22:05:06`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
