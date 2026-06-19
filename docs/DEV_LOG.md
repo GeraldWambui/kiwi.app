@@ -662,3 +662,4 @@ Automated engineering journal & milestones.
 - `2026-06-18 17:56:21`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-06-18 19:30:02`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-06-18 22:03:04`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-06-19 11:49:01`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
