@@ -665,3 +665,4 @@ Automated engineering journal & milestones.
 - `2026-06-19 11:49:01`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-06-19 12:29:20`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
 - `2026-06-19 13:32:06`: Merge pull request #40 from GeraldWambui/feat-storage-cleaner-rules
+- `2026-06-19 13:58:47`: test: add integration test for MediaStore trash request helper
