@@ -677,3 +677,4 @@ Automated engineering journal & milestones.
 - `2026-06-20 13:31:08`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-06-20 15:01:19`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-06-20 18:00:56`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
+- `2026-06-20 19:59:31`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
