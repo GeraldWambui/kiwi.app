@@ -673,3 +673,4 @@ Automated engineering journal & milestones.
 - `2026-06-20 09:14:57`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-06-20 10:51:09`: docs: add setup instructions for self-hosted Immich backup
 - `2026-06-20 12:06:22`: feat(ml): optimize depth map edge refinement for portrait blur
+- `2026-06-20 12:08:45`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
