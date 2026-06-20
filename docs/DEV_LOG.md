@@ -672,3 +672,4 @@ Automated engineering journal & milestones.
 - `2026-06-19 22:05:06`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-06-20 09:14:57`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-06-20 10:51:09`: docs: add setup instructions for self-hosted Immich backup
+- `2026-06-20 12:06:22`: feat(ml): optimize depth map edge refinement for portrait blur
