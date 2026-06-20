@@ -678,3 +678,4 @@ Automated engineering journal & milestones.
 - `2026-06-20 15:01:19`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-06-20 18:00:56`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-20 19:59:31`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
+- `2026-06-20 20:59:24`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
