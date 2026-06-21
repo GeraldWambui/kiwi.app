@@ -681,3 +681,4 @@ Automated engineering journal & milestones.
 - `2026-06-20 20:59:24`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-06-21 10:51:27`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-06-21 11:16:20`: feat(ui): enhance bottom sheet animation smoothness with spring spec
+- `2026-06-21 12:10:35`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
