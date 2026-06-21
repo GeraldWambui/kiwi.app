@@ -683,3 +683,4 @@ Automated engineering journal & milestones.
 - `2026-06-21 11:16:20`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-06-21 12:10:35`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-06-21 12:24:20`: docs: add setup instructions for self-hosted Immich backup
+- `2026-06-21 15:03:28`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
