@@ -685,3 +685,4 @@ Automated engineering journal & milestones.
 - `2026-06-21 12:24:20`: docs: add setup instructions for self-hosted Immich backup
 - `2026-06-21 15:03:28`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-21 15:43:36`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-06-21 16:05:13`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
