@@ -682,3 +682,4 @@ Automated engineering journal & milestones.
 - `2026-06-21 10:51:27`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-06-21 11:16:20`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-06-21 12:10:35`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
+- `2026-06-21 12:24:20`: docs: add setup instructions for self-hosted Immich backup
