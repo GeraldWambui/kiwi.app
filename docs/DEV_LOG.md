@@ -679,3 +679,4 @@ Automated engineering journal & milestones.
 - `2026-06-20 18:00:56`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-20 19:59:31`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-06-20 20:59:24`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
+- `2026-06-21 10:51:27`: perf(image): enable hardware bitmap config for thumbnail rendering
