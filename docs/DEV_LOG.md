@@ -690,3 +690,4 @@ Automated engineering journal & milestones.
 - `2026-06-21 22:08:24`: refactor(ui): extract reusable media action bar into design system component
 - `2026-06-22 16:01:38`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-06-22 22:02:53`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-06-23 09:39:20`: docs: add setup instructions for self-hosted Immich backup
