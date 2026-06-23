@@ -692,3 +692,4 @@ Automated engineering journal & milestones.
 - `2026-06-22 22:02:53`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-06-23 09:39:20`: docs: add setup instructions for self-hosted Immich backup
 - `2026-06-23 10:10:01`: perf(db): optimize batch insert transaction size for image embeddings
+- `2026-06-23 11:15:33`: chore: update gradle dependencies and compose compiler flags
