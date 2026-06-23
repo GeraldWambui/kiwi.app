@@ -697,3 +697,4 @@ Automated engineering journal & milestones.
 - `2026-06-23 15:46:05`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-06-23 15:57:31`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-06-23 20:30:33`: test: add unit tests for face clustering centroid distance calculation
+- `2026-06-23 21:58:14`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
