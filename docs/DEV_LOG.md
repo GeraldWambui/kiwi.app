@@ -701,3 +701,4 @@ Automated engineering journal & milestones.
 - `2026-06-24 09:06:41`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
 - `2026-06-24 16:06:54`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-06-24 19:51:30`: test: add integration test for MediaStore trash request helper
+- `2026-06-24 20:50:23`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
