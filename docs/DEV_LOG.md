@@ -709,3 +709,4 @@ Automated engineering journal & milestones.
 - `2026-06-25 20:05:54`: docs: add setup instructions for self-hosted Immich backup
 - `2026-06-25 20:57:16`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-06-25 21:00:27`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-06-25 22:08:27`: perf(ui): memoize derived state calculations in photo timeline header
