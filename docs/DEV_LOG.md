@@ -705,3 +705,4 @@ Automated engineering journal & milestones.
 - `2026-06-25 12:27:19`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-06-25 13:32:58`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-06-25 15:41:11`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
+- `2026-06-25 17:43:23`: refactor(service): decouple battery monitoring from index worker lifecycle
