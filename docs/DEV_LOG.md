@@ -703,3 +703,4 @@ Automated engineering journal & milestones.
 - `2026-06-24 19:51:30`: test: add integration test for MediaStore trash request helper
 - `2026-06-24 20:50:23`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-06-25 12:27:19`: perf(ui): memoize derived state calculations in photo timeline header
+- `2026-06-25 13:32:58`: feat(cleaner): add size threshold selector for storage analysis
