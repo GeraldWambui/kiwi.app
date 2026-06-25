@@ -707,3 +707,4 @@ Automated engineering journal & milestones.
 - `2026-06-25 15:41:11`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-25 17:43:23`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-06-25 20:05:54`: docs: add setup instructions for self-hosted Immich backup
+- `2026-06-25 20:57:16`: refactor(service): decouple battery monitoring from index worker lifecycle
