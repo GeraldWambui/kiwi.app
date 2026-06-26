@@ -711,3 +711,4 @@ Automated engineering journal & milestones.
 - `2026-06-25 21:00:27`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-06-25 22:08:27`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-06-26 15:12:19`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-06-26 20:43:11`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
