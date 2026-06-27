@@ -712,3 +712,4 @@ Automated engineering journal & milestones.
 - `2026-06-25 22:08:27`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-06-26 15:12:19`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-06-26 20:43:11`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-06-27 09:59:16`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
