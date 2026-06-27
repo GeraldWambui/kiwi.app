@@ -714,3 +714,4 @@ Automated engineering journal & milestones.
 - `2026-06-26 20:43:11`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-06-27 09:59:16`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-06-27 11:50:04`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
+- `2026-06-27 17:29:49`: docs: document on-device neural model pipeline and quantization specs
