@@ -716,3 +716,4 @@ Automated engineering journal & milestones.
 - `2026-06-27 11:50:04`: fix(ml): prevent out-of-memory error on 48MP raw image segmentation (closes #45)
 - `2026-06-27 17:29:49`: docs: document on-device neural model pipeline and quantization specs
 - `2026-06-27 21:00:56`: feat(cleaner): add size threshold selector for storage analysis
+- `2026-06-27 21:43:37`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
