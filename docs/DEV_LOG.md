@@ -722,3 +722,4 @@ Automated engineering journal & milestones.
 - `2026-06-28 12:14:45`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-06-28 15:52:25`: refactor(ui): extract reusable media action bar into design system component
 - `2026-06-28 16:12:41`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
+- `2026-06-28 19:44:35`: refactor(service): decouple battery monitoring from index worker lifecycle
