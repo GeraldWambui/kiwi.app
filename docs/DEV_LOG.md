@@ -717,3 +717,4 @@ Automated engineering journal & milestones.
 - `2026-06-27 17:29:49`: docs: document on-device neural model pipeline and quantization specs
 - `2026-06-27 21:00:56`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-06-27 21:43:37`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-06-28 10:41:56`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
