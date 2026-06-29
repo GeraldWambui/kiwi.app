@@ -726,3 +726,4 @@ Automated engineering journal & milestones.
 - `2026-06-28 19:45:56`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-06-28 20:43:10`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-06-29 09:02:14`: docs: document on-device neural model pipeline and quantization specs
+- `2026-06-29 09:02:11`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
