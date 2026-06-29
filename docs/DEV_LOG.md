@@ -728,3 +728,4 @@ Automated engineering journal & milestones.
 - `2026-06-29 09:02:14`: docs: document on-device neural model pipeline and quantization specs
 - `2026-06-29 09:02:11`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-06-29 10:32:08`: feat(search): index video titles and audio transcript tokens
+- `2026-06-29 10:33:20`: feat(backup): support automatic background sync on unmetered Wi-Fi
