@@ -737,3 +737,4 @@ Automated engineering journal & milestones.
 - `2026-06-30 10:11:12`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-06-30 11:55:00`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-06-30 20:03:26`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
+- `2026-06-30 21:10:24`: feat(map): cluster map pins dynamically based on zoom level
