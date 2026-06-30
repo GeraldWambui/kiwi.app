@@ -734,3 +734,4 @@ Automated engineering journal & milestones.
 - `2026-06-29 15:01:21`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-06-29 17:16:43`: test: verify battery guard thresholds under simulated power states
 - `2026-06-29 20:55:34`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-06-30 10:11:12`: perf(image): enable hardware bitmap config for thumbnail rendering
