@@ -739,3 +739,4 @@ Automated engineering journal & milestones.
 - `2026-06-30 20:03:26`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-06-30 21:10:24`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-06-30 21:37:36`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
+- `2026-06-30 21:38:30`: refactor(service): decouple battery monitoring from index worker lifecycle
