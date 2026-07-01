@@ -744,3 +744,4 @@ Automated engineering journal & milestones.
 - `2026-07-01 15:07:46`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-07-01 15:15:48`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-07-01 15:28:46`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-07-01 16:52:42`: test: verify battery guard thresholds under simulated power states
