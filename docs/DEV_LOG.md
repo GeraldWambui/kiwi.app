@@ -746,3 +746,4 @@ Automated engineering journal & milestones.
 - `2026-07-01 15:28:46`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-07-01 16:52:42`: test: verify battery guard thresholds under simulated power states
 - `2026-07-01 17:39:44`: docs: document on-device neural model pipeline and quantization specs
+- `2026-07-01 20:24:08`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
