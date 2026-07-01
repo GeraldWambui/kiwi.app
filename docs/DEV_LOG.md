@@ -741,3 +741,4 @@ Automated engineering journal & milestones.
 - `2026-06-30 21:37:36`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-06-30 21:38:30`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-07-01 11:54:34`: feat(ui): enhance bottom sheet animation smoothness with spring spec
+- `2026-07-01 15:07:46`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
