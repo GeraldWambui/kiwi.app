@@ -740,3 +740,4 @@ Automated engineering journal & milestones.
 - `2026-06-30 21:10:24`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-06-30 21:37:36`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-06-30 21:38:30`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-07-01 11:54:34`: feat(ui): enhance bottom sheet animation smoothness with spring spec
