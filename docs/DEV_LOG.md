@@ -748,3 +748,4 @@ Automated engineering journal & milestones.
 - `2026-07-01 17:39:44`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-01 20:24:08`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
 - `2026-07-01 21:21:39`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
+- `2026-07-01 22:03:08`: feat(search): index video titles and audio transcript tokens
