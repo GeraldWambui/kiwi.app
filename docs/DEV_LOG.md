@@ -754,3 +754,4 @@ Automated engineering journal & milestones.
 - `2026-07-02 17:16:40`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-07-02 17:26:42`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-07-02 20:32:10`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-07-02 21:13:39`: docs: add setup instructions for self-hosted Immich backup
