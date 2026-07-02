@@ -752,3 +752,4 @@ Automated engineering journal & milestones.
 - `2026-07-02 10:40:01`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-07-02 15:16:17`: refactor(ui): extract reusable media action bar into design system component
 - `2026-07-02 17:16:40`: feat(ml): add smile and eye-open detection threshold filters in clustering
+- `2026-07-02 17:26:42`: feat(ml): add smile and eye-open detection threshold filters in clustering
