@@ -756,3 +756,4 @@ Automated engineering journal & milestones.
 - `2026-07-02 20:32:10`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-07-02 21:13:39`: docs: add setup instructions for self-hosted Immich backup
 - `2026-07-02 21:32:15`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-07-03 09:53:47`: perf(db): optimize batch insert transaction size for image embeddings
