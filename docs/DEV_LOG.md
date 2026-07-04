@@ -759,3 +759,4 @@ Automated engineering journal & milestones.
 - `2026-07-03 09:53:47`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-07-03 10:39:09`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-07-03 14:32:21`: feat(search): index video titles and audio transcript tokens
+- `2026-07-04 09:11:26`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
