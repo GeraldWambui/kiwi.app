@@ -761,3 +761,4 @@ Automated engineering journal & milestones.
 - `2026-07-03 14:32:21`: feat(search): index video titles and audio transcript tokens
 - `2026-07-04 09:11:26`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-07-04 10:30:36`: docs: add setup instructions for self-hosted Immich backup
+- `2026-07-04 12:00:27`: feat(search): index video titles and audio transcript tokens
