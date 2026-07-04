@@ -763,3 +763,4 @@ Automated engineering journal & milestones.
 - `2026-07-04 10:30:36`: docs: add setup instructions for self-hosted Immich backup
 - `2026-07-04 12:00:27`: feat(search): index video titles and audio transcript tokens
 - `2026-07-04 15:54:42`: test: add unit tests for face clustering centroid distance calculation
+- `2026-07-04 16:57:06`: feat(backup): support automatic background sync on unmetered Wi-Fi
