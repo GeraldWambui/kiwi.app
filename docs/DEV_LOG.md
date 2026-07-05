@@ -768,3 +768,4 @@ Automated engineering journal & milestones.
 - `2026-07-05 09:24:42`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
 - `2026-07-05 10:56:52`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-07-05 12:22:56`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-07-05 12:24:53`: feat(search): index video titles and audio transcript tokens
