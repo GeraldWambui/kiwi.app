@@ -765,3 +765,4 @@ Automated engineering journal & milestones.
 - `2026-07-04 15:54:42`: test: add unit tests for face clustering centroid distance calculation
 - `2026-07-04 16:57:06`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-07-05 09:07:48`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-07-05 09:24:42`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
