@@ -770,3 +770,4 @@ Automated engineering journal & milestones.
 - `2026-07-05 12:22:56`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-07-05 12:24:53`: feat(search): index video titles and audio transcript tokens
 - `2026-07-05 14:18:23`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-07-05 15:31:47`: feat(ui): enhance bottom sheet animation smoothness with spring spec
