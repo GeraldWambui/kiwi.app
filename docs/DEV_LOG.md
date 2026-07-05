@@ -771,3 +771,4 @@ Automated engineering journal & milestones.
 - `2026-07-05 12:24:53`: feat(search): index video titles and audio transcript tokens
 - `2026-07-05 14:18:23`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-07-05 15:31:47`: feat(ui): enhance bottom sheet animation smoothness with spring spec
+- `2026-07-05 16:31:07`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
