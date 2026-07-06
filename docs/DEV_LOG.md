@@ -774,3 +774,4 @@ Automated engineering journal & milestones.
 - `2026-07-05 16:31:07`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-07-05 20:05:47`: test: verify battery guard thresholds under simulated power states
 - `2026-07-06 09:57:38`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
+- `2026-07-06 10:58:16`: test: add unit tests for face clustering centroid distance calculation
