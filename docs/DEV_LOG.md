@@ -780,3 +780,4 @@ Automated engineering journal & milestones.
 - `2026-07-06 14:40:39`: feat(search): add quick filter chips for screenshots and documents
 - `2026-07-06 15:35:48`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-07-06 16:22:04`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
+- `2026-07-06 20:18:46`: feat(ui): refine photo grid spacing and elevation in timeline view
