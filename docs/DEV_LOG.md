@@ -777,3 +777,4 @@ Automated engineering journal & milestones.
 - `2026-07-06 10:58:16`: test: add unit tests for face clustering centroid distance calculation
 - `2026-07-06 11:27:39`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-07-06 12:04:53`: feat(search): index video titles and audio transcript tokens
+- `2026-07-06 14:40:39`: feat(search): add quick filter chips for screenshots and documents
