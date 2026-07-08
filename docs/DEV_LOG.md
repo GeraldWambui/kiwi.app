@@ -792,3 +792,4 @@ Automated engineering journal & milestones.
 - `2026-07-08 10:39:17`: test: add unit tests for face clustering centroid distance calculation
 - `2026-07-08 11:54:00`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-07-08 13:59:10`: perf(db): optimize batch insert transaction size for image embeddings
+- `2026-07-08 17:18:23`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
