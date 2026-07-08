@@ -795,3 +795,4 @@ Automated engineering journal & milestones.
 - `2026-07-08 17:18:23`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-07-08 19:32:53`: perf(db): optimize batch insert transaction size for image embeddings
 - `2026-07-08 21:04:40`: feat(backup): support automatic background sync on unmetered Wi-Fi
+- `2026-07-08 21:09:46`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
