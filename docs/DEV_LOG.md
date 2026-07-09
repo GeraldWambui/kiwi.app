@@ -799,3 +799,4 @@ Automated engineering journal & milestones.
 - `2026-07-08 22:17:47`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-07-09 10:51:53`: feat(search): index video titles and audio transcript tokens
 - `2026-07-09 17:06:13`: feat(ui): refine photo grid spacing and elevation in timeline view
+- `2026-07-09 19:41:58`: docs: document on-device neural model pipeline and quantization specs
