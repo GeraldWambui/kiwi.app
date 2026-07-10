@@ -802,3 +802,4 @@ Automated engineering journal & milestones.
 - `2026-07-09 19:41:58`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-09 20:32:00`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-07-10 09:18:21`: docs: document on-device neural model pipeline and quantization specs
+- `2026-07-10 10:16:23`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
