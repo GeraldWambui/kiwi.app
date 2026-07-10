@@ -801,3 +801,4 @@ Automated engineering journal & milestones.
 - `2026-07-09 17:06:13`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-07-09 19:41:58`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-09 20:32:00`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-07-10 09:18:21`: docs: document on-device neural model pipeline and quantization specs
