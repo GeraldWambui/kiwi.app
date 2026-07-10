@@ -804,3 +804,4 @@ Automated engineering journal & milestones.
 - `2026-07-10 09:18:21`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-10 10:16:23`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-07-10 15:32:42`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
+- `2026-07-10 21:58:28`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
