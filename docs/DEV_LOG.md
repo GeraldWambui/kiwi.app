@@ -806,3 +806,4 @@ Automated engineering journal & milestones.
 - `2026-07-10 15:32:42`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-07-10 21:58:28`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-07-11 10:43:07`: feat(search): index video titles and audio transcript tokens
+- `2026-07-11 11:03:20`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
