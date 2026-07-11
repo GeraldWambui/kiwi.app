@@ -808,3 +808,4 @@ Automated engineering journal & milestones.
 - `2026-07-11 10:43:07`: feat(search): index video titles and audio transcript tokens
 - `2026-07-11 11:03:20`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-07-11 14:44:50`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-07-11 17:49:02`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
