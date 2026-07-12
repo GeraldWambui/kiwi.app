@@ -810,3 +810,4 @@ Automated engineering journal & milestones.
 - `2026-07-11 14:44:50`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-07-11 17:49:02`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-07-12 11:50:05`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-07-12 12:29:57`: feat(ui): add haptic feedback on multi-selection long press
