@@ -818,3 +818,4 @@ Automated engineering journal & milestones.
 - `2026-07-13 21:08:11`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-07-13 21:51:44`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-07-14 09:39:10`: test: verify battery guard thresholds under simulated power states
+- `2026-07-14 09:44:29`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
