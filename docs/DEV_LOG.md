@@ -821,3 +821,4 @@ Automated engineering journal & milestones.
 - `2026-07-14 09:44:29`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
 - `2026-07-14 10:12:53`: docs: add setup instructions for self-hosted Immich backup
 - `2026-07-14 16:25:46`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-07-14 19:35:27`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
