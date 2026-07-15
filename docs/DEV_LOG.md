@@ -822,3 +822,4 @@ Automated engineering journal & milestones.
 - `2026-07-14 10:12:53`: docs: add setup instructions for self-hosted Immich backup
 - `2026-07-14 16:25:46`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-07-14 19:35:27`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
+- `2026-07-15 09:13:11`: perf(ui): memoize derived state calculations in photo timeline header
