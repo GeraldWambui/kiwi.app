@@ -824,3 +824,4 @@ Automated engineering journal & milestones.
 - `2026-07-14 19:35:27`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-07-15 09:13:11`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-07-15 10:21:19`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-07-15 16:26:07`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
