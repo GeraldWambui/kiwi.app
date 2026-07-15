@@ -826,3 +826,4 @@ Automated engineering journal & milestones.
 - `2026-07-15 10:21:19`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-07-15 16:26:07`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-07-15 16:55:58`: docs: add setup instructions for self-hosted Immich backup
+- `2026-07-15 17:46:34`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
