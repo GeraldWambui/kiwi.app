@@ -829,3 +829,4 @@ Automated engineering journal & milestones.
 - `2026-07-15 17:46:34`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
 - `2026-07-16 16:04:43`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-07-16 22:22:50`: docs: document on-device neural model pipeline and quantization specs
+- `2026-07-17 10:30:30`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
