@@ -830,3 +830,4 @@ Automated engineering journal & milestones.
 - `2026-07-16 16:04:43`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-07-16 22:22:50`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-17 10:30:30`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
+- `2026-07-17 10:33:07`: feat(map): cluster map pins dynamically based on zoom level
