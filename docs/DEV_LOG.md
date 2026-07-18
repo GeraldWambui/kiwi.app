@@ -838,3 +838,4 @@ Automated engineering journal & milestones.
 - `2026-07-18 13:59:01`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-07-18 17:33:16`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-07-18 20:01:58`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
+- `2026-07-18 20:47:59`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
