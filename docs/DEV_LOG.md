@@ -834,3 +834,4 @@ Automated engineering journal & milestones.
 - `2026-07-18 09:10:48`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-07-18 10:17:47`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-07-18 10:44:33`: fix(cleaner): correctly recalculate freed space after trashing duplicates (closes #27)
+- `2026-07-18 12:26:43`: test: verify battery guard thresholds under simulated power states
