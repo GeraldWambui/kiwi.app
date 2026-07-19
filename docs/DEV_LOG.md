@@ -843,3 +843,4 @@ Automated engineering journal & milestones.
 - `2026-07-19 09:08:40`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-19 11:07:41`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-07-19 11:34:39`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
+- `2026-07-19 12:20:19`: refactor(service): decouple battery monitoring from index worker lifecycle
