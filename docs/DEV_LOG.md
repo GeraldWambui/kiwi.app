@@ -841,3 +841,4 @@ Automated engineering journal & milestones.
 - `2026-07-18 20:47:59`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-07-18 21:00:32`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
 - `2026-07-19 09:08:40`: docs: document on-device neural model pipeline and quantization specs
+- `2026-07-19 11:07:41`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
