@@ -844,3 +844,4 @@ Automated engineering journal & milestones.
 - `2026-07-19 11:07:41`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
 - `2026-07-19 11:34:39`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
 - `2026-07-19 12:20:19`: refactor(service): decouple battery monitoring from index worker lifecycle
+- `2026-07-19 13:37:32`: feat(ui): implement smooth pinch-to-zoom transition in media viewer
