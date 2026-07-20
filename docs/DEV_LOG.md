@@ -850,3 +850,4 @@ Automated engineering journal & milestones.
 - `2026-07-19 20:42:05`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-07-19 21:05:09`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
 - `2026-07-20 15:13:47`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-07-20 19:43:49`: fix(service): release partial wake lock when battery drops below threshold (closes #38)
