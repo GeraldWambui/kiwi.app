@@ -860,3 +860,4 @@ Automated engineering journal & milestones.
 - `2026-07-21 15:04:08`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-07-21 19:54:10`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
 - `2026-07-21 20:14:26`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
+- `2026-07-21 20:37:21`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
