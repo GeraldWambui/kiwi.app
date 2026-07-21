@@ -859,3 +859,4 @@ Automated engineering journal & milestones.
 - `2026-07-21 11:30:43`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-07-21 15:04:08`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-07-21 19:54:10`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-07-21 20:14:26`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
