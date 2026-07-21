@@ -856,3 +856,4 @@ Automated engineering journal & milestones.
 - `2026-07-20 20:11:51`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-07-20 21:23:45`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-07-20 22:13:51`: perf(db): optimize batch insert transaction size for image embeddings
+- `2026-07-21 11:30:43`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
