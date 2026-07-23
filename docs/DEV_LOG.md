@@ -869,3 +869,4 @@ Automated engineering journal & milestones.
 - `2026-07-23 16:34:40`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-07-23 19:59:16`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-07-23 20:10:02`: test: add unit tests for face clustering centroid distance calculation
+- `2026-07-23 20:43:31`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
