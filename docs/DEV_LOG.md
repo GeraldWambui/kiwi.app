@@ -865,3 +865,4 @@ Automated engineering journal & milestones.
 - `2026-07-22 11:22:36`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-07-22 19:40:50`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-07-23 15:19:49`: docs: document on-device neural model pipeline and quantization specs
+- `2026-07-23 16:23:24`: feat(ui): add haptic feedback on multi-selection long press
