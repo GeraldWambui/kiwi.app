@@ -864,3 +864,4 @@ Automated engineering journal & milestones.
 - `2026-07-22 09:13:36`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-07-22 11:22:36`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
 - `2026-07-22 19:40:50`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
+- `2026-07-23 15:19:49`: docs: document on-device neural model pipeline and quantization specs
