@@ -866,3 +866,4 @@ Automated engineering journal & milestones.
 - `2026-07-22 19:40:50`: fix(ui): fix navigation bar overlap on gesture navigation mode (fixes #19)
 - `2026-07-23 15:19:49`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-23 16:23:24`: feat(ui): add haptic feedback on multi-selection long press
+- `2026-07-23 16:34:40`: feat(ui): enhance bottom sheet animation smoothness with spring spec
