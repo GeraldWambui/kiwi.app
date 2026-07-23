@@ -867,3 +867,4 @@ Automated engineering journal & milestones.
 - `2026-07-23 15:19:49`: docs: document on-device neural model pipeline and quantization specs
 - `2026-07-23 16:23:24`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-07-23 16:34:40`: feat(ui): enhance bottom sheet animation smoothness with spring spec
+- `2026-07-23 19:59:16`: refactor(ml): streamline face embedding pre-processing pipeline
