@@ -873,3 +873,4 @@ Automated engineering journal & milestones.
 - `2026-07-24 10:36:43`: feat(cleaner): highlight duplicate burst photos for quick cleanup
 - `2026-07-24 12:19:41`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-07-24 12:30:44`: feat(backup): support automatic background sync on unmetered Wi-Fi
+- `2026-07-24 13:42:02`: feat(backup): support automatic background sync on unmetered Wi-Fi
