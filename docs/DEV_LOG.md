@@ -871,3 +871,4 @@ Automated engineering journal & milestones.
 - `2026-07-23 20:10:02`: test: add unit tests for face clustering centroid distance calculation
 - `2026-07-23 20:43:31`: feat(ml): fine-tune MobileCLIP text tokenization for compound queries
 - `2026-07-24 10:36:43`: feat(cleaner): highlight duplicate burst photos for quick cleanup
+- `2026-07-24 12:19:41`: refactor(ml): streamline face embedding pre-processing pipeline
