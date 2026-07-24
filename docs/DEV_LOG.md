@@ -874,3 +874,4 @@ Automated engineering journal & milestones.
 - `2026-07-24 12:19:41`: refactor(ml): streamline face embedding pre-processing pipeline
 - `2026-07-24 12:30:44`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-07-24 13:42:02`: feat(backup): support automatic background sync on unmetered Wi-Fi
+- `2026-07-24 22:07:39`: feat(ml): optimize depth map edge refinement for portrait blur
