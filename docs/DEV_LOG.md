@@ -883,3 +883,4 @@ Automated engineering journal & milestones.
 - `2026-07-25 17:44:29`: chore: update gradle dependencies and compose compiler flags
 - `2026-07-25 19:48:14`: test: add integration test for MediaStore trash request helper
 - `2026-07-25 20:41:24`: chore: update gradle dependencies and compose compiler flags
+- `2026-07-25 20:56:30`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
