@@ -876,3 +876,4 @@ Automated engineering journal & milestones.
 - `2026-07-24 13:42:02`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-07-24 22:07:39`: feat(ml): optimize depth map edge refinement for portrait blur
 - `2026-07-24 22:17:22`: Merge pull request #33 from GeraldWambui/perf-bitmap-pooling
+- `2026-07-25 15:32:27`: fix(service): resolve MediaStore cursor leak on background indexing worker (fixes #62)
