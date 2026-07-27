@@ -898,3 +898,4 @@ Automated engineering journal & milestones.
 - `2026-07-27 17:40:49`: feat(map): cluster map pins dynamically based on zoom level
 - `2026-07-27 17:55:43`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-07-27 20:41:20`: feat(ui): refine photo grid spacing and elevation in timeline view
+- `2026-07-27 22:22:21`: docs: document on-device neural model pipeline and quantization specs
