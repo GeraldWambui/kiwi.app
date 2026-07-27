@@ -889,3 +889,4 @@ Automated engineering journal & milestones.
 - `2026-07-26 14:03:50`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-07-26 14:59:46`: feat(ui): add haptic feedback on multi-selection long press
 - `2026-07-26 16:38:09`: feat(ui): enhance bottom sheet animation smoothness with spring spec
+- `2026-07-27 09:38:44`: feat(cleaner): add size threshold selector for storage analysis
