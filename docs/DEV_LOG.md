@@ -895,3 +895,4 @@ Automated engineering journal & milestones.
 - `2026-07-27 13:57:42`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-07-27 14:09:31`: chore: update gradle dependencies and compose compiler flags
 - `2026-07-27 15:43:32`: fix(db): ensure ObjectBox cursor is closed on coroutine cancellation (closes #14)
+- `2026-07-27 17:40:49`: feat(map): cluster map pins dynamically based on zoom level
