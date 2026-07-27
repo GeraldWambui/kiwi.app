@@ -891,3 +891,4 @@ Automated engineering journal & milestones.
 - `2026-07-26 16:38:09`: feat(ui): enhance bottom sheet animation smoothness with spring spec
 - `2026-07-27 09:38:44`: feat(cleaner): add size threshold selector for storage analysis
 - `2026-07-27 10:15:44`: feat(search): index video titles and audio transcript tokens
+- `2026-07-27 12:05:04`: test: add unit tests for face clustering centroid distance calculation
