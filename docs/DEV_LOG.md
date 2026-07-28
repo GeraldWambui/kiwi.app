@@ -907,3 +907,4 @@ Automated engineering journal & milestones.
 - `2026-07-28 12:03:27`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-07-28 12:16:41`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-07-28 16:49:33`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
+- `2026-07-28 20:42:05`: refactor(ui): extract reusable media action bar into design system component
