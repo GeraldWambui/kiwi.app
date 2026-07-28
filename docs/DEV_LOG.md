@@ -903,3 +903,4 @@ Automated engineering journal & milestones.
 - `2026-07-28 10:01:44`: test: verify battery guard thresholds under simulated power states
 - `2026-07-28 10:48:21`: refactor(ui): extract reusable media action bar into design system component
 - `2026-07-28 11:00:43`: perf(ui): memoize derived state calculations in photo timeline header
+- `2026-07-28 11:04:56`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
