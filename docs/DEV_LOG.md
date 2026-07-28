@@ -899,3 +899,4 @@ Automated engineering journal & milestones.
 - `2026-07-27 17:55:43`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-07-27 20:41:20`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-07-27 22:22:21`: docs: document on-device neural model pipeline and quantization specs
+- `2026-07-28 09:11:51`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
