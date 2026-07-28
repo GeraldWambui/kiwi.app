@@ -905,3 +905,4 @@ Automated engineering journal & milestones.
 - `2026-07-28 11:00:43`: perf(ui): memoize derived state calculations in photo timeline header
 - `2026-07-28 11:04:56`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
 - `2026-07-28 12:03:27`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
+- `2026-07-28 12:16:41`: refactor(service): decouple battery monitoring from index worker lifecycle
