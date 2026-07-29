@@ -908,3 +908,4 @@ Automated engineering journal & milestones.
 - `2026-07-28 12:16:41`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-07-28 16:49:33`: perf(ml): reuse byte buffer allocations during MobileCLIP inference
 - `2026-07-28 20:42:05`: refactor(ui): extract reusable media action bar into design system component
+- `2026-07-29 11:48:30`: fix(ml): handle null face detection landmarks gracefully (fixes #53)
