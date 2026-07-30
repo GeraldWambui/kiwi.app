@@ -916,3 +916,4 @@ Automated engineering journal & milestones.
 - `2026-07-30 11:55:02`: refactor(service): decouple battery monitoring from index worker lifecycle
 - `2026-07-30 12:01:49`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-07-30 13:56:02`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-07-30 15:16:56`: Merge pull request #18 from GeraldWambui/fix-objectbox-leak
