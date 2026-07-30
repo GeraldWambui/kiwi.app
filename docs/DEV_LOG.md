@@ -912,3 +912,4 @@ Automated engineering journal & milestones.
 - `2026-07-29 16:06:28`: feat(backup): support automatic background sync on unmetered Wi-Fi
 - `2026-07-29 20:34:29`: chore: update gradle dependencies and compose compiler flags
 - `2026-07-30 11:10:43`: refactor(ui): extract reusable media action bar into design system component
+- `2026-07-30 11:43:52`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
