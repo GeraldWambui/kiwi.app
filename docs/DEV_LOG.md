@@ -927,3 +927,4 @@ Automated engineering journal & milestones.
 - `2026-08-01 13:56:28`: feat(backup): add retry backoff strategy for Immich chunk uploads
 - `2026-08-01 15:42:41`: feat(ml): add smile and eye-open detection threshold filters in clustering
 - `2026-08-01 19:35:25`: fix(ui): resolve layout jitter during fast fling in staggered grid (closes #31)
+- `2026-08-01 20:43:30`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
