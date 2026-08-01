@@ -925,3 +925,4 @@ Automated engineering journal & milestones.
 - `2026-08-01 09:45:41`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-08-01 12:00:57`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
 - `2026-08-01 13:56:28`: feat(backup): add retry backoff strategy for Immich chunk uploads
+- `2026-08-01 15:42:41`: feat(ml): add smile and eye-open detection threshold filters in clustering
