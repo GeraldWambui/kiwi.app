@@ -923,3 +923,4 @@ Automated engineering journal & milestones.
 - `2026-07-31 19:30:39`: chore: update gradle dependencies and compose compiler flags
 - `2026-08-01 09:31:59`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-08-01 09:45:41`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
+- `2026-08-01 12:00:57`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
