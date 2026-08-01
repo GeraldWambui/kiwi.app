@@ -921,3 +921,4 @@ Automated engineering journal & milestones.
 - `2026-07-30 21:28:18`: feat(ui): refine photo grid spacing and elevation in timeline view
 - `2026-07-31 16:51:04`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-07-31 19:30:39`: chore: update gradle dependencies and compose compiler flags
+- `2026-08-01 09:31:59`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
