@@ -924,3 +924,4 @@ Automated engineering journal & milestones.
 - `2026-08-01 09:31:59`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-08-01 09:45:41`: Merge pull request #48 from GeraldWambui/fix-mediastore-sync
 - `2026-08-01 12:00:57`: refactor(data): migrate legacy preferences to EncryptedSharedPreferences
+- `2026-08-01 13:56:28`: feat(backup): add retry backoff strategy for Immich chunk uploads
