@@ -935,3 +935,4 @@ Automated engineering journal & milestones.
 - `2026-08-03 15:09:20`: perf(image): enable hardware bitmap config for thumbnail rendering
 - `2026-08-03 15:22:24`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
 - `2026-08-03 15:33:45`: Merge pull request #61 from GeraldWambui/refactor-navigation-routes
+- `2026-08-03 16:51:25`: Merge pull request #12 from GeraldWambui/feat-shared-element-transitions
