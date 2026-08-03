@@ -933,3 +933,4 @@ Automated engineering journal & milestones.
 - `2026-08-03 12:24:28`: feat(search): index video titles and audio transcript tokens
 - `2026-08-03 14:59:36`: Merge pull request #24 from GeraldWambui/feat-face-clustering-optimization
 - `2026-08-03 15:09:20`: perf(image): enable hardware bitmap config for thumbnail rendering
+- `2026-08-03 15:22:24`: fix(backup): handle HTTP 413 payload too large during WebDAV asset upload (fixes #41)
