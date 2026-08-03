@@ -930,3 +930,4 @@ Automated engineering journal & milestones.
 - `2026-08-01 20:43:30`: fix(db): prevent SQLite full-text search syntax error on special characters (fixes #22)
 - `2026-08-02 10:39:51`: Merge pull request #55 from GeraldWambui/feat-webdav-chunking
 - `2026-08-02 15:56:31`: feat(vault): add biometrics fallback prompt when biometric sensor is dirty
+- `2026-08-03 12:24:28`: feat(search): index video titles and audio transcript tokens
