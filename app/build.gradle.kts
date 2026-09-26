@@ -17,8 +17,8 @@ android {
         applicationId = "co.juneai.june"
         minSdk = 24
         targetSdk = 36
-        versionCode = 15
-        versionName = "1.5"
+        versionCode = 16
+        versionName = "2.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -47,6 +47,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -159,4 +163,9 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
+    // EXIF & Geo Metadata
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
+
+    // OpenStreetMap & Geo Spatial Map
+    implementation("org.osmdroid:osmdroid-android:6.1.20")
 }

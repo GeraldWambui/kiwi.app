@@ -32,7 +32,11 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.CleaningServices
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -86,9 +90,13 @@ fun AlbumsScreen(
     onNavigateToPhotos: () -> Unit = {},
     onNavigateToVault: () -> Unit = {},
     onNavigateToTrash: () -> Unit = {},
+    onNavigateToPeople: () -> Unit = {},
+    onNavigateToMap: () -> Unit = {},
+    onNavigateToCleaner: () -> Unit = {},
     onNavigateToAlbumDetail: (AlbumItem) -> Unit = {},
     onMediaClick: (Long, Long?) -> Unit = { _, _ -> },
     onNavigateToVideo: (uri: String, title: String?) -> Unit = { _, _ -> },
+    onNavigateToSettings: () -> Unit = {},
     onVoiceSearch: () -> Unit = {},
     viewModel: AlbumsViewModel = hiltViewModel()
 ) {
@@ -96,16 +104,20 @@ fun AlbumsScreen(
     val albums = uiState.allAlbums
     val scope = rememberCoroutineScope()
     var showAllAlbums by remember { mutableStateOf(false) }
-    var selectedAlbum by remember { mutableStateOf<AlbumItem?>(null) }
+    val selectedAlbum = uiState.selectedAlbum
     val mainAlbums = albums.filter { it.type != AlbumType.MORE }
     val sharedAlbums = albums.filter { it.type == AlbumType.MORE }
     val displayAlbums = if (showAllAlbums) mainAlbums else mainAlbums.take(6)
+
+    // Handle hardware/gesture back press when an album is open
+    androidx.activity.compose.BackHandler(enabled = selectedAlbum != null) {
+        viewModel.selectAlbum(null)
+    }
 
     LaunchedEffect(initialAlbumName, albums) {
         if (initialAlbumName != null && selectedAlbum == null && albums.isNotEmpty()) {
             val album = albums.find { it.name.equals(initialAlbumName, ignoreCase = true) }
             if (album != null) {
-                selectedAlbum = album
                 viewModel.selectAlbum(album)
             }
         }
@@ -123,16 +135,16 @@ fun AlbumsScreen(
 
     if (selectedAlbum != null) {
         AlbumDetailView(
-            album = selectedAlbum!!,
+            album = selectedAlbum,
             viewModel = viewModel,
-            onBack = { selectedAlbum = null },
+            onBack = { viewModel.selectAlbum(null) },
             onMediaClick = { mediaId ->
                 val album = selectedAlbum
                 val media = viewModel.uiState.value.filteredMedia.find { it.id == mediaId }
                 if (media?.isVideo == true) {
                     onNavigateToVideo(media.uri, media.name.ifEmpty { null })
                 } else {
-                    onMediaClick(mediaId, album?.id)
+                    onMediaClick(mediaId, album.id)
                 }
             }
         )
@@ -155,15 +167,159 @@ fun AlbumsScreen(
                 AlbumsTopBar(
                     onNavigateToPhotos = onNavigateToPhotos,
                     onNavigateToTrash = onNavigateToTrash,
+                    onNavigateToSettings = onNavigateToSettings,
                     onVoiceSearch = onVoiceSearch
                 )
             }
 
             items(displayAlbums, key = { it.id }) { album ->
                 AlbumCard(album = album, onClick = {
-                    selectedAlbum = album
                     viewModel.selectAlbum(album)
                 })
+            }
+
+            // ── People & Pets Feature Tile ──────────────
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                        .clickable { onNavigateToPeople() }
+                        .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "People & Pets",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = "View and organize detected face collections",
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+            }
+
+            // ── Photo Map Explorer Tile ─────────────────
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                        .clickable { onNavigateToMap() }
+                        .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFF4CAF50).copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Map,
+                            contentDescription = null,
+                            tint = Color(0xFF4CAF50),
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Photo Map Explorer",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = "Explore your photos and travels geographically",
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+            }
+
+            // ── Storage Cleaner Tile ────────────────────
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                        .clickable { onNavigateToCleaner() }
+                        .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFE91E63).copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.CleaningServices,
+                            contentDescription = null,
+                            tint = Color(0xFFE91E63),
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Storage Cleaner & Duplicates",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = "Find duplicate photos, large videos & free space",
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
             }
 
             if (!showAllAlbums && mainAlbums.size > 6) {
@@ -196,7 +352,6 @@ fun AlbumsScreen(
                         albums = sharedAlbums,
                         onSeeAll = { showAllAlbums = true },
                         onAlbumClick = { album ->
-                            selectedAlbum = album
                             viewModel.selectAlbum(album)
                         }
                     )
@@ -313,6 +468,7 @@ fun AlbumDetailView(
 private fun AlbumsTopBar(
     onNavigateToPhotos: () -> Unit,
     onNavigateToTrash: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
     onVoiceSearch: () -> Unit = {}
 ) {
     val isLight = MaterialTheme.colorScheme.background.red > 0.5f
@@ -345,14 +501,14 @@ private fun AlbumsTopBar(
             }
             
             Text(
-                text = stringResource(R.string.kiwi_gallery),
+                text = "Collections",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
                 letterSpacing = (-0.5).sp
             )
             Spacer(Modifier.width(10.dp))
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onNavigateToTrash) {
                     Icon(
                         painter = painterResource(R.drawable.ic_ios_trash),
@@ -361,11 +517,12 @@ private fun AlbumsTopBar(
                     )
                 }
 
-                IconButton(onClick = { /* Menu */ }) {
+                IconButton(onClick = onNavigateToSettings) {
                     Icon(
-                        Icons.Default.MoreVert,
-                        contentDescription = "Menu",
-                        tint = MaterialTheme.colorScheme.onSurface
+                        painter = painterResource(R.drawable.ic_ios_account),
+                        contentDescription = "Settings",
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }

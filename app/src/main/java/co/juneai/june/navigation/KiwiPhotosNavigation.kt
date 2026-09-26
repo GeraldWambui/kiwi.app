@@ -34,6 +34,10 @@ import co.juneai.june.ui.ext.bottomNavItems
 import co.juneai.june.ui.screen.albums.AlbumsScreen
 import co.juneai.june.ui.screen.foryou.ForYouScreen
 import co.juneai.june.ui.screen.mediadetail.MediaDetailScreen
+import co.juneai.june.ui.screen.backup.SelfHostedBackupScreen
+import co.juneai.june.ui.screen.cleaner.StorageCleanerScreen
+import co.juneai.june.ui.screen.map.PhotoMapScreen
+import co.juneai.june.ui.screen.people.PeopleScreen
 import co.juneai.june.ui.screen.photos.PhotoScreen
 import co.juneai.june.ui.screen.referral.ReferralScreen
 import co.juneai.june.ui.screen.search.SearchScreen
@@ -178,7 +182,21 @@ fun KiwiPhotosNavigation() {
             Box(modifier = Modifier.padding(paddingValues)) {
                 NavHost(
                     navController = navController,
-                    startDestination = Screens.Library.route
+                    startDestination = Screens.Library.route,
+                    enterTransition = {
+                        androidx.compose.animation.fadeIn(animationSpec = androidx.compose.animation.core.tween(220)) +
+                                androidx.compose.animation.scaleIn(initialScale = 0.94f, animationSpec = androidx.compose.animation.core.tween(220))
+                    },
+                    exitTransition = {
+                        androidx.compose.animation.fadeOut(animationSpec = androidx.compose.animation.core.tween(180))
+                    },
+                    popEnterTransition = {
+                        androidx.compose.animation.fadeIn(animationSpec = androidx.compose.animation.core.tween(220))
+                    },
+                    popExitTransition = {
+                        androidx.compose.animation.fadeOut(animationSpec = androidx.compose.animation.core.tween(180)) +
+                                androidx.compose.animation.scaleOut(targetScale = 0.94f, animationSpec = androidx.compose.animation.core.tween(180))
+                    }
                 ) {
                     composable(Screens.Library.route) {
                         PhotoScreen(
@@ -198,6 +216,9 @@ fun KiwiPhotosNavigation() {
                                     launchSingleTop = true
                                     restoreState = true
                                 }
+                            },
+                            onNavigateToSettings = {
+                                navController.navigate(Screens.Settings.route)
                             },
                             onVoiceSearch = onVoiceSearchTap
                         )
@@ -222,6 +243,14 @@ fun KiwiPhotosNavigation() {
                             onVoiceSearch = onVoiceSearchTap,
                             onNavigateToMedia = { mediaId, albumId ->
                                 navController.navigate("detail/$mediaId?albumId=${albumId ?: 0}")
+                            },
+                            onNavigateToVideo = { uri, title, startTimeMs ->
+                                val encodedUri = URLEncoder.encode(uri, "UTF-8")
+                                val encodedTitle = URLEncoder.encode(title ?: "Video", "UTF-8")
+                                navController.navigate("video/$encodedUri/$encodedTitle?startTimeMs=${startTimeMs ?: 0L}")
+                            },
+                            onNavigateToRoute = { route ->
+                                navController.navigate(route)
                             }
                         )
                     }
@@ -249,6 +278,18 @@ fun KiwiPhotosNavigation() {
                             },
                             onNavigateToTrash = {
                                 navController.navigate(Screens.Trash.route)
+                            },
+                            onNavigateToPeople = {
+                                navController.navigate(Screens.People.route)
+                            },
+                            onNavigateToMap = {
+                                navController.navigate(Screens.PhotoMap.route)
+                            },
+                            onNavigateToCleaner = {
+                                navController.navigate(Screens.StorageCleaner.route)
+                            },
+                            onNavigateToSettings = {
+                                navController.navigate(Screens.Settings.route)
                             },
                             onNavigateToPhotos = {
                                 navController.navigate(Screens.Library.route) {
@@ -286,9 +327,19 @@ fun KiwiPhotosNavigation() {
                             onNavigateToTrash = {
                                 navController.navigate(Screens.Trash.route)
                             },
-                            onNavigateToReferral = {
-                                navController.navigate(Screens.Referral.route)
+                            onNavigateToCleaner = {
+                                navController.navigate(Screens.StorageCleaner.route)
                             },
+                            onNavigateToBackup = {
+                                navController.navigate(Screens.SelfHostedBackup.route)
+                            },
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+
+                    // ── Self-Hosted Backup ───────────────────────
+                    composable(Screens.SelfHostedBackup.route) {
+                        SelfHostedBackupScreen(
                             onBack = { navController.popBackStack() }
                         )
                     }
@@ -299,6 +350,9 @@ fun KiwiPhotosNavigation() {
                             onBack = { navController.popBackStack() },
                             onNavigateToSubscription = {
                                 navController.navigate(Screens.Subscription.route)
+                            },
+                            onNavigateToCleaner = {
+                                navController.navigate(Screens.StorageCleaner.route)
                             }
                         )
                     }
@@ -379,7 +433,18 @@ fun KiwiPhotosNavigation() {
                                 type = NavType.LongType
                                 defaultValue = -1L
                             }
-                        )
+                        ),
+                        enterTransition = {
+                            androidx.compose.animation.fadeIn(animationSpec = androidx.compose.animation.core.tween(240)) +
+                                    androidx.compose.animation.scaleIn(initialScale = 0.90f, animationSpec = androidx.compose.animation.core.tween(240))
+                        },
+                        exitTransition = {
+                            androidx.compose.animation.fadeOut(animationSpec = androidx.compose.animation.core.tween(180))
+                        },
+                        popExitTransition = {
+                            androidx.compose.animation.fadeOut(animationSpec = androidx.compose.animation.core.tween(180)) +
+                                    androidx.compose.animation.scaleOut(targetScale = 0.90f, animationSpec = androidx.compose.animation.core.tween(180))
+                        }
                     ) { backStackEntry ->
                         val mediaId =
                             backStackEntry.arguments?.getLong("mediaId") ?: return@composable
@@ -400,14 +465,29 @@ fun KiwiPhotosNavigation() {
 
                     // ── Video Player ────────────────────────────
                     composable(
-                        route = "video/{videoUri}/{videoTitle}",
+                        route = "video/{videoUri}/{videoTitle}?startTimeMs={startTimeMs}",
                         arguments = listOf(
                             navArgument("videoUri") { type = NavType.StringType },
                             navArgument("videoTitle") {
                                 type = NavType.StringType
                                 defaultValue = "Video"
+                            },
+                            navArgument("startTimeMs") {
+                                type = NavType.LongType
+                                defaultValue = 0L
                             }
-                        )
+                        ),
+                        enterTransition = {
+                            androidx.compose.animation.fadeIn(animationSpec = androidx.compose.animation.core.tween(240)) +
+                                    androidx.compose.animation.scaleIn(initialScale = 0.90f, animationSpec = androidx.compose.animation.core.tween(240))
+                        },
+                        exitTransition = {
+                            androidx.compose.animation.fadeOut(animationSpec = androidx.compose.animation.core.tween(180))
+                        },
+                        popExitTransition = {
+                            androidx.compose.animation.fadeOut(animationSpec = androidx.compose.animation.core.tween(180)) +
+                                    androidx.compose.animation.scaleOut(targetScale = 0.90f, animationSpec = androidx.compose.animation.core.tween(180))
+                        }
                     ) { backStackEntry ->
                         val videoUri = URLDecoder.decode(
                             backStackEntry.arguments?.getString("videoUri") ?: return@composable,
@@ -417,11 +497,43 @@ fun KiwiPhotosNavigation() {
                             backStackEntry.arguments?.getString("videoTitle") ?: "Video",
                             "UTF-8"
                         )
+                        val startTimeMs = backStackEntry.arguments?.getLong("startTimeMs") ?: 0L
 
                         VideoPlayerScreen(
                             videoUri = videoUri,
                             videoTitle = videoTitle,
+                            startTimeMs = startTimeMs,
                             onBack = { navController.popBackStack() }
+                        )
+                    }
+
+                    // ── People & Pets ────────────────────────────
+                    composable(Screens.People.route) {
+                        PeopleScreen(
+                            onNavigateBack = { navController.popBackStack() },
+                            onMediaClick = { mediaId, albumId ->
+                                navController.navigate("detail/$mediaId?albumId=${albumId ?: 0}")
+                            }
+                        )
+                    }
+
+                    // ── Photo Map ────────────────────────────────
+                    composable(Screens.PhotoMap.route) {
+                        PhotoMapScreen(
+                            onNavigateBack = { navController.popBackStack() },
+                            onMediaClick = { mediaId, albumId ->
+                                navController.navigate("detail/$mediaId?albumId=${albumId ?: 0}")
+                            }
+                        )
+                    }
+
+                    // ── Storage Cleaner ──────────────────────────
+                    composable(Screens.StorageCleaner.route) {
+                        StorageCleanerScreen(
+                            onNavigateBack = { navController.popBackStack() },
+                            onMediaClick = { mediaId, albumId ->
+                                navController.navigate("detail/$mediaId?albumId=${albumId ?: 0}")
+                            }
                         )
                     }
                 }

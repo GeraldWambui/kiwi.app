@@ -16,4 +16,8 @@ sealed class Screens(val route: String) {
     object SecureVault : Screens("secure_vault")
     object Referral : Screens("referral")
     object Photos : Screens("library")
+    object People : Screens("people")
+    object PhotoMap : Screens("photo_map")
+    object StorageCleaner : Screens("storage_cleaner")
+    object SelfHostedBackup : Screens("self_hosted_backup")
 }

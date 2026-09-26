@@ -6,13 +6,13 @@ import co.juneai.june.navigation.Screens
 val bottomNavItems = listOf(
     BottomNavItem(
         route = Screens.Library.route,
-        label = "Library",
+        label = "Photos",
         selectedIconRes = R.drawable.ic_ios_home_selected,
         unselectedIconRes = R.drawable.ic_ios_home
     ),
     BottomNavItem(
         route = Screens.ForYou.route,
-        label = "For You",
+        label = "Memories",
         selectedIconRes = R.drawable.ic_stitch_heart_outline,
         unselectedIconRes = R.drawable.ic_stitch_heart_outline
     ),
@@ -24,14 +24,8 @@ val bottomNavItems = listOf(
     ),
     BottomNavItem(
         route = Screens.Albums.route,
-        label = "Albums",
+        label = "Collections",
         selectedIconRes = R.drawable.ic_stitch_albums_filled,
         unselectedIconRes = R.drawable.ic_stitch_albums_outline
-    ),
-    BottomNavItem(
-        route = Screens.Settings.route,
-        label = "Settings",
-        selectedIconRes = R.drawable.ic_ios_account_active,
-        unselectedIconRes = R.drawable.ic_ios_account
     )
 )

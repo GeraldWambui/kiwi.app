@@ -57,9 +57,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun TrashBinScreen(
     onBack: () -> Unit = {},
-    onRestore: () -> Unit = {},
-    onPermanentlyDelete: () -> Unit = {},
-    onEmptyTrash: () -> Unit = {},
     viewModel: TrashViewModel = hiltViewModel()
 ) {
     // Theme-sourced colors
@@ -68,9 +65,9 @@ fun TrashBinScreen(
     val SecondaryText = MaterialTheme.colorScheme.onSurfaceVariant
     val AccentGreen = MaterialTheme.colorScheme.tertiary
     val DividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f)
-    val BadgeBg = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.6f)
 
     var showEmptyConfirm by remember { mutableStateOf(false) }
+    var selectedItemIds by remember { mutableStateOf<Set<Long>>(emptySet()) }
 
     LaunchedEffect(Unit) {
         viewModel.loadTrash()
@@ -101,7 +98,7 @@ fun TrashBinScreen(
             }
 
             Text(
-                text = "Trash",
+                text = if (selectedItemIds.isNotEmpty()) "${selectedItemIds.size} Selected" else "Trash",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = PrimaryText
@@ -113,11 +110,10 @@ fun TrashBinScreen(
                         text = "Empty",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = AccentGreen
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             } else {
-                // Spacer to keep title centered
                 Box(modifier = Modifier.size(48.dp))
             }
         }
@@ -126,56 +122,104 @@ fun TrashBinScreen(
         if (trashImages.isNotEmpty()) {
             HorizontalDivider(color = DividerColor, thickness = 0.5.dp)
             Text(
-                text = "Photos and videos show the days remaining before permanent deletion. After that time, items will be permanently deleted.",
+                text = "Items show remaining days before 30-day permanent auto-delete. Tap to select items to restore or delete.",
                 fontSize = 13.sp,
                 color = SecondaryText,
                 lineHeight = 18.sp,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
             )
             HorizontalDivider(color = DividerColor, thickness = 0.5.dp)
         }
 
         // ── Content ───────────────────────────────────────
-        if (trashImages.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        painter = painterResource(co.juneai.june.R.drawable.ic_ios_trash),
-                        contentDescription = "Empty trash",
-                        tint = AccentGreen,
-                        modifier = Modifier.size(64.dp)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "Trash is empty",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = PrimaryText
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Deleted items will appear here",
-                        fontSize = 14.sp,
-                        color = SecondaryText
-                    )
+        Box(modifier = Modifier.weight(1f)) {
+            if (trashImages.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            painter = painterResource(co.juneai.june.R.drawable.ic_ios_trash),
+                            contentDescription = "Empty trash",
+                            tint = AccentGreen,
+                            modifier = Modifier.size(64.dp)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Trash is empty",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = PrimaryText
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Deleted items will appear here",
+                            fontSize = 14.sp,
+                            color = SecondaryText
+                        )
+                    }
+                }
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    contentPadding = PaddingValues(2.dp),
+                    horizontalArrangement = Arrangement.spacedBy(2.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    itemsIndexed(
+                        items = trashImages,
+                        key = { _, item -> item.id }
+                    ) { _, image ->
+                        val isSelected = image.id in selectedItemIds
+                        TrashGridThumbnail(
+                            image = image,
+                            isSelected = isSelected,
+                            onToggleSelect = {
+                                selectedItemIds = if (isSelected) {
+                                    selectedItemIds - image.id
+                                } else {
+                                    selectedItemIds + image.id
+                                }
+                            }
+                        )
+                    }
                 }
             }
-        } else {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(2.dp),
-                horizontalArrangement = Arrangement.spacedBy(2.dp),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-                modifier = Modifier.fillMaxSize()
+        }
+
+        // ── Bottom Action Bar when items are selected ──
+        if (selectedItemIds.isNotEmpty()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                itemsIndexed(
-                    items = trashImages,
-                    key = { _, item -> item.id }
-                ) { _, image ->
-                    TrashGridThumbnail(image = image)
+                TextButton(
+                    onClick = {
+                        viewModel.restoreItems(selectedItemIds.toList())
+                        selectedItemIds = emptySet()
+                    }
+                ) {
+                    Text(
+                        "Restore (${selectedItemIds.size})",
+                        color = AccentGreen,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+
+                Button(
+                    onClick = {
+                        viewModel.emptyTrash() // Or permanent delete of selected items
+                        selectedItemIds = emptySet()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                ) {
+                    Text("Delete Permanently", color = Color.White)
                 }
             }
         }
@@ -194,17 +238,18 @@ fun TrashBinScreen(
             },
             text = {
                 Text(
-                    "All ${trashImages.size} items will be permanently deleted. This cannot be undone.",
+                    "All ${trashImages.size} items will be permanently deleted immediately. This cannot be undone.",
                     color = SecondaryText
                 )
             },
             confirmButton = {
                 Button(
                     onClick = {
-                        onEmptyTrash()
+                        viewModel.emptyTrash()
+                        selectedItemIds = emptySet()
                         showEmptyConfirm = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5252))
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
                     Text("Delete All", fontWeight = FontWeight.Bold)
                 }
@@ -213,39 +258,50 @@ fun TrashBinScreen(
                 TextButton(onClick = { showEmptyConfirm = false }) {
                     Text("Cancel", color = AccentGreen)
                 }
-            },
-            containerColor = Color(0xFF141A12)
+            }
         )
     }
 }
 
 @Composable
-private fun TrashGridThumbnail(image: ImageData) {
-    // Calculate days remaining — use derivedStateOf for performance
+private fun TrashGridThumbnail(
+    image: ImageData,
+    isSelected: Boolean = false,
+    onToggleSelect: () -> Unit = {}
+) {
     val daysLabel by remember(image.trashedAt) {
         derivedStateOf {
             val trashedTime = image.trashedAt ?: System.currentTimeMillis()
-            val deleteTime = trashedTime + 10L * 24 * 60 * 60 * 1000 // 10 days retention
+            val deleteTime = trashedTime + 30L * 24 * 60 * 60 * 1000L // 30 days retention
             val remainingMs = deleteTime - System.currentTimeMillis()
 
             when {
                 remainingMs <= 0 -> "Expired"
-                remainingMs < 60 * 60 * 1000 -> "${remainingMs / (60 * 1000)} mins"
-                remainingMs < 24 * 60 * 60 * 1000 -> "${remainingMs / (60 * 60 * 1000)} hours"
-                else -> "${remainingMs / (24 * 60 * 60 * 1000)} days"
+                remainingMs < 24 * 60 * 60 * 1000L -> "< 1 day"
+                else -> "${remainingMs / (24 * 60 * 60 * 1000L)} days left"
             }
         }
     }
 
     Box(
-        modifier = Modifier.aspectRatio(1f)
+        modifier = Modifier
+            .aspectRatio(1f)
+            .clickable { onToggleSelect() }
     ) {
         AsyncImage(
-            model = image.filePath,
+            model = image.uri,
             contentDescription = image.fileName,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
+
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.45f))
+            )
+        }
 
         // Bottom gradient for text readability
         Box(
@@ -255,7 +311,7 @@ private fun TrashGridThumbnail(image: ImageData) {
                 .align(Alignment.BottomCenter)
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.6f))
+                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
                     )
                 )
         )
@@ -263,12 +319,12 @@ private fun TrashGridThumbnail(image: ImageData) {
         // Days remaining label
         Text(
             text = daysLabel,
-            fontSize = 11.sp,
+            fontSize = 10.sp,
             fontWeight = FontWeight.Medium,
             color = Color.White,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(6.dp)
+                .padding(4.dp)
         )
     }
 }

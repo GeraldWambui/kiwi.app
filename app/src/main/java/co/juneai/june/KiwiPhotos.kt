@@ -3,7 +3,7 @@ package co.juneai.june
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import co.juneai.june.ml.clip.ClipEmbedder
+import co.juneai.june.data.local.entities.MyObjectBox
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.decode.VideoFrameDecoder
@@ -18,8 +18,8 @@ import javax.inject.Inject
 @HiltAndroidApp
 class KiwiPhotos : Application(), ImageLoaderFactory, Configuration.Provider {
 
+    @Inject
     lateinit var boxStore: BoxStore
-    lateinit var embedder2: ClipEmbedder
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
@@ -32,8 +32,25 @@ class KiwiPhotos : Application(), ImageLoaderFactory, Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-    }
 
+        try {
+            val trashWork = androidx.work.PeriodicWorkRequestBuilder<co.juneai.june.service.TrashCleanupWorker>(
+                1, java.util.concurrent.TimeUnit.DAYS
+            ).setConstraints(
+                androidx.work.Constraints.Builder()
+                    .setRequiresBatteryNotLow(true)
+                    .build()
+            ).build()
+
+            androidx.work.WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                co.juneai.june.service.TrashCleanupWorker.WORK_NAME,
+                androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+                trashWork
+            )
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to schedule TrashCleanupWorker")
+        }
+    }
 
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)

@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -49,6 +50,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -83,6 +85,7 @@ import kotlinx.coroutines.delay
 fun VideoPlayerScreen(
     videoUri: String,
     videoTitle: String?,
+    startTimeMs: Long = 0L,
     onBack: () -> Unit,
     onShare: () -> Unit = {}
 ) {
@@ -98,20 +101,86 @@ fun VideoPlayerScreen(
     val AccentGreen = MaterialTheme.colorScheme.tertiary
     val TabIconColor = MaterialTheme.colorScheme.onSurfaceVariant
 
-    var isPlaying by remember { mutableStateOf(true) }
+    val player = remember {
+        ExoPlayer.Builder(context).build().apply {
+            setMediaItem(MediaItem.fromUri(videoUri.toUri()))
+            prepare()
+            if (startTimeMs > 0L) {
+                seekTo(startTimeMs)
+            }
+            playWhenReady = true
+        }
+    }
+
+    var showJumpPill by remember { mutableStateOf(startTimeMs > 0L) }
+    LaunchedEffect(startTimeMs) {
+        if (startTimeMs > 0L) {
+            delay(3500)
+            showJumpPill = false
+        }
+    }
+
+    var isPlaying by remember { mutableStateOf(player.isPlaying) }
+    var playbackState by remember { mutableIntStateOf(player.playbackState) }
     var currentPosition by remember { mutableLongStateOf(0L) }
     var duration by remember { mutableLongStateOf(0L) }
+    var hasEnded by remember { mutableStateOf(false) }
     var isLooping by remember { mutableStateOf(false) }
     var isShuffled by remember { mutableStateOf(false) }
     var showControls by remember { mutableStateOf(true) }
     var seekDirection by remember { mutableStateOf<SeekDirection?>(null) }
     var playbackSpeed by remember { mutableFloatStateOf(1f) }
+    var lastInteractionTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
 
-    val player = remember {
-        ExoPlayer.Builder(context).build().apply {
-            setMediaItem(MediaItem.fromUri(videoUri.toUri()))
-            prepare()
-            playWhenReady = true
+    val notifyUserInteraction = {
+        lastInteractionTime = System.currentTimeMillis()
+        if (!isInPipMode) {
+            showControls = true
+        }
+    }
+
+    val togglePlayPause = {
+        if (player.playbackState == Player.STATE_ENDED || hasEnded) {
+            hasEnded = false
+            player.seekTo(0)
+            player.play()
+        } else if (player.isPlaying) {
+            player.pause()
+        } else {
+            player.play()
+        }
+        notifyUserInteraction()
+    }
+
+    DisposableEffect(player) {
+        val listener = object : Player.Listener {
+            override fun onIsPlayingChanged(playing: Boolean) {
+                isPlaying = playing
+            }
+
+            override fun onPlaybackStateChanged(state: Int) {
+                playbackState = state
+                if (state == Player.STATE_ENDED) {
+                    hasEnded = true
+                    isPlaying = false
+                    showControls = true
+                } else if (state == Player.STATE_READY) {
+                    duration = player.duration.coerceAtLeast(0L)
+                }
+            }
+
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                currentPosition = player.currentPosition
+                duration = player.duration.coerceAtLeast(0L)
+            }
+        }
+        player.addListener(listener)
+        onDispose {
+            player.removeListener(listener)
         }
     }
 
@@ -124,20 +193,19 @@ fun VideoPlayerScreen(
         }
     }
 
-    // Update position periodically
-    LaunchedEffect(player) {
-        while (true) {
+    // Position updater coroutine when active
+    LaunchedEffect(player, isPlaying) {
+        while (isPlaying) {
             currentPosition = player.currentPosition
             duration = player.duration.coerceAtLeast(0L)
-            isPlaying = player.isPlaying
             delay(200)
         }
     }
 
-    // Auto-hide controls after 1 second
-    LaunchedEffect(showControls, isPlaying) {
+    // Auto-hide controls timer with clean reset on interaction
+    LaunchedEffect(showControls, isPlaying, lastInteractionTime, isInPipMode) {
         if (showControls && isPlaying && !isInPipMode) {
-            delay(1000)
+            delay(3500)
             showControls = false
         }
     }
@@ -156,7 +224,6 @@ fun VideoPlayerScreen(
             seekDirection = null
         }
     }
-
 
     BackHandler {
         if (isLandscape) {
@@ -196,11 +263,20 @@ fun VideoPlayerScreen(
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onDoubleTap = {
+                                hasEnded = false
                                 player.seekTo((player.currentPosition - 10_000).coerceAtLeast(0))
                                 seekDirection = SeekDirection.BACKWARD
-                                showControls = true
+                                notifyUserInteraction()
                             },
-                            onTap = { if (!isInPipMode) showControls = !showControls }
+                            onTap = {
+                                if (!isInPipMode) {
+                                    if (showControls) {
+                                        showControls = false
+                                    } else {
+                                        notifyUserInteraction()
+                                    }
+                                }
+                            }
                         )
                     },
                 contentAlignment = Alignment.Center
@@ -238,14 +314,23 @@ fun VideoPlayerScreen(
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onDoubleTap = {
+                                hasEnded = false
                                 player.seekTo(
                                     (player.currentPosition + 10_000)
                                         .coerceAtMost(player.duration)
                                 )
                                 seekDirection = SeekDirection.FORWARD
-                                showControls = true
+                                notifyUserInteraction()
                             },
-                            onTap = { if (!isInPipMode) showControls = !showControls }
+                            onTap = {
+                                if (!isInPipMode) {
+                                    if (showControls) {
+                                        showControls = false
+                                    } else {
+                                        notifyUserInteraction()
+                                    }
+                                }
+                            }
                         )
                     },
                 contentAlignment = Alignment.Center
@@ -272,6 +357,42 @@ fun VideoPlayerScreen(
                             Text("10s", color = Color.White, fontSize = 11.sp)
                         }
                     }
+                }
+            }
+        }
+
+        // Jump-to-Moment Pill Notification
+        androidx.compose.animation.AnimatedVisibility(
+            visible = showJumpPill,
+            enter = fadeIn() + androidx.compose.animation.slideInVertically { -it },
+            exit = fadeOut() + androidx.compose.animation.slideOutVertically { -it },
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .statusBarsPadding()
+                .padding(top = 56.dp)
+        ) {
+            androidx.compose.material3.Surface(
+                shape = RoundedCornerShape(20.dp),
+                color = Color(0xFF1E1C22).copy(alpha = 0.92f),
+                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = androidx.compose.material.icons.Icons.Default.Speed,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = "Jumped to matching scene (${formatTime(startTimeMs)})",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             }
         }
@@ -378,11 +499,7 @@ fun VideoPlayerScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     IconButton(
-                        onClick = {
-                            if (player.isPlaying) player.pause() else player.play()
-                            isPlaying = player.isPlaying
-                            showControls = true
-                        },
+                        onClick = { togglePlayPause() },
                         modifier = Modifier
                             .size(72.dp)
                             .clip(CircleShape)
@@ -432,7 +549,11 @@ fun VideoPlayerScreen(
                     Slider(
                         value = if (duration > 0) currentPosition.toFloat() / duration.toFloat() else 0f,
                         onValueChange = { fraction ->
-                            player.seekTo((fraction * duration).toLong())
+                            hasEnded = false
+                            val seekPos = (fraction * duration).toLong()
+                            player.seekTo(seekPos)
+                            currentPosition = seekPos
+                            notifyUserInteraction()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -473,7 +594,10 @@ fun VideoPlayerScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Shuffle
-                        IconButton(onClick = { isShuffled = !isShuffled }) {
+                        IconButton(onClick = {
+                            isShuffled = !isShuffled
+                            notifyUserInteraction()
+                        }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_ios_forward),
                                 contentDescription = "Shuffle",
@@ -484,7 +608,9 @@ fun VideoPlayerScreen(
 
                         // Previous
                         IconButton(onClick = {
+                            hasEnded = false
                             player.seekTo(0)
+                            notifyUserInteraction()
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_ios_backward),
@@ -500,11 +626,7 @@ fun VideoPlayerScreen(
                                 .size(56.dp)
                                 .clip(CircleShape)
                                 .background(Color.White)
-                                .clickable {
-                                    if (player.isPlaying) player.pause() else player.play()
-                                    isPlaying = player.isPlaying
-                                    showControls = true
-                                },
+                                .clickable { togglePlayPause() },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
@@ -519,7 +641,9 @@ fun VideoPlayerScreen(
 
                         // Next
                         IconButton(onClick = {
+                            hasEnded = false
                             player.seekTo((player.currentPosition + 30_000).coerceAtMost(player.duration))
+                            notifyUserInteraction()
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_ios_forward),
@@ -533,6 +657,7 @@ fun VideoPlayerScreen(
                         IconButton(onClick = {
                             isLooping = !isLooping
                             player.repeatMode = if (isLooping) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+                            notifyUserInteraction()
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_ios_loop),
@@ -556,17 +681,18 @@ fun VideoPlayerScreen(
                         BottomTab(
                             icon = { Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Audio", tint = TabIconColor, modifier = Modifier.size(22.dp)) },
                             label = "AUDIO",
-                            onClick = { /* Audio track selection */ }
+                            onClick = { notifyUserInteraction() }
                         )
                         BottomTab(
                             icon = { Icon(Icons.Default.ClosedCaption, contentDescription = "Subs", tint = TabIconColor, modifier = Modifier.size(22.dp)) },
                             label = "SUBS",
-                            onClick = { /* Subtitle selection */ }
+                            onClick = { notifyUserInteraction() }
                         )
                         BottomTab(
                             icon = { Icon(Icons.Default.Speed, contentDescription = "Speed", tint = TabIconColor, modifier = Modifier.size(22.dp)) },
                             label = "SPEED",
                             onClick = {
+                                notifyUserInteraction()
                                 // Cycle through speeds: 1.0 → 1.25 → 1.5 → 2.0 → 0.5 → 0.75 → 1.0
                                 val speeds = listOf(1f, 1.25f, 1.5f, 2f, 0.5f, 0.75f)
                                 val currentIdx = speeds.indexOf(playbackSpeed)

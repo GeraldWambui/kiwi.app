@@ -224,6 +224,7 @@ fun PhotoScreen(
                 LibraryTopBar(
                     viewModel = viewModel,
                     onNavigateToAlbums = onNavigateToAlbums,
+                    onNavigateToSettings = onNavigateToSettings,
                     onVoiceSearch = onVoiceSearch
                 )
             }
@@ -624,6 +625,7 @@ private fun formatDuration(millis: Long): String {
 private fun LibraryTopBar(
     viewModel: AlbumsViewModel,
     onNavigateToAlbums: () -> Unit,
+    onNavigateToSettings: () -> Unit = {},
     onVoiceSearch: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -814,21 +816,22 @@ private fun LibraryTopBar(
                         letterSpacing = (-0.5).sp
                     )
 
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = { onVoiceSearch() }) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_ios_mic),
                                 contentDescription = stringResource(R.string.voice_search),
                                 tint = MaterialTheme.colorScheme.tertiary,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(26.dp)
                             )
                         }
-                        //Add Overflow Menu here
-                        IconButton(onClick = { /* Menu Action */ }) {
+
+                        IconButton(onClick = onNavigateToSettings) {
                             Icon(
-                                Icons.Default.MoreVert,
-                                contentDescription = "Menu",
-                                tint = MaterialTheme.colorScheme.onSurface
+                                painter = painterResource(R.drawable.ic_ios_account),
+                                contentDescription = "Settings",
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.size(24.dp)
                             )
                         }
                     }

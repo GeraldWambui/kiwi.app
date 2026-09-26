@@ -32,19 +32,13 @@ class AlbumsViewModel @Inject constructor(
 
     init {
         loadAllData()
-        loadModels()
         observeMediaChanges()
-        loadNsfwProtectionState()
     }
 
     fun refresh() {
         loadAllData(isRefreshing = true)
     }
 
-    fun loadModels() {
-        viewModelScope.launch {
-        }
-    }
 
     @OptIn(FlowPreview::class)
     private fun observeMediaChanges() {
@@ -99,9 +93,6 @@ class AlbumsViewModel @Inject constructor(
                 }
             }
         }
-    }
-    private fun loadNsfwProtectionState() {
-
     }
 
     fun selectAlbum(album: AlbumItem?) {
