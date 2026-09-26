@@ -3,56 +3,57 @@ package co.juneai.june.ml.clip
 import android.content.Context
 import android.graphics.Bitmap
 import org.tensorflow.lite.Interpreter
+import timber.log.Timber
+import java.io.File
 import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.nio.FloatBuffer
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.sqrt
 
 /**
- * CLIP ViT-B/32 embedder backed by two TFLite models.
+ * High-performance on-device CLIP / MobileCLIP-S2 embedder.
  *
- * Performance design:
- *  - All ByteBuffers are pre-allocated once in [init]; no allocations occur during
- *    [embedImage] or [embedText] — critical for GC-free batch indexing of thousands
- *    of images.
- *  - [processInto] writes pixels directly into the pre-allocated image input buffer,
- *    avoiding the intermediate FloatArray → ByteBuffer copy present in the original.
- *  - L2 normalization uses a SIMD-friendly loop that the JVM JIT can auto-vectorize.
- *
- * Thread-safety: NOT thread-safe. TFLite [Interpreter] instances are single-threaded.
- * Use one [ClipEmbedder] per coroutine worker or protect with a mutex.
- * Each interpreter is already configured for [numThreads] = 4 internal parallelism.
- *
- * Lifecycle: call [close] when done. Works well with a try-with-resources / [use] block.
+ * Performance & Stability design:
+ *  - Models and Tokenizer are initialized LAZILY on first inference call so that
+ *    constructing [ClipEmbedder] takes 0ms on the main thread and avoids ANRs.
+ *  - Pre-allocated direct ByteBuffers are reused across calls under synchronization.
+ *  - Dynamic fallback: loads downloaded MobileCLIP-S2 from internal storage (`files/models/`),
+ *    or fallback asset models if present.
+ *  - Non-crashing graceful degradation: returns empty 512-d zero vector if model is downloading or not ready.
+ *  - SIMD-friendly L2 normalization for vector embeddings.
  */
-class ClipEmbedder @Inject constructor(context: Context) : AutoCloseable {
+class ClipEmbedder @Inject constructor(
+    @param:ApplicationContext private val context: Context
+) : AutoCloseable {
 
     companion object {
         const val DIM = 512
 
+        private const val S2_MODEL = "mobileclip_s2.tflite"
         private const val IMG_MODEL = "clip_image_dynamic.tflite"
         private const val TXT_MODEL = "clip_text_dynamic.tflite"
     }
 
     private val imageProcessor = ClipImageProcessor()
-    private val tokenizer      = ClipTokenizer(context)
+    private val tokenizer by lazy { ClipTokenizer(context) }
 
-    private val imgInterp: Interpreter
-    private val txtInterp: Interpreter
+    @Volatile
+    private var imgInterp: Interpreter? = null
+
+    @Volatile
+    private var txtInterp: Interpreter? = null
+
+    private val interpLock = Any()
 
     // ── Pre-allocated I/O buffers ─────────────────────────────────────────────
-    // Reused across calls — eliminates per-call ByteBuffer allocations.
-
-    /** Image model input: 3 × 224 × 224 floats (CHW) */
     private val imgInputBuf: ByteBuffer = ByteBuffer
         .allocateDirect(ClipImageProcessor.INPUT_SIZE * Float.SIZE_BYTES)
         .order(ByteOrder.nativeOrder())
 
-    /** Shared output buffer for both image and text embeddings (DIM floats) */
     private val imgOutputBuf: ByteBuffer = ByteBuffer
         .allocateDirect(DIM * Float.SIZE_BYTES)
         .order(ByteOrder.nativeOrder())
@@ -69,20 +70,74 @@ class ClipEmbedder @Inject constructor(context: Context) : AutoCloseable {
         .allocateDirect(DIM * Float.SIZE_BYTES)
         .order(ByteOrder.nativeOrder())
 
-    // ── TFLite output map (reused to avoid allocation per call) ──────────────
     private val imgOutputMap = mutableMapOf<String, Any>()
     private val txtOutputMap = mutableMapOf<String, Any>()
 
-    init {
-        val opts = Interpreter.Options().apply {
-            numThreads = 4
-            useXNNPACK = true
-        }
-        imgInterp = Interpreter(loadModel(context, IMG_MODEL), opts)
-        txtInterp = Interpreter(loadModel(context, TXT_MODEL), opts)
+    fun isModelReady(): Boolean {
+        val s2 = File(context.filesDir, "models/$S2_MODEL")
+        if (s2.exists() && s2.length() >= 10_000_000L) return true
+        val img = File(context.filesDir, "models/$IMG_MODEL")
+        if (img.exists() && img.length() > 0) return true
 
-        imgOutputMap["image_embeds"] = imgOutputBuf
-        txtOutputMap["text_embeds"]  = txtOutputBuf
+        return try {
+            context.assets.openFd(S2_MODEL).use { it.declaredLength > 0 }
+        } catch (_: Exception) {
+            try {
+                context.assets.openFd(IMG_MODEL).use { it.declaredLength > 0 }
+            } catch (_: Exception) {
+                false
+            }
+        }
+    }
+
+    private fun resolveModelFileName(preferred: String): String {
+        val s2 = File(context.filesDir, "models/$S2_MODEL")
+        if (s2.exists() && s2.length() >= 10_000_000L) return S2_MODEL
+        val pref = File(context.filesDir, "models/$preferred")
+        if (pref.exists() && pref.length() > 0) return preferred
+
+        return try {
+            context.assets.openFd(S2_MODEL).close()
+            S2_MODEL
+        } catch (_: Exception) {
+            preferred
+        }
+    }
+
+    private fun getOrInitImageInterpreter(): Interpreter {
+        imgInterp?.let { return it }
+        return synchronized(interpLock) {
+            imgInterp ?: run {
+                val opts = Interpreter.Options().apply {
+                    numThreads = 4
+                    useXNNPACK = true
+                }
+                val modelName = resolveModelFileName(IMG_MODEL)
+                val interp = Interpreter(loadModel(context, modelName), opts)
+                imgOutputMap["image_embeds"] = imgOutputBuf
+                imgOutputMap["output_0"] = imgOutputBuf
+                imgInterp = interp
+                interp
+            }
+        }
+    }
+
+    private fun getOrInitTextInterpreter(): Interpreter {
+        txtInterp?.let { return it }
+        return synchronized(interpLock) {
+            txtInterp ?: run {
+                val opts = Interpreter.Options().apply {
+                    numThreads = 4
+                    useXNNPACK = true
+                }
+                val modelName = resolveModelFileName(TXT_MODEL)
+                val interp = Interpreter(loadModel(context, modelName), opts)
+                txtOutputMap["text_embeds"] = txtOutputBuf
+                txtOutputMap["output_0"] = txtOutputBuf
+                txtInterp = interp
+                interp
+            }
+        }
     }
 
     // ── Public API ────────────────────────────────────────────────────────────
@@ -92,55 +147,89 @@ class ClipEmbedder @Inject constructor(context: Context) : AutoCloseable {
      *
      * Pixels are written directly into [imgInputBuf] via [ClipImageProcessor.processInto]
      * (no intermediate FloatArray).
-     *
-     * @throws IllegalStateException if TFLite inference fails
      */
     fun embedImage(bitmap: Bitmap): FloatArray {
-        // Fill image input buffer — zero copy path
-        imgInputBuf.clear()
-        imageProcessor.processInto(bitmap, imgInputBuf.asFloatBuffer())
-        imgInputBuf.rewind()
+        if (!isModelReady()) {
+            Timber.w("ClipEmbedder: Model assets not ready yet")
+            return FloatArray(DIM)
+        }
+        return try {
+            val interp = getOrInitImageInterpreter()
+            synchronized(interpLock) {
+                imgInputBuf.clear()
+                imageProcessor.processInto(bitmap, imgInputBuf.asFloatBuffer())
+                imgInputBuf.rewind()
 
-        imgOutputBuf.clear()
-        runCatching { imgInterp.run(imgInputBuf, imgOutputBuf) }
-            .getOrElse { throw IllegalStateException("Image inference failed: ${it.message}", it) }
+                imgOutputBuf.clear()
+                try {
+                    interp.run(imgInputBuf, imgOutputBuf)
+                } catch (re: Exception) {
+                    if (interp.signatureKeys.isNotEmpty()) {
+                        interp.runSignature(mapOf("args_0" to imgInputBuf), imgOutputMap)
+                    } else throw re
+                }
 
-        return imgOutputBuf.readEmbedding().l2Normalize()
+                imgOutputBuf.readEmbedding().l2Normalize()
+            }
+        } catch (e: Exception) {
+            Timber.w(e, "Image inference failed")
+            FloatArray(DIM)
+        }
     }
 
     /**
      * Embeds [text] into a unit-normalized [FloatArray] of size [DIM].
-     *
-     * @throws IllegalStateException if TFLite inference fails
      */
     fun embedText(text: String): FloatArray {
-        val (ids, mask) = tokenizer.encode(text)
+        if (!isModelReady()) {
+            Timber.w("ClipEmbedder: Model assets not ready yet")
+            return FloatArray(DIM)
+        }
+        return try {
+            val interp = getOrInitTextInterpreter()
+            val (ids, mask) = tokenizer.encode(text)
 
-        txtInputIds.clear()
-        ids.forEach  { txtInputIds.putInt(it) }
-        txtInputIds.rewind()
+            synchronized(interpLock) {
+                txtInputIds.clear()
+                ids.forEach { txtInputIds.putInt(it) }
+                txtInputIds.rewind()
 
-        txtAttnMask.clear()
-        mask.forEach { txtAttnMask.putInt(it) }
-        txtAttnMask.rewind()
+                txtAttnMask.clear()
+                mask.forEach { txtAttnMask.putInt(it) }
+                txtAttnMask.rewind()
 
-        txtOutputBuf.clear()
-        runCatching {
-            txtInterp.runSignature(
-                mapOf(
-                    "input_ids"      to txtInputIds,
-                    "attention_mask" to txtAttnMask,
-                ),
-                txtOutputMap,
-            )
-        }.getOrElse { throw IllegalStateException("Text inference failed: ${it.message}", it) }
+                txtOutputBuf.clear()
+                try {
+                    interp.runSignature(
+                        mapOf(
+                            "input_ids" to txtInputIds,
+                            "attention_mask" to txtAttnMask,
+                        ),
+                        txtOutputMap,
+                    )
+                } catch (re: Exception) {
+                    try {
+                        interp.runSignature(mapOf("args_1" to txtInputIds), txtOutputMap)
+                    } catch (_: Exception) {
+                        interp.run(txtInputIds, txtOutputBuf)
+                    }
+                }
 
-        return txtOutputBuf.readEmbedding().l2Normalize()
+                txtOutputBuf.readEmbedding().l2Normalize()
+            }
+        } catch (e: Exception) {
+            Timber.w(e, "Text inference failed")
+            FloatArray(DIM)
+        }
     }
 
     override fun close() {
-        imgInterp.close()
-        txtInterp.close()
+        synchronized(interpLock) {
+            imgInterp?.close()
+            txtInterp?.close()
+            imgInterp = null
+            txtInterp = null
+        }
     }
 
     // ── Private helpers ───────────────────────────────────────────────────────
@@ -150,10 +239,6 @@ class ClipEmbedder @Inject constructor(context: Context) : AutoCloseable {
         return FloatArray(DIM) { getFloat() }
     }
 
-    /**
-     * L2-normalizes the array in-place and returns it.
-     * The loop structure is intentionally simple so the JVM JIT can auto-vectorize it.
-     */
     private fun FloatArray.l2Normalize(): FloatArray {
         var sumSq = 0.0
         for (v in this) sumSq += v * v
@@ -166,6 +251,14 @@ class ClipEmbedder @Inject constructor(context: Context) : AutoCloseable {
     }
 
     private fun loadModel(context: Context, fileName: String): MappedByteBuffer {
+        val customFile = File(context.filesDir, "models/$fileName")
+        if (customFile.exists() && customFile.length() > 0) {
+            return FileInputStream(customFile).channel.map(
+                FileChannel.MapMode.READ_ONLY,
+                0,
+                customFile.length()
+            )
+        }
         val fd = context.assets.openFd(fileName)
         return FileInputStream(fd.fileDescriptor).channel.map(
             FileChannel.MapMode.READ_ONLY,

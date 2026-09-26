@@ -9,20 +9,10 @@ import java.util.regex.Pattern
 /**
  * BPE tokenizer matching OpenAI's CLIP implementation.
  *
- * Bugs fixed vs. original:
- *  1. BPE merge loop used `word.indexOf(f)` (always scans from index 0), causing
- *     incorrect merges when the same token appears multiple times in a word. The correct
- *     approach is a single left-to-right pass that merges ALL occurrences of the best
- *     bigram in one sweep — matching the Python reference.
- *  2. `cache` was a plain [HashMap], unsafe for concurrent callers. Replaced with a
- *     bounded LRU that evicts least-recently-used entries beyond [CACHE_MAX_SIZE].
- *
- * Performance:
- *  - [encode] returns a [TokenizerOutput] with both inputIds and attentionMask computed
- *    in a single pass — the original made two separate passes over the array.
- *  - Token IDs are accumulated as a plain [MutableList] and converted to [IntArray] once.
+ * Designed with lazy on-demand asset loading so that constructing [ClipTokenizer]
+ * takes 0ms on the main thread and never causes an ANR.
  */
-class ClipTokenizer(context: Context) {
+class ClipTokenizer(private val context: Context) {
 
     companion object {
         const val MAX_LEN = 77
@@ -43,9 +33,15 @@ class ClipTokenizer(context: Context) {
         val attentionMask: IntArray,
     )
 
-    private val encoder:       Map<String, Int>
-    private val bpeRanks:      Map<Pair<String, String>, Int>
-    private val byteToUnicode: Map<Int, Char>
+    private val byteToUnicode: Map<Int, Char> = buildByteToUnicode()
+
+    @Volatile
+    private var encoder: Map<String, Int>? = null
+
+    @Volatile
+    private var bpeRanks: Map<Pair<String, String>, Int>? = null
+
+    private val initLock = Any()
 
     // Bounded thread-safe LRU cache: fast lookup for repeated words (common in photo searches)
     private val cache: MutableMap<String, String> = Collections.synchronizedMap(
@@ -55,25 +51,31 @@ class ClipTokenizer(context: Context) {
         },
     )
 
-    init {
-        byteToUnicode = buildByteToUnicode()
+    private fun ensureLoaded() {
+        if (encoder == null || bpeRanks == null) {
+            synchronized(initLock) {
+                if (encoder == null || bpeRanks == null) {
+                    val vocabType = object : TypeToken<Map<String, Int>>() {}.type
+                    val loadedEncoder: Map<String, Int> = Gson().fromJson(
+                        context.assets.open("vocab.json").bufferedReader().readText(),
+                        vocabType,
+                    )
+                    val loadedBpeRanks: Map<Pair<String, String>, Int> = context.assets.open("merges.txt")
+                        .bufferedReader()
+                        .lineSequence()
+                        .drop(1)
+                        .filter { it.isNotBlank() }
+                        .mapIndexed { i, line ->
+                            val parts = line.trim().split(" ")
+                            (parts[0] to parts[1]) to i
+                        }
+                        .toMap()
 
-        val vocabType = object : TypeToken<Map<String, Int>>() {}.type
-        encoder = Gson().fromJson(
-            context.assets.open("vocab.json").bufferedReader().readText(),
-            vocabType,
-        )
-
-        bpeRanks = context.assets.open("merges.txt")
-            .bufferedReader()
-            .lineSequence()
-            .drop(1)
-            .filter { it.isNotBlank() }
-            .mapIndexed { i, line ->
-                val parts = line.trim().split(" ")
-                (parts[0] to parts[1]) to i
+                    encoder = loadedEncoder
+                    bpeRanks = loadedBpeRanks
+                }
             }
-            .toMap()
+        }
     }
 
     // ── Public API ────────────────────────────────────────────────────────────
@@ -83,6 +85,8 @@ class ClipTokenizer(context: Context) {
      * Text is lowercased and trimmed before tokenization.
      */
     fun encode(text: String): TokenizerOutput {
+        ensureLoaded()
+        val enc = encoder ?: emptyMap()
         val tokens  = ArrayList<Int>(MAX_LEN).also { it.add(SOT) }
         val matcher = PAT.matcher(text.lowercase().trim())
 
@@ -92,84 +96,96 @@ class ClipTokenizer(context: Context) {
                 .joinToString("") { byte ->
                     byteToUnicode[byte.toInt() and 0xFF]?.toString() ?: "?"
                 }
-            bpe(word).split(" ").forEach { tok -> encoder[tok]?.let { tokens.add(it) } }
+            bpe(word).split(" ").forEach { tok -> enc[tok]?.let { tokens.add(it) } }
         }
         tokens.add(EOT)
 
         // Truncate to MAX_LEN, keeping SOT at [0] and EOT at the end
         if (tokens.size > MAX_LEN) {
-            tokens.subList(MAX_LEN - 1, tokens.size).clear()
-            tokens.add(EOT)
+            tokens[MAX_LEN - 1] = EOT
+            tokens.subList(MAX_LEN, tokens.size).clear()
         }
 
-        val inputIds      = IntArray(MAX_LEN) { i -> if (i < tokens.size) tokens[i] else 0 }
-        val attentionMask = IntArray(MAX_LEN) { i -> if (inputIds[i] != 0) 1 else 0 }
+        val actualLen     = tokens.size
+        val inputIds      = IntArray(MAX_LEN)
+        val attentionMask = IntArray(MAX_LEN)
+
+        for (i in 0 until actualLen) {
+            inputIds[i]      = tokens[i]
+            attentionMask[i] = 1
+        }
+        // Remaining slots are 0 (PAD) and 0 (masked out) by default in IntArray
+
         return TokenizerOutput(inputIds, attentionMask)
     }
 
-    // ── BPE ───────────────────────────────────────────────────────────────────
+    // ── Private BPE implementation ────────────────────────────────────────────
 
-    /**
-     * Applies BPE merges to [token], returning a space-separated string of sub-tokens.
-     *
-     * Fixed vs. original: uses a single left-to-right sweep that merges ALL occurrences
-     * of the best bigram in one pass, matching the Python CLIP reference implementation.
-     * The original `word.indexOf(f)` always restarted from index 0, causing incorrect
-     * merges when the same sub-token appeared more than once in a word.
-     */
     private fun bpe(token: String): String {
         cache[token]?.let { return it }
-        if (token.length <= 1) return token.also { cache[token] = it }
+        ensureLoaded()
+        val ranks = bpeRanks ?: return token
 
-        var word = ArrayList<String>(token.length).also { list ->
-            token.forEach { list.add(it.toString()) }
+        // Special case: single character tokens need no merging
+        if (token.length <= 1) {
+            cache[token] = token
+            return token
         }
 
-        while (word.size > 1) {
-            // Find the highest-priority (lowest rank) adjacent pair
-            var bestRank = Int.MAX_VALUE
-            var bestFirst = ""
-            var bestSecond = ""
-            for (i in 0 until word.size - 1) {
-                val rank = bpeRanks[word[i] to word[i + 1]] ?: Int.MAX_VALUE
-                if (rank < bestRank) {
-                    bestRank   = rank
-                    bestFirst  = word[i]
-                    bestSecond = word[i + 1]
-                }
-            }
-            if (bestRank == Int.MAX_VALUE) break   // no more mergeable pairs
+        // Represent word as a list of sub-tokens
+        var word = token.map { it.toString() }
+        var pairs = getPairs(word)
+        if (pairs.isEmpty()) return token
 
-            // Single left-to-right sweep — merge ALL occurrences of the best pair
-            val merged  = bestFirst + bestSecond
+        while (true) {
+            // Find the bigram with the lowest rank (highest priority merge)
+            val minPair = pairs.minByOrNull { ranks[it] ?: Int.MAX_VALUE } ?: break
+            if (minPair !in ranks) break
+
+            val first = minPair.first
+            val second = minPair.second
+
+            // Single left-to-right pass to merge ALL occurrences of this best bigram.
             val newWord = ArrayList<String>(word.size)
             var i = 0
             while (i < word.size) {
-                if (i < word.size - 1 && word[i] == bestFirst && word[i + 1] == bestSecond) {
-                    newWord.add(merged)
+                if (i < word.size - 1 && word[i] == first && word[i + 1] == second) {
+                    newWord.add(first + second)
                     i += 2
                 } else {
                     newWord.add(word[i])
                     i++
                 }
             }
+
             word = newWord
+            if (word.size == 1) break
+            pairs = getPairs(word)
         }
 
-        return word.joinToString(" ").also { cache[token] = it }
+        val result = word.joinToString(" ")
+        cache[token] = result
+        return result
     }
 
-    // ── Byte-to-Unicode mapping ───────────────────────────────────────────────
+    private fun getPairs(word: List<String>): Set<Pair<String, String>> {
+        val pairs = HashSet<Pair<String, String>>(word.size - 1)
+        for (i in 0 until word.size - 1) {
+            pairs.add(word[i] to word[i + 1])
+        }
+        return pairs
+    }
 
     private fun buildByteToUnicode(): Map<Int, Char> {
-        val bs = mutableListOf<Int>()
-        bs.addAll('!'.code..'~'.code)
-        bs.addAll('¡'.code..'¬'.code)
-        bs.addAll('®'.code..'ÿ'.code)
+        val bs = (('!'.code..'~'.code) + ('¡'.code..'¬'.code) + ('®'.code..'ÿ'.code)).toMutableList()
         val cs = bs.toMutableList()
-        var n = 0
+        var n  = 0
         for (b in 0..255) {
-            if (b !in bs) { bs.add(b); cs.add(256 + n); n++ }
+            if (b !in bs) {
+                bs.add(b)
+                cs.add(256 + n)
+                n++
+            }
         }
         return bs.zip(cs.map { it.toChar() }).toMap()
     }
