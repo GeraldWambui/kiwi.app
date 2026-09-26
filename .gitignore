@@ -19,3 +19,7 @@ local.properties
 
 # ML models
 *.tflite
+
+*.bak
+.kotlin/
+.wrangler/
