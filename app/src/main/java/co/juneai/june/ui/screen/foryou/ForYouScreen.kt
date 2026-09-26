@@ -1,13 +1,17 @@
 package co.juneai.june.ui.screen.foryou
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
@@ -23,13 +27,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import co.juneai.june.ui.screen.albums.AlbumsViewModel
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.R
 import co.juneai.june.data.model.MediaItem
+import co.juneai.june.data.repository.MemoryStory
+import co.juneai.june.data.repository.PersonHighlight
 import coil.compose.AsyncImage
 import coil.decode.VideoFrameDecoder
 import coil.request.ImageRequest
@@ -40,34 +45,10 @@ import java.util.Locale
 @Composable
 fun ForYouScreen(
     onMediaClick: (Long) -> Unit = {},
-    viewModel: AlbumsViewModel = hiltViewModel()
+    viewModel: ForYouViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val media = uiState.allMedia
-
-    val recentMemories = remember(media) {
-        val sevenDaysAgo = System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000L
-        media.filter { it.dateTaken > sevenDaysAgo }.take(10)
-    }
-
-    val featured = remember(media) {
-        media.filter { !it.isVideo }
-            .sortedByDescending { it.size }
-            .take(4)
-    }
-
-    val videos = remember(media) {
-        media.filter { it.isVideo }.take(8)
-    }
-
-    val albumGroups = remember(media) {
-        media.filter { it.albumName.isNotBlank() }
-            .groupBy { it.albumName }
-            .entries
-            .sortedByDescending { it.value.size }
-            .take(4)
-            .map { (name, items) -> name to items.take(6) }
-    }
+    val data = uiState.data
 
     LazyColumn(
         modifier = Modifier
@@ -77,87 +58,145 @@ fun ForYouScreen(
     ) {
         item { ForYouTopBar() }
 
-        if (recentMemories.isNotEmpty()) {
+        if (uiState.isLoading) {
             item {
-                SectionHeader(
-                    stringResource(R.string.recent_memories),
-                    stringResource(R.string.memories, recentMemories.size)
-                )
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    items(recentMemories) { item ->
-                        MemoryCard(item, onClick = { onMediaClick(item.id) })
-                    }
-                }
-            }
-        }
-
-        if (featured.isNotEmpty()) {
-            item {
-                Spacer(modifier = Modifier.height(28.dp))
-                SectionHeader(
-                    stringResource(R.string.featured_photos),
-                    stringResource(R.string.featured, featured.size)
-                )
-                Column(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    featured.forEachIndexed { index, item ->
-                        FeaturedPhotoCard(
-                            mediaItem = item,
-                            label = if (index == 0) stringResource(R.string.best_shot) else stringResource(
-                                R.string.highlight
-                            ),
-                            onClick = { onMediaClick(item.id) }
-                        )
-                    }
-                }
-            }
-        }
-
-        if (videos.isNotEmpty()) {
-            item {
-                Spacer(modifier = Modifier.height(28.dp))
-                SectionHeader(
-                    stringResource(R.string.videos),
-                    stringResource(R.string.clips, videos.size)
-                )
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(videos) { item ->
-                        VideoCard(item, onClick = { onMediaClick(item.id) })
-                    }
-                }
-            }
-        }
-
-        if (albumGroups.isNotEmpty()) {
-            item {
-                Spacer(modifier = Modifier.height(28.dp))
-
-                SectionHeader(
-                    stringResource(R.string.albums_in_section),
-                    stringResource(R.string.collections, albumGroups.size)
-                )
-            }
-            albumGroups.forEach { (albumName, albumMedia) ->
-                item {
-                    AlbumRow(
-                        albumName = albumName,
-                        items = albumMedia,
-                        onMediaClick = onMediaClick
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(36.dp)
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
                 }
             }
         }
 
-        if (media.isEmpty()) {
+        data?.let { forYouData ->
+            // 1. "On This Day" Time Travel Memories
+            if (forYouData.onThisDayMemories.isNotEmpty()) {
+                item {
+                    SectionHeader(
+                        title = "On This Day",
+                        badge = "${forYouData.onThisDayMemories.size} Memories",
+                        icon = Icons.Default.AutoAwesome
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        items(forYouData.onThisDayMemories, key = { it.id }) { story ->
+                            MemoryStoryCard(story = story, onClick = { onMediaClick(story.coverItem.id) })
+                        }
+                    }
+                }
+            }
+
+            // 2. People & Faces Highlights (Google Photos Style Circle Avatars)
+            if (forYouData.peopleHighlights.isNotEmpty()) {
+                item {
+                    Spacer(modifier = Modifier.height(26.dp))
+                    SectionHeader(
+                        title = "People & Pets",
+                        badge = "${forYouData.peopleHighlights.size} Identified",
+                        icon = Icons.Default.Face
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        items(forYouData.peopleHighlights, key = { it.clusterId }) { person ->
+                            PersonAvatarCard(person = person, onClick = { onMediaClick(person.coverMedia.id) })
+                        }
+                    }
+                }
+            }
+
+            // 3. Spatio-Temporal Trips & Event Highlights
+            if (forYouData.tripEvents.isNotEmpty()) {
+                item {
+                    Spacer(modifier = Modifier.height(26.dp))
+                    SectionHeader(
+                        title = "Trips & Getaways",
+                        badge = "${forYouData.tripEvents.size} Highlights"
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        items(forYouData.tripEvents, key = { it.id }) { trip ->
+                            TripHighlightCard(trip = trip, onClick = { onMediaClick(trip.coverItem.id) })
+                        }
+                    }
+                }
+            }
+
+            // 4. Featured Best Shots & Aesthetic Highlights
+            if (forYouData.featuredHighlights.isNotEmpty()) {
+                item {
+                    Spacer(modifier = Modifier.height(28.dp))
+                    SectionHeader(
+                        title = "Best Shots & Highlights",
+                        badge = "${forYouData.featuredHighlights.size} Curated"
+                    )
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        forYouData.featuredHighlights.take(3).forEachIndexed { index, item ->
+                            FeaturedPhotoCard(
+                                mediaItem = item,
+                                label = if (index == 0) "BEST SHOT" else "FEATURED",
+                                onClick = { onMediaClick(item.id) }
+                            )
+                        }
+                    }
+                }
+            }
+
+            // 5. Smart Themed Collections (Receipts & Documents, Portraits)
+            if (forYouData.smartCollections.isNotEmpty()) {
+                item {
+                    Spacer(modifier = Modifier.height(28.dp))
+                    SectionHeader(
+                        title = "Smart Collections",
+                        badge = "${forYouData.smartCollections.size} Collections"
+                    )
+                }
+                forYouData.smartCollections.forEach { collection ->
+                    item {
+                        SmartCollectionRow(
+                            story = collection,
+                            onMediaClick = onMediaClick
+                        )
+                        Spacer(modifier = Modifier.height(18.dp))
+                    }
+                }
+            }
+
+            // 6. Recent Videos & Clips
+            if (forYouData.recentVideos.isNotEmpty()) {
+                item {
+                    Spacer(modifier = Modifier.height(28.dp))
+                    SectionHeader(
+                        title = "Videos & Clips",
+                        badge = "${forYouData.recentVideos.size} Clips"
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(forYouData.recentVideos) { item ->
+                            VideoCard(item, onClick = { onMediaClick(item.id) })
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!uiState.isLoading && (data == null || (data.onThisDayMemories.isEmpty() && data.featuredHighlights.isEmpty()))) {
             item {
                 Box(
                     modifier = Modifier
@@ -166,17 +205,26 @@ fun ForYouScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = stringResource(R.string.no_media_yet),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        Icon(
+                            imageVector = Icons.Default.AutoAwesome,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(48.dp)
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = stringResource(R.string.take_some_photos_to_see_them_here),
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                            text = "Kiwi Memories",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "As you take more photos, Kiwi will automatically generate trips, flashbacks, and best shots completely offline.",
+                            fontSize = 13.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 32.dp)
                         )
                     }
                 }
@@ -190,32 +238,39 @@ private fun ForYouTopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_ios_search),
-            contentDescription = stringResource(R.string.search),
-            tint = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.size(24.dp)
-        )
-        Text(
-            text = stringResource(R.string.for_you),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.AutoAwesome,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "For You",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
         Icon(
             imageVector = Icons.Default.MoreHoriz,
-            contentDescription = stringResource(R.string.more),
+            contentDescription = "Options",
             tint = MaterialTheme.colorScheme.onBackground
         )
     }
 }
 
 @Composable
-private fun SectionHeader(title: String, badge: String = "") {
+private fun SectionHeader(
+    title: String,
+    badge: String = "",
+    icon: androidx.compose.ui.graphics.vector.ImageVector? = null
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -224,70 +279,208 @@ private fun SectionHeader(title: String, badge: String = "") {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+            }
             Text(
                 text = title,
-                fontSize = 22.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground
             )
             if (badge.isNotEmpty()) {
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = badge,
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Normal
-                )
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant
+                ) {
+                    Text(
+                        text = badge,
+                        fontSize = 11.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                    )
+                }
             }
         }
-        Text(
-            text = stringResource(R.string.see_all),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.primary
-        )
     }
 }
 
 @Composable
-private fun MemoryCard(mediaItem: MediaItem, onClick: () -> Unit) {
-    val dateStr = remember(mediaItem.dateTaken) {
-        val sdf = SimpleDateFormat("MMM d", Locale.getDefault())
-        sdf.format(Date(mediaItem.dateTaken))
-    }
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+private fun MemoryStoryCard(story: MemoryStory, onClick: () -> Unit) {
+    Box(
         modifier = Modifier
-            .width(130.dp)
+            .width(160.dp)
+            .height(230.dp)
+            .clip(RoundedCornerShape(18.dp))
             .clickable(onClick = onClick)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(mediaItem.uri)
+                .data(story.coverItem.uri)
                 .crossfade(true)
                 .build(),
-            contentDescription = null,
+            contentDescription = story.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(0.75f)
-                .clip(RoundedCornerShape(12.dp))
+            modifier = Modifier.fillMaxSize()
         )
+
+        // Gradient overlay
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Black.copy(alpha = 0.2f),
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.85f)
+                        ),
+                        startY = 0f
+                    )
+                )
+        )
+
+        // Story Pill
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(10.dp)
+                .background(Color.White.copy(alpha = 0.3f), RoundedCornerShape(20.dp))
+                .padding(horizontal = 8.dp, vertical = 3.dp)
+        ) {
+            Text(
+                text = "FLASHBACK",
+                fontSize = 9.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        }
+
+        // Title and Subtitle
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(12.dp)
+        ) {
+            Text(
+                text = story.title,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = story.subtitle,
+                fontSize = 11.sp,
+                color = Color.White.copy(alpha = 0.8f),
+                maxLines = 1
+            )
+        }
+    }
+}
+
+@Composable
+private fun PersonAvatarCard(person: PersonHighlight, onClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .width(80.dp)
+            .clickable(onClick = onClick)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(72.dp)
+                .clip(CircleShape)
+                .border(2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.6f), CircleShape)
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(person.coverMedia.uri)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = person.personName,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = mediaItem.albumName.ifBlank { mediaItem.name.ifBlank { stringResource(R.string.photo) } },
-            fontSize = 13.sp,
-            fontWeight = FontWeight.SemiBold,
+            text = person.personName,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onBackground,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
         Text(
-            text = dateStr,
-            fontSize = 12.sp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1
+            text = "${person.photoCount} photos",
+            fontSize = 10.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
+    }
+}
+
+@Composable
+private fun TripHighlightCard(trip: MemoryStory, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .width(220.dp)
+            .height(140.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick)
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(trip.coverItem.uri)
+                .crossfade(true)
+                .build(),
+            contentDescription = trip.title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.75f)
+                        ),
+                        startY = 40f
+                    )
+                )
+        )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(12.dp)
+        ) {
+            Text(
+                text = trip.title,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = trip.subtitle,
+                fontSize = 12.sp,
+                color = Color.White.copy(alpha = 0.85f)
+            )
+        }
     }
 }
 
@@ -301,7 +494,7 @@ private fun FeaturedPhotoCard(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(16f / 9f)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(18.dp))
             .clickable(onClick = onClick)
     ) {
         AsyncImage(
@@ -321,7 +514,7 @@ private fun FeaturedPhotoCard(
                     Brush.verticalGradient(
                         colors = listOf(
                             Color.Transparent,
-                            Color.Black.copy(alpha = 0.65f)
+                            Color.Black.copy(alpha = 0.7f)
                         ),
                         startY = 100f
                     )
@@ -342,13 +535,54 @@ private fun FeaturedPhotoCard(
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = mediaItem.albumName.ifBlank { mediaItem.name.ifBlank { stringResource(R.string.untitled) } },
+                text = mediaItem.albumName.ifBlank { mediaItem.name.ifBlank { "Untitled" } },
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+        }
+    }
+}
+
+@Composable
+private fun SmartCollectionRow(story: MemoryStory, onMediaClick: (Long) -> Unit) {
+    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = story.title,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Text(
+                text = story.subtitle,
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(story.items.take(8)) { item ->
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item.uri)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(105.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .clickable { onMediaClick(item.id) }
+                )
+            }
         }
     }
 }
@@ -408,35 +642,6 @@ private fun VideoCard(mediaItem: MediaItem, onClick: () -> Unit) {
                     color = Color.White,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Medium
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun AlbumRow(albumName: String, items: List<MediaItem>, onMediaClick: (Long) -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        Text(
-            text = albumName,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(items) { item ->
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(item.uri)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .clickable { onMediaClick(item.id) }
                 )
             }
         }
