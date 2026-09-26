@@ -14,5 +14,6 @@ data class MediaDetail(
     val isVideo: Boolean = false,
     val duration: Long? = null,
     val albumName: String? = null,
-    val path: String? = null
+    val path: String? = null,
+    val isNsfw: Boolean = false
 )

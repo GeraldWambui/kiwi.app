@@ -15,12 +15,21 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.juneai.june.data.local.daos.FaceClusterDao
+import co.juneai.june.data.local.daos.MediaOcrDao
+import co.juneai.june.data.local.entities.ImageEmbedding
+import co.juneai.june.data.local.entities.ImageEmbedding_
 import co.juneai.june.data.model.MediaItem
 import co.juneai.june.data.repository.MediaStoreRepository
 import co.juneai.june.domain.model.FileInfo
 import co.juneai.june.domain.model.MediaDetail
+import android.graphics.Bitmap
+import co.juneai.june.ml.portrait.PortraitBokehRenderer
+import co.juneai.june.ml.portrait.PortraitLightingStyle
+import co.juneai.june.ml.segmentation.SubjectSegmenter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.objectbox.Box
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +38,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import kotlinx.coroutines.*
@@ -36,10 +46,14 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-
 @HiltViewModel
 class MediaDetailViewModel @Inject constructor(
     private val repository: MediaStoreRepository,
+    private val embeddingBox: Box<ImageEmbedding>,
+    private val mediaOcrDao: MediaOcrDao,
+    private val faceClusterDao: FaceClusterDao,
+    private val subjectSegmenter: SubjectSegmenter,
+    private val portraitBokehRenderer: PortraitBokehRenderer,
     @param:ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -90,30 +104,18 @@ class MediaDetailViewModel @Inject constructor(
         // Cancel any existing loading job for this media
         loadingJobs[mediaId]?.cancel()
 
-        // Check cache first
-        mediaCache.get(mediaId)?.let { cachedMedia ->
-            _state.update {
-                it.copy(
-                    media = cachedMedia,
-                    isLoading = false,
-                    error = null,
-                    cachedMediaMap = getCacheMap()
-                )
-            }
-            return
-        }
-
-        _state.update { it.copy(isLoading = true, error = null) }
-
         val job = viewModelScope.launch(Dispatchers.IO) {
             loadMutex.withLock {
                 try {
-                    // Double-check cache after acquiring lock
+                    val aiMetadata = loadAiMetadata(mediaId)
+
+                    // Check cache first
                     mediaCache.get(mediaId)?.let { cachedMedia ->
                         withContext(Dispatchers.Main) {
                             _state.update {
                                 it.copy(
                                     media = cachedMedia,
+                                    aiMetadata = aiMetadata,
                                     isLoading = false,
                                     error = null,
                                     cachedMediaMap = getCacheMap()
@@ -132,6 +134,7 @@ class MediaDetailViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 media = mediaDetail,
+                                aiMetadata = aiMetadata,
                                 isLoading = false,
                                 error = null,
                                 cachedMediaMap = getCacheMap()
@@ -157,18 +160,50 @@ class MediaDetailViewModel @Inject constructor(
         loadingJobs[mediaId] = job
     }
 
+    private suspend fun loadAiMetadata(mediaId: Long): MediaAiMetadata? = withContext(Dispatchers.IO) {
+        try {
+            val embedding = embeddingBox.query(ImageEmbedding_.mediaStoreId.equal(mediaId)).build().findFirst()
+            val ocrEntity = mediaOcrDao.getOcrByMediaId(mediaId)
+            val faceEntities = faceClusterDao.getFacesForMedia(mediaId)
+            val personNames = faceEntities.map { it.personName }.filter { it.isNotBlank() }.distinct()
+
+            if (embedding != null || ocrEntity != null || faceEntities.isNotEmpty()) {
+                MediaAiMetadata(
+                    ocrText = ocrEntity?.extractedText?.takeIf { it.isNotBlank() },
+                    textSnippet = ocrEntity?.textSnippet?.takeIf { it.isNotBlank() },
+                    primaryObject = embedding?.primaryObject?.takeIf { it.isNotBlank() },
+                    sharpnessScore = embedding?.sharpnessScore ?: 0f,
+                    isBlurry = embedding?.isBlurry ?: false,
+                    aestheticScore = embedding?.aestheticScore ?: 0f,
+                    faceCount = embedding?.faceCount ?: faceEntities.size,
+                    isNsfw = embedding?.isNsfw ?: false,
+                    nsfwScore = embedding?.nsfwScore ?: 0f,
+                    personNames = personNames
+                )
+            } else null
+        } catch (e: Exception) {
+            Timber.w(e, "Failed to load AI metadata for media $mediaId")
+            null
+        }
+    }
+
+    fun copyOcrText(text: String) {
+        try {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Extracted Text", text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to copy OCR text")
+        }
+    }
+
     private fun cacheMedia(media: MediaDetail) {
         mediaCache.put(media.id, media)
     }
 
     private fun getCacheMap(): Map<Long, MediaDetail> {
-        // Performance: Create snapshot of cache for UI
-        val snapshot = mutableMapOf<Long, MediaDetail>()
-        for (i in 0 until mediaCache.size()) {
-            val key = mediaCache.snapshot().keys.elementAtOrNull(i) ?: continue
-            mediaCache.get(key)?.let { snapshot[key] = it }
-        }
-        return snapshot
+        return mediaCache.snapshot()
     }
 
     fun showDetails() {
@@ -253,7 +288,7 @@ class MediaDetailViewModel @Inject constructor(
     fun preloadAdjacentMedia(currentId: Long, albumId: Long? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val mediaIds = if (albumId != null && albumId > 0) {
+                val mediaIds = if (albumId != null && albumId != 0L) {
                     repository.getMediaIdsForAlbum(albumId)
                 } else {
                     repository.getAllMediaIds()
@@ -261,14 +296,17 @@ class MediaDetailViewModel @Inject constructor(
 
                 val currentIndex = mediaIds.indexOf(currentId)
 
-                if (currentIndex == -1) return@launch
-
                 // Update state with full list for HorizontalPager
                 withContext(Dispatchers.Main) {
                     _state.update {
-                        it.copy(mediaIds = mediaIds, currentIndex = currentIndex.coerceAtLeast(0))
+                        it.copy(
+                            mediaIds = mediaIds,
+                            currentIndex = if (currentIndex != -1) currentIndex else 0
+                        )
                     }
                 }
+
+                if (currentIndex == -1) return@launch
 
                 // Performance: Batch preload instead of individual loads
                 val idsToPreload = mutableListOf<Long>()
@@ -822,6 +860,139 @@ class MediaDetailViewModel @Inject constructor(
     fun showToast(context: Context, message: String) {
         viewModelScope.launch(Dispatchers.Main) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // ═════════════════════════════════════════════════════════════
+    // COMPUTATIONAL PHOTOGRAPHY: SUBJECT LIFT (STICKER MAKER)
+    // ═════════════════════════════════════════════════════════════
+
+    fun liftSubjectFromBitmap(sourceBitmap: Bitmap) {
+        viewModelScope.launch {
+            _state.update { it.copy(isSubjectLiftLoading = true) }
+            val segmented = subjectSegmenter.extractSubjectCutout(sourceBitmap)
+            _state.update {
+                it.copy(
+                    isSubjectLiftLoading = false,
+                    isSubjectLiftActive = true,
+                    subjectCutoutBitmap = segmented.cutoutBitmap
+                )
+            }
+        }
+    }
+
+    fun dismissSubjectLift() {
+        _state.update {
+            it.copy(
+                isSubjectLiftActive = false,
+                subjectCutoutBitmap = null
+            )
+        }
+    }
+
+    fun saveCutoutToGallery(cutoutBitmap: Bitmap, onSuccess: (Uri) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.Images.Media.DISPLAY_NAME, "sticker_${System.currentTimeMillis()}.png")
+                    put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+                    put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/KiwiStickers")
+                }
+
+                val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                if (uri != null) {
+                    context.contentResolver.openOutputStream(uri)?.use { stream ->
+                        cutoutBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                    }
+                    withContext(Dispatchers.Main) {
+                        onSuccess(uri)
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to save cutout sticker")
+            }
+        }
+    }
+
+    // ═════════════════════════════════════════════════════════════
+    // COMPUTATIONAL PHOTOGRAPHY: STUDIO PORTRAIT & DEPTH BOKEH
+    // ═════════════════════════════════════════════════════════════
+
+    fun openPortraitMode(sourceBitmap: Bitmap) {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    isPortraitModeActive = true,
+                    isPortraitRendering = true
+                )
+            }
+            val rendered = portraitBokehRenderer.renderPortrait(
+                sourceBitmap = sourceBitmap,
+                blurIntensity = _state.value.portraitBlurIntensity,
+                lightingStyle = _state.value.portraitLightingStyle
+            )
+            _state.update {
+                it.copy(
+                    isPortraitRendering = false,
+                    portraitRenderedBitmap = rendered
+                )
+            }
+        }
+    }
+
+    fun updatePortraitSettings(sourceBitmap: Bitmap, blur: Float, style: PortraitLightingStyle) {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    portraitBlurIntensity = blur,
+                    portraitLightingStyle = style,
+                    isPortraitRendering = true
+                )
+            }
+            val rendered = portraitBokehRenderer.renderPortrait(
+                sourceBitmap = sourceBitmap,
+                blurIntensity = blur,
+                lightingStyle = style
+            )
+            _state.update {
+                it.copy(
+                    isPortraitRendering = false,
+                    portraitRenderedBitmap = rendered
+                )
+            }
+        }
+    }
+
+    fun savePortraitEnhancedCopy(portraitBitmap: Bitmap, onSuccess: (Uri) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.Images.Media.DISPLAY_NAME, "portrait_${System.currentTimeMillis()}.jpg")
+                    put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                    put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/KiwiPortraits")
+                }
+
+                val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                if (uri != null) {
+                    context.contentResolver.openOutputStream(uri)?.use { stream ->
+                        portraitBitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream)
+                    }
+                    withContext(Dispatchers.Main) {
+                        onSuccess(uri)
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to save portrait copy")
+            }
+        }
+    }
+
+    fun closePortraitMode() {
+        _state.update {
+            it.copy(
+                isPortraitModeActive = false,
+                portraitRenderedBitmap = null
+            )
         }
     }
 

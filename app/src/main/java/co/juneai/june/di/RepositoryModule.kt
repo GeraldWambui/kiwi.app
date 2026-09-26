@@ -7,6 +7,8 @@ import co.juneai.june.ml.PCACompression
 import co.juneai.june.ml.ZeroShotTagger
 import co.juneai.june.data.repository.MediaStoreRepository
 import co.juneai.june.data.repository.VaultManagerRepositoryImpl
+import co.juneai.june.domain.intent.DefaultSlmParser
+import co.juneai.june.domain.intent.OnDeviceSlmParser
 import co.juneai.june.domain.repository.GalleryRepository
 import co.juneai.june.domain.repository.VaultManagerRepository
 import co.juneai.june.utils.SecurityHelper
@@ -23,7 +25,12 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideKiwiPhotosRepository(): GalleryRepository = KiwiPhotosRepositoryImpl()
+    fun provideKiwiPhotosRepository(
+        @ApplicationContext context: Context,
+        mediaStoreRepository: MediaStoreRepository,
+        clipEmbedder: co.juneai.june.ml.clip.ClipEmbedder,
+        embeddingBox: io.objectbox.Box<co.juneai.june.data.local.entities.ImageEmbedding>
+    ): GalleryRepository = KiwiPhotosRepositoryImpl(context, mediaStoreRepository, clipEmbedder, embeddingBox)
 
     @Provides
     @Singleton
@@ -53,9 +60,21 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun providePrimaryObjectDetector(): co.juneai.june.ml.PrimaryObjectDetector {
+        return co.juneai.june.ml.PrimaryObjectDetector()
+    }
+
+    @Provides
+    @Singleton
     fun provideMediaStoreRepository(
        @ApplicationContext context: Context
     ): MediaStoreRepository {
         return MediaStoreRepository(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideOnDeviceSlmParser(
+        defaultSlmParser: DefaultSlmParser
+    ): OnDeviceSlmParser = defaultSlmParser
 }
