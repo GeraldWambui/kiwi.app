@@ -55,7 +55,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun StorageDetailsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
     onBack: () -> Unit = {},
-    onNavigateToSubscription: () -> Unit = {}
+    onNavigateToSubscription: () -> Unit = {},
+    onNavigateToCleaner: () -> Unit = {}
 ) {
     val storage by viewModel.storageBreakdown.collectAsStateWithLifecycle()
     val optimizeEnabled by viewModel.optimizeStorageEnabled.collectAsStateWithLifecycle()
@@ -248,6 +249,47 @@ fun StorageDetailsScreen(
                     StorageLegendItem("Vault", String.format("%.1f GB", vaultGb), AccentGreen)
                     StorageLegendItem("System", String.format("%.1f GB", systemGb), AccentGray)
                 }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // ── Storage Cleaner Action Card ───────────────
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(Brush.horizontalGradient(listOf(Color(0xFF233B6E), Color(0xFF1B2644))))
+                    .clickable { onNavigateToCleaner() }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFF3872E0)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DeleteSweep,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(14.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Clean Up Storage", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("Find duplicate photos, large videos & burst shots", fontSize = 13.sp, color = Color(0xFFBACCEB))
+                }
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = null,
+                    tint = Color.White.copy(alpha = 0.7f),
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(start = 4.dp)
+                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))

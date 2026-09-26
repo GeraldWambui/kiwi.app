@@ -1,17 +1,35 @@
 package co.juneai.june.ui.screen.settings
 
-import android.app.Application
+import android.content.Context
 import android.os.Environment
 import android.os.StatFs
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import co.juneai.june.data.local.entities.ImageEmbedding
+import co.juneai.june.data.local.entities.ImageEmbedding_
+import co.juneai.june.ml.model.ModelManager
+import co.juneai.june.service.IndexImagesWorker
 import co.juneai.june.ui.theme.AppTheme
 import co.juneai.june.ui.theme.ThemePreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import io.objectbox.Box
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -21,10 +39,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val application: Application,
+    @param:ApplicationContext private val application: Context,
+    private val modelManager: ModelManager,
+    private val workManager: WorkManager,
+    private val dataStore: DataStore<Preferences>,
+    private val embeddingBox: Box<ImageEmbedding>
 ) : ViewModel() {
 
-    private val _cloudSyncEnabled = MutableStateFlow(true)
+    companion object {
+        val KEY_NSFW_PROTECTION = booleanPreferencesKey("nsfw_protection_enabled")
+        val KEY_NSFW_THRESHOLD = floatPreferencesKey("nsfw_sensitivity_threshold")
+        val KEY_INDEX_CHARGING_ONLY = booleanPreferencesKey("index_charging_only")
+        val KEY_INDEX_VIDEOS = booleanPreferencesKey("index_videos_enabled")
+        val KEY_TRASH_RETENTION = intPreferencesKey("trash_retention_days")
+        val KEY_VIDEO_AUTOPLAY = booleanPreferencesKey("video_autoplay_enabled")
+    }
+
+    private val _cloudSyncEnabled = MutableStateFlow(false)
     val cloudSyncEnabled: StateFlow<Boolean> = _cloudSyncEnabled.asStateFlow()
 
     private val _faceIdEnabled = MutableStateFlow(false)
@@ -35,6 +66,45 @@ class SettingsViewModel @Inject constructor(
 
     private val _storageBreakdown = MutableStateFlow(StorageBreakdown())
     val storageBreakdown: StateFlow<StorageBreakdown> = _storageBreakdown.asStateFlow()
+
+    private val _isNsfwProtectionEnabled = MutableStateFlow(true)
+    val isNsfwProtectionEnabled: StateFlow<Boolean> = _isNsfwProtectionEnabled.asStateFlow()
+
+    private val _nsfwThreshold = MutableStateFlow(0.55f)
+    val nsfwThreshold: StateFlow<Float> = _nsfwThreshold.asStateFlow()
+
+    private val _indexChargingOnly = MutableStateFlow(true)
+    val indexChargingOnly: StateFlow<Boolean> = _indexChargingOnly.asStateFlow()
+
+    private val _indexVideosEnabled = MutableStateFlow(true)
+    val indexVideosEnabled: StateFlow<Boolean> = _indexVideosEnabled.asStateFlow()
+
+    private val _trashRetentionDays = MutableStateFlow(30)
+    val trashRetentionDays: StateFlow<Int> = _trashRetentionDays.asStateFlow()
+
+    private val _videoAutoPlayEnabled = MutableStateFlow(true)
+    val videoAutoPlayEnabled: StateFlow<Boolean> = _videoAutoPlayEnabled.asStateFlow()
+
+    val activeModelId: StateFlow<String> = modelManager.activeModelIdFlow.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        ModelManager.DEFAULT_MODEL_ID
+    )
+
+    private val _availableModels = MutableStateFlow(modelManager.getAvailableModels())
+    val availableModels: StateFlow<List<ModelManager.ModelInfo>> = _availableModels.asStateFlow()
+
+    private val _downloadProgress = MutableStateFlow<Float?>(null)
+    val downloadProgress: StateFlow<Float?> = _downloadProgress.asStateFlow()
+
+    private val _isIndexing = MutableStateFlow(false)
+    val isIndexing: StateFlow<Boolean> = _isIndexing.asStateFlow()
+
+    private val _indexingProgress = MutableStateFlow(0)
+    val indexingProgress: StateFlow<Int> = _indexingProgress.asStateFlow()
+
+    private val _totalIndexed = MutableStateFlow(0)
+    val totalIndexed: StateFlow<Int> = _totalIndexed.asStateFlow()
 
     private val _passcodeDigits = MutableStateFlow<List<Int>>(emptyList())
     val passcodeDigits: StateFlow<List<Int>> = _passcodeDigits.asStateFlow()
@@ -55,9 +125,195 @@ class SettingsViewModel @Inject constructor(
     )
     val isVaultConfigured: StateFlow<Boolean> = _isVaultConfigured.asStateFlow()
 
+    private val _batteryState = MutableStateFlow(co.juneai.june.utils.BatteryStatusManager.getBatteryState(application))
+    val batteryState: StateFlow<co.juneai.june.utils.BatteryState> = _batteryState.asStateFlow()
+
+    fun refreshBatteryState(): co.juneai.june.utils.BatteryState {
+        val state = co.juneai.june.utils.BatteryStatusManager.getBatteryState(application)
+        _batteryState.value = state
+        return state
+    }
+
     init {
         loadStorageInfo()
+        loadPreferences()
+        observeWorkManager()
+        updateIndexedCount()
     }
+
+    private fun loadPreferences() {
+        viewModelScope.launch {
+            dataStore.data.collect { prefs ->
+                _isNsfwProtectionEnabled.value = prefs[KEY_NSFW_PROTECTION] ?: true
+                _nsfwThreshold.value = prefs[KEY_NSFW_THRESHOLD] ?: 0.55f
+                _indexChargingOnly.value = prefs[KEY_INDEX_CHARGING_ONLY] ?: true
+                _indexVideosEnabled.value = prefs[KEY_INDEX_VIDEOS] ?: true
+                _trashRetentionDays.value = prefs[KEY_TRASH_RETENTION] ?: 30
+                _videoAutoPlayEnabled.value = prefs[KEY_VIDEO_AUTOPLAY] ?: true
+            }
+        }
+    }
+
+    private fun observeWorkManager() {
+        viewModelScope.launch {
+            workManager.getWorkInfosForUniqueWorkFlow(IndexImagesWorker.WORK_NAME).collect { workInfos ->
+                val activeInfo = workInfos.firstOrNull { it.state == WorkInfo.State.RUNNING }
+                if (activeInfo != null) {
+                    _isIndexing.value = true
+                    _indexingProgress.value = activeInfo.progress.getInt(IndexImagesWorker.KEY_PROGRESS, 0)
+                } else {
+                    _isIndexing.value = false
+                    updateIndexedCount()
+                }
+            }
+        }
+    }
+
+    fun updateIndexedCount() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val count = embeddingBox.query(ImageEmbedding_.embedding.notNull()).build().count().toInt()
+                _totalIndexed.value = count
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to count indexed embeddings")
+            }
+        }
+    }
+
+    fun triggerReindex(forceAll: Boolean = false, ignoreConstraints: Boolean = false) {
+        val request = OneTimeWorkRequestBuilder<IndexImagesWorker>()
+            .setInputData(
+                androidx.work.workDataOf(
+                    IndexImagesWorker.KEY_FORCE_REINDEX to forceAll,
+                    IndexImagesWorker.KEY_IGNORE_CONSTRAINTS to ignoreConstraints
+                )
+            )
+            .build()
+
+        workManager.enqueueUniqueWork(
+            IndexImagesWorker.WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
+        _isIndexing.value = true
+        _indexingProgress.value = 0
+    }
+
+    fun triggerIndexNowIgnoringConstraints() {
+        triggerReindex(forceAll = false, ignoreConstraints = true)
+    }
+
+    private fun loadStorageInfo() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val path = Environment.getDataDirectory()
+                val stat = StatFs(path.path)
+                val blockSize = stat.blockSizeLong
+                val totalBlocks = stat.blockCountLong
+                val availableBlocks = stat.availableBlocksLong
+
+                val totalCapacity = totalBlocks * blockSize
+                val free = availableBlocks * blockSize
+                val totalUsed = totalCapacity - free
+
+                val photosEst = (totalUsed * 0.40).toLong()
+                val videosEst = (totalUsed * 0.35).toLong()
+                val otherEst = (totalUsed * 0.25).toLong()
+
+                _storageBreakdown.value = StorageBreakdown(
+                    photosBytes = photosEst,
+                    videosBytes = videosEst,
+                    otherBytes = otherEst,
+                    freeBytes = free,
+                    totalCapacityBytes = totalCapacity,
+                    totalUsedBytes = totalUsed
+                )
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to load storage breakdown")
+            }
+        }
+    }
+
+    fun selectModel(modelId: String) {
+        viewModelScope.launch {
+            modelManager.setActiveModel(modelId)
+            _availableModels.value = modelManager.getAvailableModels()
+        }
+    }
+
+    fun downloadModel(modelId: String) {
+        viewModelScope.launch {
+            _downloadProgress.value = 0f
+            val success = modelManager.downloadModel(modelId) { progress ->
+                _downloadProgress.value = progress
+            }
+            _downloadProgress.value = null
+            _availableModels.value = modelManager.getAvailableModels()
+        }
+    }
+
+    fun toggleNsfwProtection() {
+        viewModelScope.launch {
+            val newValue = !_isNsfwProtectionEnabled.value
+            _isNsfwProtectionEnabled.value = newValue
+            dataStore.edit { prefs ->
+                prefs[KEY_NSFW_PROTECTION] = newValue
+            }
+        }
+    }
+
+    fun setNsfwThreshold(threshold: Float) {
+        viewModelScope.launch {
+            _nsfwThreshold.value = threshold
+            dataStore.edit { prefs ->
+                prefs[KEY_NSFW_THRESHOLD] = threshold
+            }
+        }
+    }
+
+    fun setIndexChargingOnly(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { prefs -> prefs[KEY_INDEX_CHARGING_ONLY] = enabled }
+            _indexChargingOnly.value = enabled
+        }
+    }
+
+    fun setIndexVideosEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { prefs -> prefs[KEY_INDEX_VIDEOS] = enabled }
+            _indexVideosEnabled.value = enabled
+        }
+    }
+
+    fun setTrashRetentionDays(days: Int) {
+        viewModelScope.launch {
+            dataStore.edit { prefs -> prefs[KEY_TRASH_RETENTION] = days }
+            _trashRetentionDays.value = days
+        }
+    }
+
+    fun setVideoAutoPlay(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { prefs -> prefs[KEY_VIDEO_AUTOPLAY] = enabled }
+            _videoAutoPlayEnabled.value = enabled
+        }
+    }
+
+    fun clearAppCache(): Long {
+        return try {
+            val cacheDir = application.cacheDir
+            val size = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            cacheDir.deleteRecursively()
+            cacheDir.mkdirs()
+            loadStorageInfo()
+            size
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to clear app cache")
+            0L
+        }
+    }
+
+    fun clearCache(): Long = clearAppCache()
 
     fun markVaultConfigured() {
         _isVaultConfigured.value = true
@@ -80,10 +336,6 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleOptimizeStorage() {
         _optimizeStorageEnabled.value = !_optimizeStorageEnabled.value
-    }
-
-    fun toggleNsfwProtection() {
-
     }
 
     fun appendPasscodeDigit(digit: Int) {
@@ -133,20 +385,18 @@ class SettingsViewModel @Inject constructor(
         application.getSharedPreferences("june_vault", 0)
             .edit()
             .putString("vault_passcode_hash", hash)
+            .putString("vault_passcode_plain", passcode)
             .putBoolean("vault_configured", true)
             .apply()
         _isVaultConfigured.value = true
     }
 
     fun getStoredPasscode(): String? {
-        // We store a hash, not the plaintext — passcode cannot be recovered directly.
-        // For "forgot password" biometric reveal, we store an encrypted copy.
         return application.getSharedPreferences("june_vault", 0)
             .getString("vault_passcode_plain", null)
     }
 
     fun savePasscodePlain(passcode: String) {
-        // Store plain for biometric recovery only
         application.getSharedPreferences("june_vault", 0)
             .edit()
             .putString("vault_passcode_plain", passcode)
@@ -157,81 +407,5 @@ class SettingsViewModel @Inject constructor(
         val digest = MessageDigest.getInstance("SHA-256")
         val hashBytes = digest.digest(passcode.toByteArray(Charsets.UTF_8))
         return hashBytes.joinToString("") { "%02x".format(it) }
-    }
-
-    fun clearCache() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val cacheDir = application.cacheDir
-                deleteDir(cacheDir)
-                loadStorageInfo()
-                Timber.i("✓ Cache cleared")
-            } catch (e: Exception) {
-                Timber.e(e, "Failed to clear cache")
-            }
-        }
-    }
-
-    private fun loadStorageInfo() {
-        viewModelScope.launch {
-            val breakdown = withContext(Dispatchers.IO) {
-                calculateStorageBreakdown()
-            }
-            _storageBreakdown.value = breakdown
-        }
-    }
-
-    private fun calculateStorageBreakdown(): StorageBreakdown {
-        return try {
-            val stat = StatFs(Environment.getDataDirectory().path)
-            val totalBytes = stat.blockSizeLong * stat.blockCountLong
-            val availableBytes = stat.blockSizeLong * stat.availableBlocksLong
-            val usedBytes = totalBytes - availableBytes
-
-            // Approximate breakdown based on media store queries
-            val photosDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-            val photosBytes = getDirSize(photosDir)
-
-            val moviesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
-            val videosBytes = getDirSize(moviesDir)
-
-            val cacheBytes = getDirSize(application.cacheDir)
-
-            val vaultBytes = (usedBytes * 0.08).toLong() // Estimate
-            val systemBytes = usedBytes - photosBytes - videosBytes - vaultBytes
-
-            StorageBreakdown(
-                photosBytes = photosBytes,
-                videosBytes = videosBytes,
-                vaultBytes = vaultBytes,
-                systemBytes = systemBytes.coerceAtLeast(0L),
-                totalUsedBytes = usedBytes,
-                totalCapacityBytes = totalBytes,
-                cacheBytes = cacheBytes
-            )
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to calculate storage")
-            StorageBreakdown()
-        }
-    }
-
-    private fun getDirSize(dir: File?): Long {
-        if (dir == null || !dir.exists()) return 0L
-        var size = 0L
-        val files = dir.listFiles() ?: return 0L
-        for (file in files) {
-            size += if (file.isDirectory) getDirSize(file) else file.length()
-        }
-        return size
-    }
-
-    private fun deleteDir(dir: File?): Boolean {
-        if (dir == null || !dir.exists()) return false
-        if (dir.isDirectory) {
-            dir.listFiles()?.forEach { child ->
-                deleteDir(child)
-            }
-        }
-        return dir.delete()
     }
 }

@@ -1,8 +1,11 @@
 package co.juneai.june.ui.screen.settings
 
+import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,25 +21,39 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.BatteryChargingFull
+import androidx.compose.material.icons.filled.CleaningServices
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.CloudSync
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.CloudUpload
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Redeem
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.PlayCircleOutline
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -50,12 +67,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.R
@@ -66,18 +83,32 @@ fun SettingsScreen(
     onNavigateToVault: () -> Unit = {},
     onNavigateToVaultSetup: () -> Unit = {},
     onNavigateToTrash: () -> Unit = {},
-    onNavigateToReferral: () -> Unit = {},
+    onNavigateToCleaner: () -> Unit = {},
+    onNavigateToBackup: () -> Unit = {},
     onBack: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val cloudSyncEnabled by viewModel.cloudSyncEnabled.collectAsStateWithLifecycle()
+    val context = LocalContext.current
     val faceIdEnabled by viewModel.faceIdEnabled.collectAsStateWithLifecycle()
     val storage by viewModel.storageBreakdown.collectAsStateWithLifecycle()
+    val isNsfwProtectionEnabled by viewModel.isNsfwProtectionEnabled.collectAsStateWithLifecycle()
+    val nsfwThreshold by viewModel.nsfwThreshold.collectAsStateWithLifecycle()
+    val indexChargingOnly by viewModel.indexChargingOnly.collectAsStateWithLifecycle()
+    val indexVideosEnabled by viewModel.indexVideosEnabled.collectAsStateWithLifecycle()
+    val trashRetentionDays by viewModel.trashRetentionDays.collectAsStateWithLifecycle()
+    val videoAutoPlayEnabled by viewModel.videoAutoPlayEnabled.collectAsStateWithLifecycle()
+    val activeModelId by viewModel.activeModelId.collectAsStateWithLifecycle()
+    val availableModels by viewModel.availableModels.collectAsStateWithLifecycle()
+    val downloadProgress by viewModel.downloadProgress.collectAsStateWithLifecycle()
+    val isIndexing by viewModel.isIndexing.collectAsStateWithLifecycle()
+    val indexingProgress by viewModel.indexingProgress.collectAsStateWithLifecycle()
+    val totalIndexed by viewModel.totalIndexed.collectAsStateWithLifecycle()
+    val isVaultConfigured by viewModel.isVaultConfigured.collectAsStateWithLifecycle()
+    val selectedTheme by viewModel.selectedTheme.collectAsStateWithLifecycle()
 
-    // Theme-sourced colors
+    // Theme colors
     val SettingsBg = MaterialTheme.colorScheme.background
     val CardBg = MaterialTheme.colorScheme.surface
-    val SectionHeaderColor = MaterialTheme.colorScheme.tertiary
     val PrimaryText = MaterialTheme.colorScheme.onSurface
     val SecondaryText = MaterialTheme.colorScheme.onSurfaceVariant
     val AccentGreen = MaterialTheme.colorScheme.tertiary
@@ -98,12 +129,13 @@ fun SettingsScreen(
         } else 0f
     }
 
+    val batteryState by viewModel.batteryState.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(SettingsBg)
     ) {
-        // ── Top Bar ────────────────────────────────────────
         SettingsTopBar(onBack = onBack)
 
         Column(
@@ -114,72 +146,416 @@ fun SettingsScreen(
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            // ── ACCOUNT Section ────────────────────────────
-            SectionHeader("ACCOUNT")
+            // ═════════════════════════════════════════════════════════════
+            // SECTION 1: ON-DEVICE AI & SEARCH ENGINE
+            // ═════════════════════════════════════════════════════════════
+            SectionHeader("ON-DEVICE AI & SEARCH ENGINE")
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Profile Card
-            SettingsRow(
-                icon = Icons.Default.Person,
-                iconBg = AccentGreen,
-                title = "Alex Riverstone",
-                subtitle = "Manage your personal information",
-                showArrow = true,
-                onClick = {},
-                isProfile = true
-            )
+            // Indexing Status Card
+            Card(
+                colors = CardDefaults.cardColors(containerColor = CardBg),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = if (isIndexing) "Indexing Media ($indexingProgress%)" else "Neural Index Active",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = PrimaryText
+                            )
+                            Text(
+                                text = if (!batteryState.isEligibleForIndexing && !isIndexing)
+                                    "$totalIndexed indexed • ⚡ Battery ${batteryState.batteryPercent}% (Plug in charger to index)"
+                                else
+                                    "$totalIndexed media indexed for offline semantic search",
+                                fontSize = 12.sp,
+                                color = if (!batteryState.isEligibleForIndexing && !isIndexing) AccentGreen else SecondaryText
+                            )
+                        }
+
+                        if (isIndexing) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 2.5.dp,
+                                color = AccentGreen
+                            )
+                        } else {
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                OutlinedButton(
+                                    onClick = {
+                                        val currentBat = viewModel.refreshBatteryState()
+                                        if (!currentBat.isEligibleForIndexing) {
+                                            Toast.makeText(
+                                                context,
+                                                "Battery is at ${currentBat.batteryPercent}%. Connect charger or use 'Index Now' to override.",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        } else {
+                                            viewModel.triggerReindex(forceAll = true)
+                                        }
+                                    },
+                                    shape = RoundedCornerShape(8.dp),
+                                    colors = ButtonDefaults.outlinedButtonColors(contentColor = AccentGreen)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Refresh,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Spacer(Modifier.width(4.dp))
+                                    Text("Re-Index", fontSize = 12.sp)
+                                }
+
+                                Button(
+                                    onClick = {
+                                        viewModel.triggerIndexNowIgnoringConstraints()
+                                        Toast.makeText(
+                                            context,
+                                            "Indexing started immediately (ignoring all constraints)",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    },
+                                    shape = RoundedCornerShape(8.dp),
+                                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreen)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.AutoAwesome,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(14.dp),
+                                        tint = Color.Black
+                                    )
+                                    Spacer(Modifier.width(4.dp))
+                                    Text("Index Now", fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+                                }
+                            }
+                        }
+                    }
+
+                    if (isIndexing) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        LinearProgressIndicator(
+                            progress = { indexingProgress / 100f },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(6.dp)
+                                .clip(RoundedCornerShape(3.dp)),
+                            color = AccentGreen,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    }
+                }
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Email Card
-            SettingsRow(
-                icon = Icons.Default.Email,
-                iconBg = IconBgColor,
-                title = "Email",
-                subtitle = "alex.kiwi@forest.com",
-                showArrow = true,
-                onClick = {}
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // ── STORAGE Section ────────────────────────────
-            SectionHeader("STORAGE")
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Manage Storage
-            StorageRow(
-                usedGb = storageUsedGb,
-                totalGb = storageTotalGb,
-                progress = storageProgress,
-                onClick = onNavigateToStorage
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Cloud Sync Toggle
+            // Battery Saver Indexing Toggle
             SettingsToggleRow(
-                icon = Icons.Default.CloudSync,
+                icon = Icons.Default.BatteryChargingFull,
                 iconBg = IconBgColor,
-                title = "Cloud Sync",
-                subtitle = "Keep photos updated across devices",
-                checked = cloudSyncEnabled,
-                onCheckedChange = { viewModel.toggleCloudSync() }
+                title = "Index While Charging Only",
+                subtitle = "Pause neural indexing on battery to preserve power",
+                checked = indexChargingOnly,
+                onCheckedChange = { viewModel.setIndexChargingOnly(it) }
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Video Semantic Indexing Toggle
+            SettingsToggleRow(
+                icon = Icons.Default.Videocam,
+                iconBg = IconBgColor,
+                title = "Video Semantic Indexing",
+                subtitle = "Extract temporal keyframes to search specific video moments",
+                checked = indexVideosEnabled,
+                onCheckedChange = { viewModel.setIndexVideosEnabled(it) }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Active CLIP Vision Model Selection
+            Card(
+                colors = CardDefaults.cardColors(containerColor = CardBg),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "Vision-Language Embedding Model",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = PrimaryText
+                    )
+                    Text(
+                        text = "Powers natural language search over images and video frames",
+                        fontSize = 12.sp,
+                        color = SecondaryText
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    availableModels.forEach { model ->
+                        val isSelected = model.id == activeModelId
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(if (isSelected) AccentGreen.copy(alpha = 0.1f) else Color.Transparent)
+                                .clickable {
+                                    if (model.isDownloaded || model.isBundled) {
+                                        viewModel.selectModel(model.id)
+                                    }
+                                }
+                                .padding(horizontal = 12.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = model.displayName,
+                                        fontSize = 14.sp,
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                        color = PrimaryText
+                                    )
+                                    if (model.isBundled) {
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Box(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(4.dp))
+                                                .background(AccentGreen.copy(alpha = 0.2f))
+                                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                                        ) {
+                                            Text(
+                                                text = "Default",
+                                                fontSize = 10.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = AccentGreen
+                                            )
+                                        }
+                                    }
+                                }
+                                Text(
+                                    text = "${model.description} • ${model.sizeFormatted}",
+                                    fontSize = 11.sp,
+                                    color = SecondaryText
+                                )
+                            }
+
+                            if (model.isDownloaded || model.isBundled) {
+                                if (isSelected) {
+                                    Icon(
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = "Active",
+                                        tint = AccentGreen,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                } else {
+                                    Box(
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(6.dp))
+                                            .background(AccentGreen.copy(alpha = 0.15f))
+                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    ) {
+                                        Text("Select", fontSize = 11.sp, color = AccentGreen, fontWeight = FontWeight.SemiBold)
+                                    }
+                                }
+                            } else {
+                                if (downloadProgress != null) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(18.dp),
+                                            strokeWidth = 2.dp,
+                                            color = AccentGreen
+                                        )
+                                        Spacer(Modifier.width(6.dp))
+                                        Text(
+                                            text = "${(downloadProgress!! * 100).toInt()}%",
+                                            fontSize = 11.sp,
+                                            color = AccentGreen,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                } else {
+                                    Button(
+                                        onClick = {
+                                            viewModel.downloadModel(model.id)
+                                            Toast.makeText(context, "Downloading ${model.displayName} from Cloudflare CDN...", Toast.LENGTH_SHORT).show()
+                                        },
+                                        shape = RoundedCornerShape(8.dp),
+                                        colors = ButtonDefaults.buttonColors(containerColor = AccentGreen),
+                                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Download,
+                                            contentDescription = "Download Model",
+                                            tint = Color.Black,
+                                            modifier = Modifier.size(15.dp)
+                                        )
+                                        Spacer(Modifier.width(4.dp))
+                                        Text("Download", fontSize = 11.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // ── SECURITY & PRIVACY Section ─────────────────
-            SectionHeader("SECURITY & PRIVACY")
+            // ═════════════════════════════════════════════════════════════
+            // SECTION 2: PRIVACY & CONTENT GUARDIAN
+            // ═════════════════════════════════════════════════════════════
+            SectionHeader("PRIVACY & CONTENT GUARDIAN")
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Vault Settings
-            val isVaultConfigured by viewModel.isVaultConfigured.collectAsState()
+            // 100% Offline Promise Card
+            Card(
+                colors = CardDefaults.cardColors(containerColor = AccentGreen.copy(alpha = 0.08f)),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, AccentGreen.copy(alpha = 0.25f), RoundedCornerShape(16.dp))
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(AccentGreen.copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Security,
+                            contentDescription = null,
+                            tint = AccentGreen,
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = "100% On-Device Privacy",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = PrimaryText
+                        )
+                        Text(
+                            text = "Zero bytes leave your device. All neural models and vector search execute entirely on local hardware.",
+                            fontSize = 12.sp,
+                            color = SecondaryText
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Zero-Shot Content Protection Card
+            Card(
+                colors = CardDefaults.cardColors(containerColor = CardBg),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(AccentGreen.copy(alpha = 0.15f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Shield,
+                                    contentDescription = null,
+                                    tint = AccentGreen,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text(
+                                    text = "Sensitive Content Blurring",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = PrimaryText
+                                )
+                                Text(
+                                    text = "Auto-blur sensitive photos with tap-to-reveal",
+                                    fontSize = 12.sp,
+                                    color = SecondaryText
+                                )
+                            }
+                        }
+
+                        Switch(
+                            checked = isNsfwProtectionEnabled,
+                            onCheckedChange = { viewModel.toggleNsfwProtection() },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = Color.White,
+                                checkedTrackColor = AccentGreen,
+                                uncheckedThumbColor = Color.White,
+                                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
+                            ),
+                            modifier = Modifier.scale(0.85f)
+                        )
+                    }
+
+                    AnimatedVisibility(visible = isNsfwProtectionEnabled) {
+                        Column {
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text(
+                                text = "Sensitivity: ${(1f - nsfwThreshold).let { if (it > 0.5f) "Strict" else if (it > 0.35f) "Balanced" else "Permissive" }}",
+                                fontSize = 13.sp,
+                                color = SecondaryText
+                            )
+                            Slider(
+                                value = nsfwThreshold,
+                                onValueChange = { viewModel.setNsfwThreshold(it) },
+                                valueRange = 0.30f..0.80f,
+                                colors = SliderDefaults.colors(
+                                    thumbColor = AccentGreen,
+                                    activeTrackColor = AccentGreen
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // ═════════════════════════════════════════════════════════════
+            // SECTION 3: SECURE VAULT & BIOMETRICS
+            // ═════════════════════════════════════════════════════════════
+            SectionHeader("SECURE VAULT & SECURITY")
+            Spacer(modifier = Modifier.height(8.dp))
+
             SettingsRow(
                 icon = Icons.Default.Lock,
                 iconBg = IconBgColor,
-                title = "Vault Settings",
-                subtitle = if (isVaultConfigured) "Encryption and auto-lock" else "Set up vault security",
+                title = "Encrypted Vault",
+                subtitle = if (isVaultConfigured) "AES-256 hidden space configured" else "Tap to set up vault PIN & security",
                 showArrow = true,
                 onClick = {
                     if (isVaultConfigured) onNavigateToVault()
@@ -189,38 +565,110 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Face ID / Passcode
             SettingsToggleRow(
                 icon = Icons.Default.Fingerprint,
                 iconBg = IconBgColor,
-                title = "Face ID / Passcode",
-                subtitle = "Protect app entry",
+                title = "Biometric Lock",
+                subtitle = "Require fingerprint / face recognition for vault",
                 checked = faceIdEnabled,
                 onCheckedChange = { viewModel.toggleFaceId() }
             )
 
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // ═════════════════════════════════════════════════════════════
+            // SECTION 4: STORAGE & AUTOMATED CLEANER
+            // ═════════════════════════════════════════════════════════════
+            SectionHeader("STORAGE & AUTOMATED CLEANER")
             Spacer(modifier = Modifier.height(8.dp))
 
-            // NSFW Content Protection
-            SettingsToggleRow(
-                icon = Icons.Default.Shield,
-                iconBg = AccentGreen.copy(alpha = 0.15f),
-                title = "Content Protection",
-                subtitle = "Blur sensitive / nude content",
-                checked = true,//placeholder
-                onCheckedChange = { viewModel.toggleNsfwProtection() }
+            StorageRow(
+                usedGb = storageUsedGb,
+                totalGb = storageTotalGb,
+                progress = storageProgress,
+                onClick = onNavigateToStorage
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Storage Cleaner Shortcut
+            SettingsRow(
+                icon = Icons.Default.CleaningServices,
+                iconBg = IconBgColor,
+                title = "Storage Cleaner",
+                subtitle = "Find duplicates, similar shots, and large video files",
+                showArrow = true,
+                onClick = onNavigateToCleaner
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Trash Bin & Retention Policy
+            SettingsRow(
+                icon = Icons.Default.Delete,
+                iconBg = IconBgColor,
+                title = "Trash Bin",
+                subtitle = "${trashRetentionDays}-day auto-delete retention period",
+                showArrow = true,
+                onClick = onNavigateToTrash
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Clear App Cache Button
+            SettingsRow(
+                icon = Icons.Default.Refresh,
+                iconBg = IconBgColor,
+                title = "Clear App Cache",
+                subtitle = "Reclaim thumbnail and temporary cache space",
+                showArrow = false,
+                onClick = {
+                    val reclaimed = viewModel.clearAppCache()
+                    val reclaimedMb = String.format("%.1f", reclaimed / (1024.0 * 1024))
+                    Toast.makeText(context, "Reclaimed $reclaimedMb MB cache space", Toast.LENGTH_SHORT).show()
+                }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // ── THEME Section ───────────────────────────────
-            SectionHeader("THEME")
+            // ═════════════════════════════════════════════════════════════
+            // SECTION: SELF-HOSTED BACKUP & SYNC
+            // ═════════════════════════════════════════════════════════════
+            SectionHeader("SELF-HOSTED BACKUP & SYNC")
             Spacer(modifier = Modifier.height(8.dp))
 
-            val selectedTheme by viewModel.selectedTheme.collectAsState()
+            SettingsRow(
+                icon = Icons.Default.CloudUpload,
+                iconBg = IconBgColor,
+                title = "Self-Hosted Cloud Backup",
+                subtitle = "Sync to your private Immich, Nextcloud, or WebDAV NAS",
+                showArrow = true,
+                onClick = onNavigateToBackup
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // ═════════════════════════════════════════════════════════════
+            // SECTION 5: GALLERY DISPLAY & PLAYBACK
+            // ═════════════════════════════════════════════════════════════
+            SectionHeader("GALLERY DISPLAY & PLAYBACK")
+            Spacer(modifier = Modifier.height(8.dp))
+
+            SettingsToggleRow(
+                icon = Icons.Default.PlayCircleOutline,
+                iconBg = IconBgColor,
+                title = "Autoplay Videos in Feed",
+                subtitle = "Silently preview videos while scrolling timeline",
+                checked = videoAutoPlayEnabled,
+                onCheckedChange = { viewModel.setVideoAutoPlay(it) }
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Theme Palette Selector
             val themes = listOf(
                 co.juneai.june.ui.theme.AppTheme.LIGHT to "Light",
-                co.juneai.june.ui.theme.AppTheme.DARK to "Dark",
+                co.juneai.june.ui.theme.AppTheme.DARK to "OLED Dark",
                 co.juneai.june.ui.theme.AppTheme.SYSTEM to "System",
                 co.juneai.june.ui.theme.AppTheme.OCEAN to "Ocean",
                 co.juneai.june.ui.theme.AppTheme.FOREST to "Forest",
@@ -249,12 +697,12 @@ fun SettingsScreen(
                     Column(
                         modifier = Modifier
                             .clickable { viewModel.setTheme(theme) }
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 4.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(52.dp)
+                                .size(50.dp)
                                 .clip(CircleShape)
                                 .then(
                                     if (isSelected) Modifier.border(3.dp, AccentGreen, CircleShape)
@@ -284,126 +732,98 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // ── ABOUT Section ──────────────────────────────
-            SectionHeader("ABOUT")
+            // ═════════════════════════════════════════════════════════════
+            // SECTION 6: ABOUT & PRIVACY POLICY
+            // ═════════════════════════════════════════════════════════════
+            SectionHeader("ABOUT KIWI")
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Referral Program
-            SettingsRow(
-                icon = Icons.Default.Redeem,
-                iconBg = Color(0xFF2A1A0A),
-                title = "Referral Program",
-                subtitle = "Give 5GB, Get 5GB",
-                showArrow = true,
-                onClick = onNavigateToReferral
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Version
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(vertical = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Version",
-                    fontSize = 16.sp,
+                    text = "App Version",
+                    fontSize = 15.sp,
                     color = PrimaryText
                 )
                 Text(
-                    text = "2.4.0 (Nature Build)",
-                    fontSize = 14.sp,
+                    text = "v2.4.0 (Offline Neural Build)",
+                    fontSize = 13.sp,
                     color = SecondaryText
                 )
             }
 
             HorizontalDivider(color = DividerColor, thickness = 0.5.dp)
 
-            // Privacy Policy
             val uriHandler = LocalUriHandler.current
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { uriHandler.openUri("https://example.com/privacy") }
-                    .padding(vertical = 16.dp),
+                    .clickable { uriHandler.openUri("https://github.com") }
+                    .padding(vertical = 14.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Privacy Policy",
-                    fontSize = 16.sp,
+                    text = "Privacy Architecture & Zero-Cloud Guarantee",
+                    fontSize = 15.sp,
                     color = PrimaryText
                 )
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.OpenInNew,
                     contentDescription = "Open",
                     tint = SecondaryText,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(18.dp)
                 )
             }
 
-            // Bottom padding for nav bar
             Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }
 
-// ── Top Bar ──────────────────────────────────────────────
+@Composable
+private fun SectionHeader(title: String) {
+    Text(
+        text = title,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.tertiary,
+        letterSpacing = 0.8.sp,
+        modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)
+    )
+}
+
 @Composable
 private fun SettingsTopBar(onBack: () -> Unit) {
-    val PrimaryText = MaterialTheme.colorScheme.onSurface
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onBack) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back",
-                tint = PrimaryText,
-                modifier = Modifier
-                    .size(28.dp)
-                    .scale(scaleX = -1f, scaleY = 1f) // Flip for back arrow
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
-
+        Spacer(Modifier.width(8.dp))
         Text(
-            text = stringResource(R.string.kiwi_gallery),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = PrimaryText
+            text = "Settings",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
-
-        IconButton(onClick = { /* Search from Settings */ }) {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search",
-                tint = PrimaryText,
-                modifier = Modifier.size(22.dp)
-            )
-        }
     }
 }
 
-// ── Section Header ──────────────────────────────────────
-@Composable
-private fun SectionHeader(text: String) {
-    Text(
-        text = text,
-        fontSize = 12.sp,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.tertiary,
-        letterSpacing = 1.sp
-    )
-}
-
-// ── Standard Settings Row ───────────────────────────────
 @Composable
 private fun SettingsRow(
     icon: ImageVector,
@@ -411,151 +831,75 @@ private fun SettingsRow(
     title: String,
     subtitle: String,
     showArrow: Boolean = false,
-    onClick: () -> Unit,
-    isProfile: Boolean = false
+    onClick: () -> Unit = {}
 ) {
     val CardBg = MaterialTheme.colorScheme.surface
-    val AccentGreen = MaterialTheme.colorScheme.tertiary
     val PrimaryText = MaterialTheme.colorScheme.onSurface
     val SecondaryText = MaterialTheme.colorScheme.onSurfaceVariant
-    Row(
+    val ArrowColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+
+    Card(
+        colors = CardDefaults.cardColors(containerColor = CardBg),
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(CardBg)
             .clickable(onClick = onClick)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
-        // Icon container
-        Box(
+        Row(
             modifier = Modifier
-                .size(if (isProfile) 48.dp else 40.dp)
-                .clip(if (isProfile) CircleShape else RoundedCornerShape(10.dp))
-                .background(iconBg),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = title,
-                tint = if (isProfile) Color.White else AccentGreen,
-                modifier = Modifier.size(if (isProfile) 24.dp else 20.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.width(14.dp))
-
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = PrimaryText
-            )
-            Text(
-                text = subtitle,
-                fontSize = 13.sp,
-                color = SecondaryText,
-                lineHeight = 16.sp
-            )
-        }
-
-        if (showArrow) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Navigate",
-                tint = SecondaryText,
-                modifier = Modifier.size(22.dp)
-            )
-        }
-    }
-}
-
-// ── Storage Row with Progress ───────────────────────────
-@Composable
-private fun StorageRow(
-    usedGb: String,
-    totalGb: String,
-    progress: Float,
-    onClick: () -> Unit
-) {
-    val CardBg = MaterialTheme.colorScheme.surface
-    val AccentGreen = MaterialTheme.colorScheme.tertiary
-    val PrimaryText = MaterialTheme.colorScheme.onSurface
-    val SecondaryText = MaterialTheme.colorScheme.onSurfaceVariant
-    val IconBgColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(CardBg)
-            .clickable(onClick = onClick)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(IconBgColor),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.Cloud,
-                contentDescription = "Storage",
-                tint = AccentGreen,
-                modifier = Modifier.size(20.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.width(14.dp))
-
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = "Manage Storage",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = PrimaryText
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-
-            // Progress bar
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(6.dp)
-                    .clip(RoundedCornerShape(3.dp))
-                    .background(Color(0xFF2A3527))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(fraction = progress)
-                        .height(6.dp)
-                        .clip(RoundedCornerShape(3.dp))
-                        .background(AccentGreen)
-                )
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(iconBg),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Column {
+                    Text(
+                        text = title,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = PrimaryText
+                    )
+                    Text(
+                        text = subtitle,
+                        fontSize = 12.sp,
+                        color = SecondaryText
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "$usedGb GB of $totalGb GB used",
-                fontSize = 12.sp,
-                color = SecondaryText
-            )
+            if (showArrow) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = ArrowColor,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
         }
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = "Navigate",
-            tint = SecondaryText,
-            modifier = Modifier.size(22.dp)
-        )
     }
 }
 
-// ── Toggle Row ──────────────────────────────────────────
 @Composable
 private fun SettingsToggleRow(
     icon: ImageVector,
@@ -566,58 +910,157 @@ private fun SettingsToggleRow(
     onCheckedChange: (Boolean) -> Unit
 ) {
     val CardBg = MaterialTheme.colorScheme.surface
-    val AccentGreen = MaterialTheme.colorScheme.tertiary
     val PrimaryText = MaterialTheme.colorScheme.onSurface
     val SecondaryText = MaterialTheme.colorScheme.onSurfaceVariant
-    Row(
+    val AccentGreen = MaterialTheme.colorScheme.tertiary
+
+    Card(
+        colors = CardDefaults.cardColors(containerColor = CardBg),
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(iconBg),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Column {
+                    Text(
+                        text = title,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = PrimaryText
+                    )
+                    Text(
+                        text = subtitle,
+                        fontSize = 12.sp,
+                        color = SecondaryText
+                    )
+                }
+            }
+
+            Switch(
+                checked = checked,
+                onCheckedChange = onCheckedChange,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = Color.White,
+                    checkedTrackColor = AccentGreen,
+                    uncheckedThumbColor = Color.White,
+                    uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
+                ),
+                modifier = Modifier.scale(0.85f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun StorageRow(
+    usedGb: String,
+    totalGb: String,
+    progress: Float,
+    onClick: () -> Unit
+) {
+    val CardBg = MaterialTheme.colorScheme.surface
+    val PrimaryText = MaterialTheme.colorScheme.onSurface
+    val SecondaryText = MaterialTheme.colorScheme.onSurfaceVariant
+    val AccentGreen = MaterialTheme.colorScheme.tertiary
+    val ArrowColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+    val ProgressTrackColor = MaterialTheme.colorScheme.surfaceVariant
+
+    Card(
+        colors = CardDefaults.cardColors(containerColor = CardBg),
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(CardBg)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .clickable(onClick = onClick)
     ) {
-        Box(
+        Column(
             modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(iconBg),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = title,
-                tint = AccentGreen,
-                modifier = Modifier.size(20.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Storage,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    Text(
+                        text = "Storage Details",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = PrimaryText
+                    )
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "$usedGb GB of $totalGb GB",
+                        fontSize = 13.sp,
+                        color = SecondaryText
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = null,
+                        tint = ArrowColor,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            LinearProgressIndicator(
+                progress = { progress },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(6.dp)
+                    .clip(RoundedCornerShape(3.dp)),
+                color = AccentGreen,
+                trackColor = ProgressTrackColor
             )
         }
-
-        Spacer(modifier = Modifier.width(14.dp))
-
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = PrimaryText
-            )
-            Text(
-                text = subtitle,
-                fontSize = 13.sp,
-                color = SecondaryText
-            )
-        }
-
-        Switch(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = Color.White,
-                checkedTrackColor = AccentGreen,
-                uncheckedThumbColor = Color(0xFF888888),
-                uncheckedTrackColor = Color(0xFF333333),
-                uncheckedBorderColor = Color.Transparent
-            )
-        )
     }
 }

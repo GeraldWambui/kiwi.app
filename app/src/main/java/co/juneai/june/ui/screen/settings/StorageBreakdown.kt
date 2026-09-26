@@ -5,6 +5,8 @@ data class StorageBreakdown(
     val videosBytes: Long = 0L,
     val vaultBytes: Long = 0L,
     val systemBytes: Long = 0L,
+    val otherBytes: Long = 0L,
+    val freeBytes: Long = 0L,
     val totalUsedBytes: Long = 0L,
     val totalCapacityBytes: Long = 0L,
     val cacheBytes: Long = 0L
