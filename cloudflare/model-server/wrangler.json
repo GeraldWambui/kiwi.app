@@ -1,0 +1,11 @@
+{
+  "name": "kiwi-model-server",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "r2_buckets": [
+    {
+      "binding": "KIWI_MODELS",
+      "bucket_name": "kiwi-models"
+    }
+  ]
+}
