@@ -2,8 +2,11 @@ package co.juneai.june.di
 
 import android.content.Context
 import androidx.room.Room
-import co.juneai.june.data.local.db.KiwiPhotosDatabase
+import co.juneai.june.data.local.daos.FaceClusterDao
+import co.juneai.june.data.local.daos.MediaOcrDao
+import co.juneai.june.data.local.daos.UndoRedoDao
 import co.juneai.june.data.local.daos.VaultDao
+import co.juneai.june.data.local.db.KiwiPhotosDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,13 +23,7 @@ object DatabaseModule {
     fun provideDatabase(
         @ApplicationContext context: Context
     ): KiwiPhotosDatabase {
-        return Room.databaseBuilder(
-            context,
-            KiwiPhotosDatabase::class.java,
-            "kiwi_photos_db"
-        )
-            .fallbackToDestructiveMigration(true)
-            .build()
+        return KiwiPhotosDatabase.getInstance(context)
     }
 
     @Provides
@@ -34,5 +31,26 @@ object DatabaseModule {
         db: KiwiPhotosDatabase
     ): VaultDao {
         return db.vaultDao()
+    }
+
+    @Provides
+    fun provideUndoRedoDao(
+        db: KiwiPhotosDatabase
+    ): UndoRedoDao {
+        return db.undoRedoDao()
+    }
+
+    @Provides
+    fun provideMediaOcrDao(
+        db: KiwiPhotosDatabase
+    ): MediaOcrDao {
+        return db.mediaOcrDao()
+    }
+
+    @Provides
+    fun provideFaceClusterDao(
+        db: KiwiPhotosDatabase
+    ): FaceClusterDao {
+        return db.faceClusterDao()
     }
 }

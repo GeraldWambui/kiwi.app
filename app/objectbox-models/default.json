@@ -4,118 +4,8 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:7082579448776113690",
-      "lastPropertyId": "13:5457364144530201486",
-      "name": "SearchImageEntity",
-      "properties": [
-        {
-          "id": "1:5951140149041201467",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:1664618925364572474",
-          "name": "filePath",
-          "indexId": "1:6743593308178064361",
-          "type": 9,
-          "flags": 2048
-        },
-        {
-          "id": "3:134742374323405734",
-          "name": "fileName",
-          "type": 9
-        },
-        {
-          "id": "4:7679689706179890938",
-          "name": "fileSize",
-          "type": 6
-        },
-        {
-          "id": "5:5177233792319048964",
-          "name": "mimeType",
-          "type": 9
-        },
-        {
-          "id": "6:4159667187483879591",
-          "name": "dateAdded",
-          "type": 10
-        },
-        {
-          "id": "7:7096024417323971273",
-          "name": "dateModified",
-          "type": 10
-        },
-        {
-          "id": "8:1124468010671105963",
-          "name": "width",
-          "type": 5
-        },
-        {
-          "id": "9:2519502128748010062",
-          "name": "height",
-          "type": 5
-        },
-        {
-          "id": "10:5274405188682428694",
-          "name": "embedding",
-          "indexId": "2:3995862668613982400",
-          "type": 28,
-          "flags": 8
-        },
-        {
-          "id": "11:8726430519906176077",
-          "name": "hasFace",
-          "type": 1
-        },
-        {
-          "id": "12:9138987152675177574",
-          "name": "locationLat",
-          "type": 8
-        },
-        {
-          "id": "13:5457364144530201486",
-          "name": "locationLng",
-          "type": 8
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "2:8737763519176533904",
-      "lastPropertyId": "4:4259595870303951174",
-      "name": "SearchTagEntity",
-      "properties": [
-        {
-          "id": "1:8164022213477713745",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:273237530595351914",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "3:2893864393829804336",
-          "name": "confidence",
-          "type": 7
-        },
-        {
-          "id": "4:4259595870303951174",
-          "name": "imageId",
-          "indexId": "3:8857639620348630665",
-          "type": 11,
-          "flags": 520,
-          "relationTarget": "SearchImageEntity"
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "3:2904753035984453654",
-      "lastPropertyId": "6:5088192251983721374",
+      "lastPropertyId": "17:7727804179625443860",
       "name": "ImageEmbedding",
       "properties": [
         {
@@ -152,20 +42,194 @@
           "id": "6:5088192251983721374",
           "name": "indexedAt",
           "type": 6
+        },
+        {
+          "id": "7:158929190690726138",
+          "name": "isNsfw",
+          "type": 1
+        },
+        {
+          "id": "8:1181736554270827267",
+          "name": "nsfwScore",
+          "type": 7
+        },
+        {
+          "id": "9:6850915586565982422",
+          "name": "isTrashed",
+          "type": 1
+        },
+        {
+          "id": "10:1775699681222923227",
+          "name": "trashedAt",
+          "type": 6
+        },
+        {
+          "id": "11:3605153339040511199",
+          "name": "ocrEmbedding",
+          "type": 28
+        },
+        {
+          "id": "12:6701720206466595415",
+          "name": "sharpnessScore",
+          "type": 7
+        },
+        {
+          "id": "13:7550573613342453196",
+          "name": "isBlurry",
+          "type": 1
+        },
+        {
+          "id": "14:1720029149403752447",
+          "name": "aestheticScore",
+          "type": 7
+        },
+        {
+          "id": "15:4367828319711487471",
+          "name": "faceCount",
+          "type": 5
+        },
+        {
+          "id": "16:2597204745511532779",
+          "name": "hasSignificantText",
+          "type": 1
+        },
+        {
+          "id": "17:7727804179625443860",
+          "name": "primaryObject",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:3658794718156203433",
+      "lastPropertyId": "8:3734257754430061359",
+      "name": "BackupRecord",
+      "properties": [
+        {
+          "id": "1:1545619882464640646",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8024939023772310444",
+          "name": "mediaStoreId",
+          "indexId": "6:4550290500581159642",
+          "type": 6,
+          "flags": 8
+        },
+        {
+          "id": "3:2211601171172018302",
+          "name": "remoteAssetId",
+          "type": 9
+        },
+        {
+          "id": "4:5986232272296357891",
+          "name": "checksumSha256",
+          "type": 9
+        },
+        {
+          "id": "5:1507910623661511877",
+          "name": "providerName",
+          "type": 9
+        },
+        {
+          "id": "6:392138787090318696",
+          "name": "backedUpAt",
+          "type": 6
+        },
+        {
+          "id": "7:2710556391682447827",
+          "name": "fileSize",
+          "type": 6
+        },
+        {
+          "id": "8:3734257754430061359",
+          "name": "isSuccess",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:146151930504117407",
+      "lastPropertyId": "6:1152491079383493274",
+      "name": "VideoFrameEmbedding",
+      "properties": [
+        {
+          "id": "1:8119894614809991667",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7834713771119634298",
+          "name": "mediaStoreId",
+          "indexId": "7:678396132588715214",
+          "type": 6,
+          "flags": 8
+        },
+        {
+          "id": "3:2189195901825980257",
+          "name": "timestampMs",
+          "type": 6
+        },
+        {
+          "id": "4:3880470422299866431",
+          "name": "frameIndex",
+          "type": 5
+        },
+        {
+          "id": "5:7449085242946343484",
+          "name": "embedding",
+          "indexId": "8:2315730537699730049",
+          "type": 28,
+          "flags": 8
+        },
+        {
+          "id": "6:1152491079383493274",
+          "name": "ocrText",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "3:2904753035984453654",
-  "lastIndexId": "5:5414572973014807389",
+  "lastEntityId": "5:146151930504117407",
+  "lastIndexId": "8:2315730537699730049",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredEntityUids": [
+    8737763519176533904,
+    7082579448776113690
+  ],
+  "retiredIndexUids": [
+    8857639620348630665,
+    6743593308178064361,
+    3995862668613982400
+  ],
+  "retiredPropertyUids": [
+    8164022213477713745,
+    273237530595351914,
+    2893864393829804336,
+    4259595870303951174,
+    5951140149041201467,
+    1664618925364572474,
+    134742374323405734,
+    7679689706179890938,
+    5177233792319048964,
+    4159667187483879591,
+    7096024417323971273,
+    1124468010671105963,
+    2519502128748010062,
+    5274405188682428694,
+    8726430519906176077,
+    9138987152675177574,
+    5457364144530201486
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

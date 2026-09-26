@@ -4,8 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import co.juneai.june.data.local.converters.Converters
+import co.juneai.june.data.local.daos.FaceClusterDao
+import co.juneai.june.data.local.daos.MediaOcrDao
 import co.juneai.june.data.local.daos.UndoRedoDao
 import co.juneai.june.data.local.daos.VaultDao
+import co.juneai.june.data.local.entities.FaceClusterEntity
+import co.juneai.june.data.local.entities.MediaOcrEntity
+import co.juneai.june.data.local.entities.MediaOcrFtsEntity
 import co.juneai.june.data.local.entities.UndoRedoEntity
 import co.juneai.june.data.local.entities.VaultItemEntity
 import co.juneai.june.data.local.entities.VaultMediaEntity
@@ -14,14 +21,20 @@ import co.juneai.june.data.local.entities.VaultMediaEntity
     entities = [
         UndoRedoEntity::class,
         VaultItemEntity::class,
-        VaultMediaEntity::class
+        VaultMediaEntity::class,
+        MediaOcrEntity::class,
+        MediaOcrFtsEntity::class,
+        FaceClusterEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class KiwiPhotosDatabase : RoomDatabase() {
     abstract fun undoRedoDao(): UndoRedoDao
     abstract fun vaultDao(): VaultDao
+    abstract fun mediaOcrDao(): MediaOcrDao
+    abstract fun faceClusterDao(): FaceClusterDao
 
     companion object {
         @Volatile
@@ -34,7 +47,7 @@ abstract class KiwiPhotosDatabase : RoomDatabase() {
                     KiwiPhotosDatabase::class.java,
                     "kiwi_photos_db"
                 )
-                    .fallbackToDestructiveMigration(false)
+                    .fallbackToDestructiveMigration(true)
                     .build()
                     .also { instance = it }
             }

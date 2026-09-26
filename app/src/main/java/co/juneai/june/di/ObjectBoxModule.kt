@@ -2,12 +2,14 @@ package co.juneai.june.di
 
 import android.content.Context
 import androidx.work.WorkManager
-import co.juneai.june.ml.clip.ClipEmbedder
+import co.juneai.june.data.local.entities.ImageEmbedding
+import co.juneai.june.data.local.entities.MyObjectBox
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.objectbox.Box
 import io.objectbox.BoxStore
 import javax.inject.Singleton
 
@@ -15,31 +17,32 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ObjectBoxModule {
 
+    @Provides
+    @Singleton
+    fun provideBoxStore(@ApplicationContext context: Context): BoxStore {
+        return MyObjectBox.builder()
+            .androidContext(context)
+            .build()
+    }
 
+    @Provides
+    @Singleton
+    fun provideImageEmbeddingBox(boxStore: BoxStore): Box<ImageEmbedding> {
+        return boxStore.boxFor(ImageEmbedding::class.java)
+    }
 
-    // ── ML ────────────────────────────────────────────────────────────────────
+    @Provides
+    @Singleton
+    fun provideVideoFrameEmbeddingBox(boxStore: BoxStore): Box<co.juneai.june.data.local.entities.VideoFrameEmbedding> {
+        return boxStore.boxFor(co.juneai.june.data.local.entities.VideoFrameEmbedding::class.java)
+    }
 
-    /**
-     * [ClipEmbedder] is a singleton because loading two TFLite models (~150 MB combined)
-     * is expensive. A single instance is safe: [ClipEmbedder] is serialized by the worker
-     * coroutine and never accessed concurrently.
-     *
-     * The [ClipEmbedder.close] lifecycle is managed by the process; Hilt will not call it
-     * automatically. If you need explicit teardown, observe [ProcessLifecycleOwner].
-     */
+    @Provides
+    @Singleton
+    fun provideBackupRecordBox(boxStore: BoxStore): Box<co.juneai.june.data.local.entities.BackupRecord> {
+        return boxStore.boxFor(co.juneai.june.data.local.entities.BackupRecord::class.java)
+    }
 
-    // ── Repository ────────────────────────────────────────────────────────────
-
-
-    // ── WorkManager ───────────────────────────────────────────────────────────
-
-    /**
-     * WorkManager is internally a singleton. This binding allows Hilt to inject it
-     * anywhere without a Context reference leaking into ViewModels or Workers.
-     *
-     * Not @Singleton here because [WorkManager.getInstance] is already idempotent;
-     * calling it multiple times is safe and returns the same instance.
-     */
     @Provides
     fun provideWorkManager(@ApplicationContext context: Context): WorkManager =
         WorkManager.getInstance(context)
