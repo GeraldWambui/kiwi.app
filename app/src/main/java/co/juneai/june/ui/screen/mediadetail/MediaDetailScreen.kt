@@ -74,6 +74,7 @@ import co.juneai.june.ml.portrait.PortraitLightingStyle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -87,6 +88,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.R
 import co.juneai.june.domain.model.MediaDetail
 import coil.compose.AsyncImage
+import co.juneai.june.ui.animation.sharedMediaElement
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -267,7 +269,9 @@ fun MediaDetailScreen(
                                 AsyncImage(
                                     model = pageMedia.uri,
                                     contentDescription = pageMedia.title ?: "Video",
-                                    modifier = Modifier.fillMaxSize(),
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .sharedMediaElement(key = "media_${pageMedia.id}", zIndexInOverlay = 1f),
                                     contentScale = ContentScale.Fit
                                 )
                                 Box(
@@ -318,6 +322,7 @@ fun MediaDetailScreen(
                 MediaDetailTopBar(
                     onBack = { onBack() },
                     onShare = { viewModel.onEvent(MediaDetailEvent.Share) },
+                    onInfo = { viewModel.onEvent(MediaDetailEvent.ToggleInfo) },
                     onMoreOptions = { viewModel.onEvent(MediaDetailEvent.MoreOptions) },
                     dateText = dateText,
                     timeText = timeText
@@ -505,7 +510,9 @@ fun ImageViewer(media: MediaDetail) {
         AsyncImage(
             model = media.uri,
             contentDescription = media.title ?: "Image",
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .sharedMediaElement(key = "media_${media.id}", zIndexInOverlay = 1f),
             contentScale = ContentScale.Fit
         )
 
@@ -609,6 +616,7 @@ fun VideoPlayer(media: MediaDetail) {
 fun MediaDetailTopBar(
     onBack: () -> Unit,
     onShare: () -> Unit,
+    onInfo: () -> Unit = {},
     onMoreOptions: () -> Unit,
     dateText: String = "",
     timeText: String = ""
@@ -668,6 +676,15 @@ fun MediaDetailTopBar(
                 )
             }
 
+            IconButton(onClick = onInfo) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_ios_info),
+                    contentDescription = "Info",
+                    tint = Color.White,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+
             IconButton(onClick = onMoreOptions) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_ios_more),
@@ -688,19 +705,28 @@ fun MediaDetailBottomBar(
     onLiftSubject: () -> Unit = {},
     onPortraitMode: () -> Unit = {}
 ) {
+    val heartScale by androidx.compose.animation.core.animateFloatAsState(
+        targetValue = if (isFavorite) 1.25f else 1.0f,
+        animationSpec = androidx.compose.animation.core.spring(
+            dampingRatio = androidx.compose.animation.core.Spring.DampingRatioMediumBouncy,
+            stiffness = androidx.compose.animation.core.Spring.StiffnessMedium
+        ),
+        label = "heartScale"
+    )
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 20.dp, vertical = 12.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(32.dp))
-                .background(Color(0xFF1E1C22).copy(alpha = 0.88f))
-                .padding(horizontal = 8.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+                .background(Color(0xFF1E1C22).copy(alpha = 0.90f))
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { onEvent(MediaDetailEvent.Share) }) {
@@ -708,7 +734,7 @@ fun MediaDetailBottomBar(
                     painter = painterResource(id = R.drawable.ic_ios_share),
                     contentDescription = "Share",
                     tint = Color.White,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(22.dp)
                 )
             }
 
@@ -716,16 +742,16 @@ fun MediaDetailBottomBar(
             IconButton(onClick = onLiftSubject) {
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(36.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFF8E8CD8).copy(alpha = 0.25f)),
+                        .background(Color(0xFF8E8CD8).copy(alpha = 0.28f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Default.AutoAwesome,
                         contentDescription = "Lift Subject",
                         tint = Color(0xFFC7C5FF),
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(18.dp)
                     )
                 }
             }
@@ -734,29 +760,21 @@ fun MediaDetailBottomBar(
             IconButton(onClick = onPortraitMode) {
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(36.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.tertiary.copy(alpha = 0.25f)),
+                        .background(MaterialTheme.colorScheme.tertiary.copy(alpha = 0.28f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Default.CameraAlt,
                         contentDescription = "Portrait Blur",
                         tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(18.dp)
                     )
                 }
             }
 
-            IconButton(onClick = { onEvent(MediaDetailEvent.Edit) }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_ios_edit),
-                    contentDescription = "Edit",
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-
+            // ── Interactive Heart Favorite with Spring Bounce ──
             IconButton(onClick = { onEvent(MediaDetailEvent.ToggleFavorite) }) {
                 Icon(
                     painter = painterResource(
@@ -765,7 +783,9 @@ fun MediaDetailBottomBar(
                     ),
                     contentDescription = "Favorite",
                     tint = if (isFavorite) Color(0xFFFF3B30) else Color.White,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier
+                        .size(22.dp)
+                        .scale(heartScale)
                 )
             }
 
@@ -773,17 +793,8 @@ fun MediaDetailBottomBar(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_ios_trash),
                     contentDescription = "Delete",
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-
-            IconButton(onClick = { onEvent(MediaDetailEvent.ToggleInfo) }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_ios_info),
-                    contentDescription = "Info",
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp)
+                    tint = Color.White.copy(alpha = 0.85f),
+                    modifier = Modifier.size(22.dp)
                 )
             }
         }

@@ -38,6 +38,7 @@ import co.juneai.june.data.repository.PersonHighlight
 import coil.compose.AsyncImage
 import coil.decode.VideoFrameDecoder
 import coil.request.ImageRequest
+import co.juneai.june.ui.animation.sharedMediaElement
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -329,7 +330,9 @@ private fun MemoryStoryCard(story: MemoryStory, onClick: () -> Unit) {
                 .build(),
             contentDescription = story.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .sharedMediaElement(key = "media_${story.coverItem.id}")
         )
 
         // Gradient overlay
@@ -445,7 +448,9 @@ private fun TripHighlightCard(trip: MemoryStory, onClick: () -> Unit) {
                 .build(),
             contentDescription = trip.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .sharedMediaElement(key = "media_${trip.coverItem.id}")
         )
 
         Box(
@@ -504,7 +509,9 @@ private fun FeaturedPhotoCard(
                 .build(),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .sharedMediaElement(key = "media_${mediaItem.id}")
         )
 
         Box(
@@ -580,6 +587,7 @@ private fun SmartCollectionRow(story: MemoryStory, onMediaClick: (Long) -> Unit)
                     modifier = Modifier
                         .size(105.dp)
                         .clip(RoundedCornerShape(12.dp))
+                        .sharedMediaElement(key = "media_${item.id}")
                         .clickable { onMediaClick(item.id) }
                 )
             }

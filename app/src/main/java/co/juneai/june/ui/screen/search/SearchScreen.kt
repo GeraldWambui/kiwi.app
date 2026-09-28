@@ -98,6 +98,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.navigation.Screens
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import co.juneai.june.ui.animation.sharedMediaElement
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -397,7 +398,9 @@ fun SearchScreen(
                                                 .build(),
                                             contentDescription = item.name,
                                             contentScale = ContentScale.Crop,
-                                            modifier = Modifier.fillMaxSize()
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .sharedMediaElement(key = "media_${item.id}")
                                         )
 
                                         if (isBlurred) {
