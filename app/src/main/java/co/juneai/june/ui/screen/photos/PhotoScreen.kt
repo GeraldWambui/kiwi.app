@@ -128,6 +128,7 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.VideoFrameDecoder
 import coil.request.ImageRequest
+import co.juneai.june.ui.animation.sharedMediaElement
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -223,6 +224,8 @@ fun PhotoScreen(
             } else {
                 LibraryTopBar(
                     viewModel = viewModel,
+                    totalCount = displayedMedia.size,
+                    onEnterSelection = { selection.enterSelectionMode() },
                     onNavigateToAlbums = onNavigateToAlbums,
                     onNavigateToSettings = onNavigateToSettings,
                     onVoiceSearch = onVoiceSearch
@@ -537,7 +540,9 @@ fun MediaGridItem(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .sharedMediaElement(key = "media_${item.id}"),
                 contentScale = ContentScale.Crop,
                 placeholder = rememberAsyncImagePainter(
                     model = item.uri
@@ -552,7 +557,9 @@ fun MediaGridItem(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .sharedMediaElement(key = "media_${item.id}"),
                 contentScale = ContentScale.Crop
             )
         }
@@ -624,7 +631,9 @@ private fun formatDuration(millis: Long): String {
 @Composable
 private fun LibraryTopBar(
     viewModel: AlbumsViewModel,
-    onNavigateToAlbums: () -> Unit,
+    totalCount: Int = 0,
+    onEnterSelection: () -> Unit = {},
+    onNavigateToAlbums: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
     onVoiceSearch: () -> Unit = {}
 ) {
@@ -636,17 +645,6 @@ private fun LibraryTopBar(
     val headerBgColor =
         MaterialTheme.colorScheme.background.copy(alpha = if (isLight) 0.8f else 1.0f)
     val headerBorderColor = MaterialTheme.colorScheme.outline
-    // Stitch Pill Toggle colors
-    val pillContainerBg =
-        if (isLight) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f) else Color.White.copy(
-            alpha = 0.05f
-        )
-    val pillActiveBg = MaterialTheme.colorScheme.primary // bg-kiwi / bg-[#6B8E23]
-    val pillActiveText =
-        if (isLight) Color.White else MaterialTheme.colorScheme.onPrimary // text-white / text-[#0A0F09]
-    val pillInactiveText =
-        if (isLight) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) else MaterialTheme.colorScheme.secondary // kiwi-dark/60 or kiwi-light
-
 
     // Debounce search
     LaunchedEffect(searchQuery) {
@@ -784,106 +782,103 @@ private fun LibraryTopBar(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 4.dp)
-                        .padding(horizontal = 16.dp, vertical = 2.dp),
+                        .padding(top = 6.dp, bottom = 8.dp)
+                        .padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(
-                        onClick = { searchActive = true },
-                        modifier = Modifier
-                            .background(
-                                color = if (isLight) MaterialTheme.colorScheme.surfaceVariant else Color.White.copy(
-                                    alpha = 0.1f
-                                ),
-                                shape = CircleShape
-                            )
-                            .size(40.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_ios_search),
-                            contentDescription = stringResource(R.string.search),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.size(20.dp)
+                    Column(modifier = Modifier.padding(start = 4.dp)) {
+                        Text(
+                            text = stringResource(R.string.kiwi_gallery),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            letterSpacing = (-0.5).sp
                         )
+                        if (totalCount > 0) {
+                            Text(
+                                text = "$totalCount items",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
 
-                    Text(
-                        text = stringResource(R.string.kiwi_gallery),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        letterSpacing = (-0.5).sp
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        IconButton(
+                            onClick = { searchActive = true },
+                            modifier = Modifier
+                                .background(
+                                    color = if (isLight) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
+                                    else Color.White.copy(alpha = 0.1f),
+                                    shape = CircleShape
+                                )
+                                .size(36.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_ios_search),
+                                contentDescription = stringResource(R.string.search),
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
 
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(onClick = { onVoiceSearch() }) {
+                        IconButton(
+                            onClick = { onVoiceSearch() },
+                            modifier = Modifier
+                                .background(
+                                    color = if (isLight) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
+                                    else Color.White.copy(alpha = 0.1f),
+                                    shape = CircleShape
+                                )
+                                .size(36.dp)
+                        ) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_ios_mic),
                                 contentDescription = stringResource(R.string.voice_search),
                                 tint = MaterialTheme.colorScheme.tertiary,
-                                modifier = Modifier.size(26.dp)
+                                modifier = Modifier.size(20.dp)
                             )
                         }
 
-                        IconButton(onClick = onNavigateToSettings) {
+                        Surface(
+                            onClick = onEnterSelection,
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                            modifier = Modifier.height(34.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier.padding(horizontal = 14.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Select",
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
+                        }
+
+                        IconButton(
+                            onClick = onNavigateToSettings,
+                            modifier = Modifier.size(36.dp)
+                        ) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_ios_account),
                                 contentDescription = "Settings",
                                 tint = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(22.dp)
                             )
                         }
                     }
                 }
 
-                    // View Toggle Pill
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .background(pillContainerBg, CircleShape)
-                                .padding(4.dp)
-                                .clip(CircleShape),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            // Photos Pill (Active)
-                            Box(
-                                modifier = Modifier
-                                    .background(pillActiveBg, CircleShape)
-                                    .padding(horizontal = 32.dp, vertical = 6.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.photos),
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = pillActiveText
-                                )
-                            }
-
-                            // Albums Pill (Inactive)
-                            Box(
-                                modifier = Modifier
-                                    .clickable { onNavigateToAlbums() }
-                                    .padding(horizontal = 32.dp, vertical = 6.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.albums),
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = pillInactiveText
-                                )
-                            }
-                        }
-                    }
-
-                HorizontalDivider(color = headerBorderColor, thickness = 1.dp)
+                HorizontalDivider(color = headerBorderColor.copy(alpha = 0.5f), thickness = 0.5.dp)
             }
         }
     }

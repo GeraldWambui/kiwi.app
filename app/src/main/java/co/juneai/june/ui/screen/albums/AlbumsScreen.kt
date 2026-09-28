@@ -34,6 +34,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.CleaningServices
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
@@ -42,7 +44,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.vector.ImageVector
+import co.juneai.june.ui.animation.sharedMediaElement
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -172,154 +177,45 @@ fun AlbumsScreen(
                 )
             }
 
+            // Quick Access Hub
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                QuickAccessHub(
+                    onNavigateToPeople = onNavigateToPeople,
+                    onNavigateToMap = onNavigateToMap,
+                    onNavigateToCleaner = onNavigateToCleaner,
+                    onNavigateToVault = onNavigateToVault,
+                    onNavigateToTrash = onNavigateToTrash
+                )
+            }
+
+            // Section Header: My Albums
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "My Albums",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "${mainAlbums.size} albums",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
             items(displayAlbums, key = { it.id }) { album ->
                 AlbumCard(album = album, onClick = {
                     viewModel.selectAlbum(album)
                 })
-            }
-
-            // ── People & Pets Feature Tile ──────────────
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                        .clickable { onNavigateToPeople() }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Person,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "People & Pets",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "View and organize detected face collections",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-            }
-
-            // ── Photo Map Explorer Tile ─────────────────
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                        .clickable { onNavigateToMap() }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(CircleShape)
-                            .background(Color(0xFF4CAF50).copy(alpha = 0.2f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Map,
-                            contentDescription = null,
-                            tint = Color(0xFF4CAF50),
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Photo Map Explorer",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "Explore your photos and travels geographically",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-            }
-
-            // ── Storage Cleaner Tile ────────────────────
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                        .clickable { onNavigateToCleaner() }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(CircleShape)
-                            .background(Color(0xFFE91E63).copy(alpha = 0.2f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CleaningServices,
-                            contentDescription = null,
-                            tint = Color(0xFFE91E63),
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Storage Cleaner & Duplicates",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "Find duplicate photos, large videos & free space",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
             }
 
             if (!showAllAlbums && mainAlbums.size > 6) {
@@ -430,7 +326,9 @@ fun AlbumDetailView(
                     AsyncImage(
                         model = media.uri,
                         contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .sharedMediaElement(key = "media_${media.id}"),
                         contentScale = ContentScale.Crop
                     )
 
@@ -466,7 +364,7 @@ fun AlbumDetailView(
 }
 @Composable
 private fun AlbumsTopBar(
-    onNavigateToPhotos: () -> Unit,
+    onNavigateToPhotos: () -> Unit = {},
     onNavigateToTrash: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
     onVoiceSearch: () -> Unit = {}
@@ -474,10 +372,6 @@ private fun AlbumsTopBar(
     val isLight = MaterialTheme.colorScheme.background.red > 0.5f
     val headerBgColor = MaterialTheme.colorScheme.background.copy(alpha = if (isLight) 0.8f else 1.0f)
     val headerBorderColor = MaterialTheme.colorScheme.outline
-    val pillContainerBg = if (isLight) MaterialTheme.colorScheme.surfaceVariant.copy(alpha=0.3f) else Color.White.copy(alpha=0.05f)
-    val pillActiveBg = MaterialTheme.colorScheme.primary
-    val pillActiveText = if (isLight) Color.White else MaterialTheme.colorScheme.onPrimary
-    val pillInactiveText = if (isLight) MaterialTheme.colorScheme.onSurface.copy(alpha=0.6f) else MaterialTheme.colorScheme.secondary
 
     Column(
         modifier = Modifier
@@ -487,33 +381,28 @@ private fun AlbumsTopBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 2.dp),
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onVoiceSearch) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_ios_mic),
-                    contentDescription = stringResource(R.string.voice_search),
-                    tint = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.size(28.dp)
-                )
-            }
-            
             Text(
                 text = "Collections",
-                fontSize = 20.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
                 letterSpacing = (-0.5).sp
             )
-            Spacer(Modifier.width(10.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onNavigateToTrash) {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                IconButton(onClick = onVoiceSearch) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_ios_trash),
-                        contentDescription = stringResource(R.string.trash_bin),
-                        tint = MaterialTheme.colorScheme.onSurface
+                        painter = painterResource(R.drawable.ic_ios_mic),
+                        contentDescription = stringResource(R.string.voice_search),
+                        tint = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
 
@@ -528,49 +417,123 @@ private fun AlbumsTopBar(
             }
         }
 
+        HorizontalDivider(color = headerBorderColor.copy(alpha = 0.5f), thickness = 0.5.dp)
+    }
+}
+
+@Composable
+private fun QuickAccessHub(
+    onNavigateToPeople: () -> Unit,
+    onNavigateToMap: () -> Unit,
+    onNavigateToCleaner: () -> Unit,
+    onNavigateToVault: () -> Unit,
+    onNavigateToTrash: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+    ) {
+        Text(
+            text = "Explore & Utilities",
+            fontSize = 17.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(bottom = 10.dp, start = 4.dp)
+        )
+
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 2.dp),
-            horizontalArrangement = Arrangement.Center
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .background(pillContainerBg, CircleShape)
-                    .padding(4.dp)
-                    .clip(CircleShape),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clickable { onNavigateToPhotos() }
-                        .padding(horizontal = 32.dp, vertical = 6.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        stringResource(R.string.photos),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = pillInactiveText
-                    )
-                }
-                
-                Box(
-                    modifier = Modifier
-                        .background(pillActiveBg, CircleShape)
-                        .padding(horizontal = 32.dp, vertical = 6.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        stringResource(R.string.albums),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = pillActiveText
-                    )
-                }
-            }
+            HubItem(
+                icon = Icons.Default.Person,
+                title = "People",
+                badgeBg = Color(0xFF6366F1).copy(alpha = 0.15f),
+                iconTint = Color(0xFF6366F1),
+                modifier = Modifier.weight(1f),
+                onClick = onNavigateToPeople
+            )
+            HubItem(
+                icon = Icons.Default.Map,
+                title = "Map",
+                badgeBg = Color(0xFF10B981).copy(alpha = 0.15f),
+                iconTint = Color(0xFF10B981),
+                modifier = Modifier.weight(1f),
+                onClick = onNavigateToMap
+            )
+            HubItem(
+                icon = Icons.Default.CleaningServices,
+                title = "Cleaner",
+                badgeBg = Color(0xFFF43F5E).copy(alpha = 0.15f),
+                iconTint = Color(0xFFF43F5E),
+                modifier = Modifier.weight(1f),
+                onClick = onNavigateToCleaner
+            )
+            HubItem(
+                icon = Icons.Default.Lock,
+                title = "Vault",
+                badgeBg = Color(0xFFF59E0B).copy(alpha = 0.15f),
+                iconTint = Color(0xFFF59E0B),
+                modifier = Modifier.weight(1f),
+                onClick = onNavigateToVault
+            )
+            HubItem(
+                icon = Icons.Default.Delete,
+                title = "Trash",
+                badgeBg = Color(0xFF64748B).copy(alpha = 0.15f),
+                iconTint = Color(0xFF64748B),
+                modifier = Modifier.weight(1f),
+                onClick = onNavigateToTrash
+            )
         }
-        HorizontalDivider(color = headerBorderColor, thickness = 1.dp)
+    }
+}
+
+@Composable
+private fun HubItem(
+    icon: ImageVector,
+    title: String,
+    badgeBg: Color,
+    iconTint: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
+        modifier = modifier
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 2.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(badgeBg),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title,
+                    tint = iconTint,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = title,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1
+            )
+        }
     }
 }
 
