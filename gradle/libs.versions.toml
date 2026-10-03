@@ -3,7 +3,7 @@ agp = "8.13.2"
 kotlin = "2.2.21"
 ksp = "2.3.3"
 
-hilt = "2.57.2"
+hilt = "2.60.1"
 objectbox = "4.0.3"
 
 coreKtx = "1.17.0"
