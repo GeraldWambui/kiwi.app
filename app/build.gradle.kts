@@ -148,8 +148,8 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
 
     // ObjectBox
-    implementation("io.objectbox:objectbox-android:5.4.1")
-    implementation("io.objectbox:objectbox-kotlin:5.4.1")
+    implementation("io.objectbox:objectbox-android:5.4.2")
+    implementation("io.objectbox:objectbox-kotlin:5.4.2")
 
     //Work Around
     // Forces the fixed 16 KB-aligned version of shared ML Kit utilities
