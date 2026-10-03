@@ -134,7 +134,7 @@ dependencies {
     implementation("androidx.compose.animation:animation:1.10.6")
 
 
-    implementation("com.google.ai.edge.litert:litert:2.1.4")
+    implementation("com.google.ai.edge.litert:litert:2.2.0")
 
     // Paging 3
     implementation("androidx.paging:paging-runtime-ktx:3.4.2")
