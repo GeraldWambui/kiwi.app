@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.juneai.june.data.local.daos.FaceClusterDao
 import co.juneai.june.data.local.daos.MediaOcrDao
+import co.juneai.june.data.local.daos.VideoAudioDao
 import co.juneai.june.data.local.entities.ImageEmbedding
 import co.juneai.june.data.local.entities.ImageEmbedding_
 import co.juneai.june.data.model.MediaItem
@@ -51,6 +52,7 @@ class MediaDetailViewModel @Inject constructor(
     private val repository: MediaStoreRepository,
     private val embeddingBox: Box<ImageEmbedding>,
     private val mediaOcrDao: MediaOcrDao,
+    private val videoAudioDao: VideoAudioDao,
     private val faceClusterDao: FaceClusterDao,
     private val subjectSegmenter: SubjectSegmenter,
     private val portraitBokehRenderer: PortraitBokehRenderer,
@@ -166,8 +168,16 @@ class MediaDetailViewModel @Inject constructor(
             val ocrEntity = mediaOcrDao.getOcrByMediaId(mediaId)
             val faceEntities = faceClusterDao.getFacesForMedia(mediaId)
             val personNames = faceEntities.map { it.personName }.filter { it.isNotBlank() }.distinct()
+            val audioMoments = try {
+                videoAudioDao.getAudioByMediaId(mediaId).filter { 
+                    it.audioEvents.isNotBlank() && it.audioEvents != "Silent" && it.audioEvents != "No Audio Track" ||
+                    it.transcript.isNotBlank()
+                }
+            } catch (_: Exception) {
+                emptyList()
+            }
 
-            if (embedding != null || ocrEntity != null || faceEntities.isNotEmpty()) {
+            if (embedding != null || ocrEntity != null || faceEntities.isNotEmpty() || audioMoments.isNotEmpty()) {
                 MediaAiMetadata(
                     ocrText = ocrEntity?.extractedText?.takeIf { it.isNotBlank() },
                     textSnippet = ocrEntity?.textSnippet?.takeIf { it.isNotBlank() },
@@ -178,7 +188,8 @@ class MediaDetailViewModel @Inject constructor(
                     faceCount = embedding?.faceCount ?: faceEntities.size,
                     isNsfw = embedding?.isNsfw ?: false,
                     nsfwScore = embedding?.nsfwScore ?: 0f,
-                    personNames = personNames
+                    personNames = personNames,
+                    audioMoments = audioMoments
                 )
             } else null
         } catch (e: Exception) {

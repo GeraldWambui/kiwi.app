@@ -10,6 +10,14 @@ const PARTS_CONFIG = {
   }
 };
 
+const ALL_MODELS = [
+  "mobileclip_s2.tflite",
+  "yamnet.tflite",
+  "yamnet_class_map.csv",
+  "whisper-tiny.en.tflite",
+  "filters_vocab_en.bin"
+];
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -19,7 +27,7 @@ export default {
       return new Response(JSON.stringify({
         status: "online",
         service: "Kiwi Photos AI Model CDN",
-        models: Object.keys(PARTS_CONFIG)
+        models: ALL_MODELS
       }, null, 2), {
         status: 200,
         headers: {

@@ -6,6 +6,7 @@ import co.juneai.june.data.local.daos.FaceClusterDao
 import co.juneai.june.data.local.daos.MediaOcrDao
 import co.juneai.june.data.local.daos.UndoRedoDao
 import co.juneai.june.data.local.daos.VaultDao
+import co.juneai.june.data.local.daos.VideoAudioDao
 import co.juneai.june.data.local.db.KiwiPhotosDatabase
 import dagger.Module
 import dagger.Provides
@@ -52,5 +53,12 @@ object DatabaseModule {
         db: KiwiPhotosDatabase
     ): FaceClusterDao {
         return db.faceClusterDao()
+    }
+
+    @Provides
+    fun provideVideoAudioDao(
+        db: KiwiPhotosDatabase
+    ): VideoAudioDao {
+        return db.videoAudioDao()
     }
 }

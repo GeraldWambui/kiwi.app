@@ -15,7 +15,8 @@ data class MediaAiMetadata(
     val faceCount: Int = 0,
     val isNsfw: Boolean = false,
     val nsfwScore: Float = 0f,
-    val personNames: List<String> = emptyList()
+    val personNames: List<String> = emptyList(),
+    val audioMoments: List<co.juneai.june.data.local.entities.VideoAudioEntity> = emptyList()
 )
 
 data class MediaDetailState(

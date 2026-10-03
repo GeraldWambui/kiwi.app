@@ -9,9 +9,11 @@ import androidx.lifecycle.viewModelScope
 import co.juneai.june.data.local.daos.FaceClusterDao
 import co.juneai.june.data.local.daos.MediaOcrDao
 import co.juneai.june.data.local.daos.UndoRedoDao
+import co.juneai.june.data.local.daos.VideoAudioDao
 import co.juneai.june.data.local.entities.ImageEmbedding
 import co.juneai.june.data.local.entities.ImageEmbedding_
 import co.juneai.june.data.local.entities.UndoRedoEntity
+import co.juneai.june.data.local.entities.VideoAudioEntity
 import co.juneai.june.data.model.MediaItem
 import co.juneai.june.data.repository.MediaStoreRepository
 import co.juneai.june.domain.intent.CategoryFilter
@@ -83,6 +85,7 @@ class SearchViewModel @Inject constructor(
     private val videoFrameBox: Box<co.juneai.june.data.local.entities.VideoFrameEmbedding>,
     private val mediaStoreRepository: MediaStoreRepository,
     private val mediaOcrDao: MediaOcrDao,
+    private val videoAudioDao: VideoAudioDao,
     private val faceClusterDao: FaceClusterDao,
     private val undoRedoDao: UndoRedoDao,
     private val intentRouter: co.juneai.june.domain.intent.IntentRouter,
@@ -272,7 +275,27 @@ class SearchViewModel @Inject constructor(
                 } else true
 
                 nameMatch && dateMatch && locMatch
-            }.map { SearchResultItem(media = it, similarity = 1.0f) }
+            }.map { SearchResultItem(media = it, similarity = 1.0f) }.toMutableList()
+
+            // Match acoustic events and speech transcripts
+            try {
+                val audioMatches = videoAudioDao.searchAudioLike(queryText)
+                for (am in audioMatches) {
+                    val mediaItem = allMedia[am.mediaStoreId] ?: continue
+                    val minutes = am.timestampMs / 60000
+                    val seconds = (am.timestampMs % 60000) / 1000
+                    val timeStr = String.format("%d:%02d", minutes, seconds)
+                    val label = if (am.transcript.isNotBlank()) "Heard: \"${am.transcript}\"" else "Sound: ${am.audioEvents}"
+                    textMatches.add(
+                        SearchResultItem(
+                            media = mediaItem,
+                            similarity = 1.0f,
+                            matchedTimestampMs = am.timestampMs,
+                            ocrSnippet = "$label at $timeStr"
+                        )
+                    )
+                }
+            } catch (_: Exception) {}
 
             withContext(Dispatchers.Main) {
                 _searchResults.value = textMatches
@@ -428,6 +451,45 @@ class SearchViewModel @Inject constructor(
                         scoredResults.add(videoResult)
                     }
                 }
+            }
+        }
+
+        // 5. Temporal Video Audio & Speech Recognition Search
+        if (mediaFilter == MediaTypeFilter.ALL || mediaFilter == MediaTypeFilter.VIDEOS_ONLY) {
+            try {
+                val audioMatches = videoAudioDao.searchAudioLike(queryText)
+                for (match in audioMatches) {
+                    val mediaItem = allMedia[match.mediaStoreId] ?: continue
+                    val minutes = match.timestampMs / 60000
+                    val seconds = (match.timestampMs % 60000) / 1000
+                    val timeStr = String.format("%d:%02d", minutes, seconds)
+
+                    val snippetText = if (match.transcript.isNotBlank()) {
+                        "Heard: \"${match.transcript}\" at $timeStr"
+                    } else {
+                        "Sound: ${match.audioEvents} at $timeStr"
+                    }
+
+                    val existingIdx = scoredResults.indexOfFirst { it.media.id == match.mediaStoreId }
+                    val audioScore = (match.confidence * 0.95f).coerceIn(0.70f, 0.99f)
+
+                    val videoResult = SearchResultItem(
+                        media = mediaItem,
+                        similarity = max(audioScore, scoredResults.getOrNull(existingIdx)?.similarity ?: 0f).coerceIn(0f, 1f),
+                        matchedTimestampMs = match.timestampMs,
+                        ocrSnippet = snippetText
+                    )
+
+                    if (existingIdx >= 0) {
+                        if (audioScore > (scoredResults[existingIdx].similarity)) {
+                            scoredResults[existingIdx] = videoResult
+                        }
+                    } else {
+                        scoredResults.add(videoResult)
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Error during audio/speech search")
             }
         }
 

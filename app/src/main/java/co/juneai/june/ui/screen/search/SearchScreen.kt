@@ -434,8 +434,12 @@ fun SearchScreen(
                                             val minutes = resultItem.matchedTimestampMs / 60000
                                             val seconds = (resultItem.matchedTimestampMs % 60000) / 1000
                                             val timeStr = String.format("%d:%02d", minutes, seconds)
+                                            val isAudioMatch = resultItem.ocrSnippet.startsWith("Heard:") || resultItem.ocrSnippet.startsWith("Sound:")
+                                            val pillColor = if (isAudioMatch) Color(0xFF10B981).copy(alpha = 0.92f) else Color(0xFF007AFF).copy(alpha = 0.90f)
+                                            val icon = if (isAudioMatch) Icons.Default.Mic else Icons.Default.SmartDisplay
+
                                             androidx.compose.material3.Surface(
-                                                color = Color(0xFF007AFF).copy(alpha = 0.90f),
+                                                color = pillColor,
                                                 shape = RoundedCornerShape(topStart = 6.dp),
                                                 modifier = Modifier.align(Alignment.BottomEnd)
                                             ) {
@@ -444,8 +448,8 @@ fun SearchScreen(
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
                                                     Icon(
-                                                        imageVector = Icons.Default.SmartDisplay,
-                                                        contentDescription = null,
+                                                        imageVector = icon,
+                                                        contentDescription = if (isAudioMatch) "Audio match" else "Moment match",
                                                         tint = Color.White,
                                                         modifier = Modifier.size(11.dp)
                                                     )

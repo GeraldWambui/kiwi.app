@@ -76,6 +76,12 @@
 - Variable aperture depth slider: $f/1.4$ (maximum bokeh) to $f/16$ (sharp).
 - Studio lighting color matrices: *Natural Bokeh*, *Stage Mono (B&W Background)*, *Studio Spotlight*, *Golden Hour Warmth*.
 
+### E. Acoustic Event Detection & Speech Recognition ([AudioTrackExtractor.kt](file:///Users/cadmus/AndroidStudioProjects/Kiwi/app/src/main/java/co/juneai/june/ml/audio/AudioTrackExtractor.kt), [YamnetAudioClassifier.kt](file:///Users/cadmus/AndroidStudioProjects/Kiwi/app/src/main/java/co/juneai/june/ml/audio/YamnetAudioClassifier.kt), [WhisperSpeechTranscriber.kt](file:///Users/cadmus/AndroidStudioProjects/Kiwi/app/src/main/java/co/juneai/june/ml/audio/WhisperSpeechTranscriber.kt))
+- **Audio Extraction**: Hardware-accelerated demuxing of video audio tracks via `MediaExtractor` and `MediaCodec`, downmixed to 16,000 Hz Mono Float PCM.
+- **Acoustic Event Detection (AED)**: Google YAMNet classifies 521 non-speech sounds (music, laughter, singing, applause, barking, engine, sirens, water) with temporal timestamps.
+- **Automatic Speech Recognition (ASR)**: OpenAI Whisper Tiny INT8 TFLite with on-device Mel filterbank extraction (`filters_vocab_en.bin`) transcribes spoken words into timestamped text segments.
+- **Storage & Seeking**: Indexed into Room SQLite `video_audio` and `video_audio_fts` (FTS4). Queries in `SearchViewModel.kt` return matched moments with emerald green pills and 1-tap playback seeking in `VideoPlayerScreen`.
+
 ---
 
 ## 4. 🗄️ Database Schemas & Storage Entities

@@ -10,12 +10,15 @@ import co.juneai.june.data.local.daos.FaceClusterDao
 import co.juneai.june.data.local.daos.MediaOcrDao
 import co.juneai.june.data.local.daos.UndoRedoDao
 import co.juneai.june.data.local.daos.VaultDao
+import co.juneai.june.data.local.daos.VideoAudioDao
 import co.juneai.june.data.local.entities.FaceClusterEntity
 import co.juneai.june.data.local.entities.MediaOcrEntity
 import co.juneai.june.data.local.entities.MediaOcrFtsEntity
 import co.juneai.june.data.local.entities.UndoRedoEntity
 import co.juneai.june.data.local.entities.VaultItemEntity
 import co.juneai.june.data.local.entities.VaultMediaEntity
+import co.juneai.june.data.local.entities.VideoAudioEntity
+import co.juneai.june.data.local.entities.VideoAudioFtsEntity
 
 @Database(
     entities = [
@@ -24,9 +27,11 @@ import co.juneai.june.data.local.entities.VaultMediaEntity
         VaultMediaEntity::class,
         MediaOcrEntity::class,
         MediaOcrFtsEntity::class,
-        FaceClusterEntity::class
+        FaceClusterEntity::class,
+        VideoAudioEntity::class,
+        VideoAudioFtsEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -35,6 +40,7 @@ abstract class KiwiPhotosDatabase : RoomDatabase() {
     abstract fun vaultDao(): VaultDao
     abstract fun mediaOcrDao(): MediaOcrDao
     abstract fun faceClusterDao(): FaceClusterDao
+    abstract fun videoAudioDao(): VideoAudioDao
 
     companion object {
         @Volatile
