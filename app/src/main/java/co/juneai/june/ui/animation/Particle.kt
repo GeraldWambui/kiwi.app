@@ -1,4 +1,4 @@
-package co.juneai.june.domain.model
+package co.juneai.june.ui.animation
 
 data class Particle(
     val angle: Float,

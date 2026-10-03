@@ -1,25 +1,45 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
+# Gradle & Build Artifacts
+.gradle/
+build/
 /captures
+*.iml
 .externalNativeBuild
 .cxx
+
+# Android Studio & IDEs
+.idea/
+*.iws
+*.ipr
+*.swp
+*~
+.DS_Store
+
+# Local Configuration & Keystores
 local.properties
+/local.properties
+*.jks
+*.keystore
 
-*.aab
+# Build Outputs
 *.apk
+*.aab
+*.ap_
 
-# ML models
+# ML Models & Cache
 *.tflite
+*.onnx
 
-*.bak
+# Python Virtual Environments & Caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Kotlin & Compiler Caches
 .kotlin/
+*.bak
+
+# Cloudflare & Deployment
 .wrangler/

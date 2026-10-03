@@ -117,7 +117,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.data.model.AlbumItem
 import co.juneai.june.data.model.MediaItem
 import co.juneai.june.data.model.SearchResult
-import co.juneai.june.domain.model.Particle
+import co.juneai.june.ui.animation.Particle
 import co.juneai.june.ui.screen.albums.AlbumsViewModel
 import co.juneai.june.ui.screen.search.SearchMode
 import co.juneai.june.ui.screen.vault.VaultViewModel

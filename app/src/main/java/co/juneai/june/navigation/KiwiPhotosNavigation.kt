@@ -38,8 +38,8 @@ import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import co.juneai.june.ui.ext.KiwiPhotosBottomNavBar
-import co.juneai.june.ui.ext.bottomNavItems
+import co.juneai.june.ui.components.navigation.KiwiPhotosBottomNavBar
+import co.juneai.june.ui.components.navigation.bottomNavItems
 import co.juneai.june.ui.screen.albums.AlbumsScreen
 import co.juneai.june.ui.screen.foryou.ForYouScreen
 import co.juneai.june.ui.screen.mediadetail.MediaDetailScreen

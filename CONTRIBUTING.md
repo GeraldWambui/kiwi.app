@@ -88,10 +88,13 @@ Kiwi Photos adheres to **Clean Architecture** with **Jetpack Compose**, **Unidir
 Presentation (Compose UI) ──► ViewModel (UDF StateFlow) ──► Domain (ML/Processors) ──► Data (ObjectBox / MediaStore)
 ```
 
-- **`ui/screen/`**: Jetpack Compose screens, components, and state representations.
-- **`domain/`**: Business logic, domain models, and computational algorithms.
-- **`ml/`**: On-device machine learning pipelines (TFLite MobileCLIP-S2, MobileFaceNet, ML Kit OCR).
-- **`data/`**: ObjectBox vector database, Room SQLite databases, MediaStore content resolvers, and Keystore encryption.
+- **`ui/`**: Jetpack Compose screens (`ui/screen/`), common widgets (`ui/components/`), theme, and animation bridges.
+- **`domain/`**: Pure Kotlin business models (`domain/model/`), NLP intent parsing (`domain/intent/`), and repository interfaces.
+- **`ml/`**: On-device machine learning pipelines (`ml/clip/`, `ml/face/`, `ml/ocr/`, `ml/portrait/`, `ml/segmentation/`, `ml/tagging/`, `ml/vector/`, `ml/video/`).
+- **`data/`**: ObjectBox vector database, Room SQLite databases, MediaStore repository, and EncryptedSharedPreferences.
+- **`service/`**: Battery-aware AndroidX WorkManager background indexers.
+
+For the comprehensive directory layout, package map, and module specifications, please read [**docs/ARCHITECTURE.md**](docs/ARCHITECTURE.md).
 
 ### Threading & Performance Rules
 

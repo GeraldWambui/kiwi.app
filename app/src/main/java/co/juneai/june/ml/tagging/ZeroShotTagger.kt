@@ -1,4 +1,4 @@
-package co.juneai.june.ml
+package co.juneai.june.ml.tagging
 
 class ZeroShotTagger {
     

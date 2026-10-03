@@ -1,4 +1,4 @@
-package co.juneai.june.ml
+package co.juneai.june.ml.tagging
 
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,12 +59,11 @@ class PrimaryObjectDetector @Inject constructor() {
         return primaryObject to confidence
     }
     
-    private fun isScene(tag: String): Boolean {
-        val scenes = setOf(
-            "beach", "mountain", "forest", "city", "street", "park",
-            "river", "lake", "ocean", "desert", "sky", "field"
+    private fun isScene(label: String): Boolean {
+        return label in listOf(
+            "landscape", "nature", "outdoor", "indoor",
+            "room", "wall", "floor", "sky", "water"
         )
-        return scenes.any { tag.lowercase().contains(it) }
     }
     
     private fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
@@ -79,8 +78,7 @@ class PrimaryObjectDetector @Inject constructor() {
             normB += b[i] * b[i]
         }
         
-        return if (normA > 0 && normB > 0) {
-            dot / (sqrt(normA) * sqrt(normB))
-        } else 0f
+        val denom = (sqrt(normA) * sqrt(normB))
+        return if (denom > 0f) dot / denom else 0f
     }
 }

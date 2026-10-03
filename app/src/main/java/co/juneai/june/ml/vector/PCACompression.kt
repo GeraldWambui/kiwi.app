@@ -1,4 +1,4 @@
-package co.juneai.june.ml
+package co.juneai.june.ml.vector
 
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.SingularValueDecomposition
@@ -49,7 +49,7 @@ class PCACompression {
     }
     
     private fun normalize(vector: FloatArray): FloatArray {
-        val norm = sqrt(vector.sumOf { it * it.toDouble() }).toFloat()
-        return if (norm > 0) vector.map { it / norm }.toFloatArray() else vector
+        val norm = sqrt(vector.sumOf { (it * it).toDouble() }).toFloat()
+        return if (norm > 0f) vector.map { it / norm }.toFloatArray() else vector
     }
 }

@@ -1,4 +1,4 @@
-package co.juneai.june.ui.ext
+package co.juneai.june.ui.components.navigation
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring

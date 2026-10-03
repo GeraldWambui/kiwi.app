@@ -146,21 +146,29 @@
 ```
 app/src/main/java/co/juneai/june/
 ├── data/
-│   ├── local/              # DAOs, ObjectBox Entities, EncryptedSharedPreferences
-│   ├── model/              # MediaItem, SearchFilter models
-│   └── repository/         # MediaStoreRepository, MediaStoreTrashHelper
-├── domain/model/           # MediaDetail, FileInfo, UI models
+│   ├── local/              # DAOs, ObjectBox Entities, EncryptedSharedPreferences, EntityMappers
+│   ├── model/              # MediaItem, SearchResult, ExifData models
+│   └── repository/         # MediaStoreRepository, StorageCleanerRepository, MemoriesRepository
+├── domain/
+│   ├── intent/             # IntentParser, IntentRouter, DateRangeFilter
+│   ├── model/              # MediaDetail, FileInfo, VaultAuthMode
+│   └── repository/         # GalleryRepository, VaultManagerRepository
 ├── ml/
 │   ├── clip/               # ClipEmbedder.kt (MobileCLIP-S2 & CLIP ViT-B/32)
 │   ├── face/               # FaceDetectorAndClusterer.kt & FaceEmbedder.kt
 │   ├── ocr/                # OcrScanner.kt (ML Kit Text Recognition)
 │   ├── portrait/           # PortraitBokehRenderer.kt (Depth Bokeh & Studio Light)
-│   └── segmentation/       # SubjectSegmenter.kt (Subject Lift & Stickers)
+│   ├── segmentation/       # SubjectSegmenter.kt (Subject Lift & Stickers)
+│   ├── tagging/            # ZeroShotTagger.kt & PrimaryObjectDetector.kt
+│   └── vector/             # PCACompression.kt
 ├── navigation/             # Screens.kt, KiwiPhotosNavigation.kt
-├── network/backup/         # SelfHostedClient.kt, ImmichClient, WebDavClient
+├── network/backup/         # SelfHostedClient.kt, ImmichBackupClient, WebDavBackupClient
 ├── service/                # IndexImagesWorker, IndexVideosWorker, SelfHostedBackupWorker
-├── ui/screen/              # Compose screens (photos, search, people, albums, backup, etc.)
-└── utils/                  # BatteryStatusManager, CryptoManager, Formatters
+├── ui/
+│   ├── animation/          # Particle.kt, SharedTransitionBridge.kt
+│   ├── components/         # KiwiPhotosBottomNavBar, BottomNavItem, BottomNavConfig
+│   └── screen/             # Compose screens (photos, search, people, albums, backup, etc.)
+└── utils/                  # BatteryStatusManager, CryptoManager, DateTimeFormatters, FileSizeFormatter
 ```
 
 ---

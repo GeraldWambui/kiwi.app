@@ -236,8 +236,9 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 We welcome contributions from the open-source community! Whether you are fixing bugs, optimizing vector search, improving UI aesthetics, or adding translations:
 
 1. Please read our [**Contributing Guide**](CONTRIBUTING.md) for code standards and workflow.
-2. Review our [**Code of Conduct**](CODE_OF_CONDUCT.md) to keep our community welcoming.
-3. For architectural context and deep system invariants, see [**AGENTS.md**](AGENTS.md).
+2. Review our [**Architecture Guide**](docs/ARCHITECTURE.md) for module boundaries and directory structure.
+3. Review our [**Code of Conduct**](CODE_OF_CONDUCT.md) to keep our community welcoming.
+4. For automated agent context and deep system invariants, see [**AGENTS.md**](AGENTS.md).
 
 ---
 

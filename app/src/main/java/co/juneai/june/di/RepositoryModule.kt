@@ -3,8 +3,9 @@ package co.juneai.june.di
 import android.content.Context
 import co.juneai.june.data.local.db.KiwiPhotosDatabase
 import co.juneai.june.data.repository.KiwiPhotosRepositoryImpl
-import co.juneai.june.ml.PCACompression
-import co.juneai.june.ml.ZeroShotTagger
+import co.juneai.june.ml.tagging.PrimaryObjectDetector
+import co.juneai.june.ml.tagging.ZeroShotTagger
+import co.juneai.june.ml.vector.PCACompression
 import co.juneai.june.data.repository.MediaStoreRepository
 import co.juneai.june.data.repository.VaultManagerRepositoryImpl
 import co.juneai.june.domain.intent.DefaultSlmParser
@@ -60,8 +61,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun providePrimaryObjectDetector(): co.juneai.june.ml.PrimaryObjectDetector {
-        return co.juneai.june.ml.PrimaryObjectDetector()
+    fun providePrimaryObjectDetector(): PrimaryObjectDetector {
+        return PrimaryObjectDetector()
     }
 
     @Provides

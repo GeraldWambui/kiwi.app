@@ -1,4 +1,4 @@
-package co.juneai.june.ui.ext
+package co.juneai.june.ui.components.navigation
 
 data class BottomNavItem(
     val route: String,

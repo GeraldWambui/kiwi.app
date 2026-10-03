@@ -1,4 +1,4 @@
-package co.juneai.june.ui.ext
+package co.juneai.june.ui.components.navigation
 
 import co.juneai.june.R
 import co.juneai.june.navigation.Screens

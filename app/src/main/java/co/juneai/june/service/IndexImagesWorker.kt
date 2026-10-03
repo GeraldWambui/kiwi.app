@@ -16,8 +16,8 @@ import co.juneai.june.data.local.daos.FaceClusterDao
 import co.juneai.june.data.local.entities.ImageEmbedding
 import co.juneai.june.data.local.entities.ImageEmbedding_
 import co.juneai.june.data.repository.MediaStoreRepository
-import co.juneai.june.ml.PrimaryObjectDetector
-import co.juneai.june.ml.ZeroShotTagger
+import co.juneai.june.ml.tagging.PrimaryObjectDetector
+import co.juneai.june.ml.tagging.ZeroShotTagger
 import co.juneai.june.ml.clip.ClipEmbedder
 import co.juneai.june.ml.face.FaceDetectorAndClusterer
 import co.juneai.june.ml.nsfw.NsfwClassifier
