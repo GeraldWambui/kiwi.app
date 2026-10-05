@@ -45,11 +45,18 @@ class IndexVideosWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        Timber.d("Starting IndexVideosWorker")
+        val forceReindex = inputData.getBoolean(IndexImagesWorker.KEY_FORCE_REINDEX, false)
+        val ignoreConstraints = inputData.getBoolean(IndexImagesWorker.KEY_IGNORE_CONSTRAINTS, false)
+        Timber.d("Starting IndexVideosWorker (forceReindex=$forceReindex, ignoreConstraints=$ignoreConstraints)")
         try {
+            val isIgnoringBattery = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                (applicationContext.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager)
+                    ?.isIgnoringBatteryOptimizations(applicationContext.packageName) ?: false
+            } else false
+
             val batteryState = co.juneai.june.utils.BatteryStatusManager.getBatteryState(applicationContext)
-            if (!batteryState.isEligibleForIndexing) {
-                Timber.w("IndexVideosWorker deferred: Battery is at ${batteryState.batteryPercent}% and not charging. Plug in charger or charge above 60% to index.")
+            if (!batteryState.isEligibleForIndexing && !forceReindex && !ignoreConstraints && !isIgnoringBattery) {
+                Timber.w("IndexVideosWorker deferred: Battery is at ${batteryState.batteryPercent}% and not charging. Plug in charger or grant battery optimization exemption to index in background.")
                 return@withContext Result.retry()
             }
 
@@ -230,8 +237,8 @@ class IndexVideosWorker @AssistedInject constructor(
 
             Timber.i("✓ IndexVideosWorker complete. Total indexed: ${fullyIndexedCount + newlyIndexedCount}")
             Result.success(workDataOf(KEY_INDEXED_COUNT to (fullyIndexedCount + newlyIndexedCount)))
-        } catch (e: Exception) {
-            Timber.e(e, "Error in IndexVideosWorker")
+        } catch (t: Throwable) {
+            Timber.e(t, "Error in IndexVideosWorker")
             Result.retry()
         }
     }

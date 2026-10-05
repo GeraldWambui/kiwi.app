@@ -33,7 +33,12 @@ object BatteryStatusManager {
             val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                     status == BatteryManager.BATTERY_STATUS_FULL
 
-            val isEligible = isCharging || batteryPercent >= MIN_BATTERY_PERCENT_FOR_INDEXING
+            val isIgnoringBattery = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                (context.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager)
+                    ?.isIgnoringBatteryOptimizations(context.packageName) ?: false
+            } else false
+
+            val isEligible = isCharging || batteryPercent >= MIN_BATTERY_PERCENT_FOR_INDEXING || isIgnoringBattery
 
             BatteryState(
                 batteryPercent = batteryPercent,

@@ -134,7 +134,7 @@ fun ForgotPasswordScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Use Face ID or Fingerprint to confirm\nyour identity and reveal your passcode",
+                    text = "Use Face or Fingerprint to confirm\nyour identity and create a new passcode",
                     fontSize = 14.sp,
                     color = SecondaryText,
                     textAlign = TextAlign.Center,
@@ -143,118 +143,72 @@ fun ForgotPasswordScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                if (revealedPasscode != null) {
-                    // Show the passcode after biometric success
-                    Text(
-                        text = "Your Vault Passcode",
-                        fontSize = 16.sp,
-                        color = SecondaryText
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(KeyBg)
-                            .border(1.dp, KeyBorder, RoundedCornerShape(16.dp))
-                            .padding(horizontal = 32.dp, vertical = 20.dp)
-                    ) {
-                        Text(
-                            text = revealedPasscode!!.toList().joinToString("  "),
-                            fontSize = 32.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = AccentGreen,
-                            letterSpacing = 4.sp
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 48.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(AccentGreen)
-                            .clickable { onResetComplete() }
-                            .padding(vertical = 14.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Done",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
-                } else {
-                    // Biometric button
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 48.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(AccentGreen)
-                            .clickable {
-                                val activity = context as? FragmentActivity
-                                if (activity != null) {
-                                    val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                                        .setTitle("Kiwi Gallery")
-                                        .setSubtitle("Verify your identity to reveal passcode")
-                                        .setNegativeButtonText("Cancel")
-                                        .build()
-                                    val prompt = BiometricPrompt(
-                                        activity,
-                                        ContextCompat.getMainExecutor(context),
-                                        object : BiometricPrompt.AuthenticationCallback() {
-                                            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                                                val stored = settingsViewModel.getStoredPasscode()
-                                                if (stored != null) {
-                                                    revealedPasscode = stored
-                                                } else {
-                                                    // Fallback: go to reset step
-                                                    step = 1
-                                                }
-                                            }
-                                            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                                                error = errString.toString()
-                                            }
+                // Biometric button
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 48.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(AccentGreen)
+                        .clickable {
+                            val activity = context as? FragmentActivity
+                            if (activity != null) {
+                                val authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.BIOMETRIC_WEAK
+                                val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                                    .setTitle("Kiwi Photos Vault")
+                                    .setSubtitle("Verify identity with Face or Fingerprint")
+                                    .setAllowedAuthenticators(authenticators)
+                                    .setNegativeButtonText("Cancel")
+                                    .build()
+                                val prompt = BiometricPrompt(
+                                    activity,
+                                    ContextCompat.getMainExecutor(context),
+                                    object : BiometricPrompt.AuthenticationCallback() {
+                                        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                                            step = 1
+                                            error = null
                                         }
-                                    )
-                                    prompt.authenticate(promptInfo)
-                                }
+                                        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                                            error = errString.toString()
+                                        }
+                                    }
+                                )
+                                prompt.authenticate(promptInfo)
                             }
-                            .padding(vertical = 14.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Authenticate with Face ID / Fingerprint",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
-
-                    error?.let {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Text(
-                            text = it,
-                            fontSize = 13.sp,
-                            color = Color(0xFFFF5252),
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = "Reset Passcode Instead",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = LightGreen,
-                        modifier = Modifier.clickable {
-                            step = 1
-                            error = null
                         }
+                        .padding(vertical = 14.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Verify with Face / Fingerprint",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
                 }
+
+                error?.let {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = it,
+                        fontSize = 13.sp,
+                        color = Color(0xFFFF5252),
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Set Up New Passcode Directly",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = AccentGreen,
+                    modifier = Modifier.clickable {
+                        step = 1
+                        error = null
+                    }
+                )
             }
 
             1, 2 -> {
@@ -331,7 +285,10 @@ fun ForgotPasswordScreen(
                                             step = 2
                                             error = null
                                         },
-                                        onResetComplete = onResetComplete,
+                                        onResetComplete = {
+                                            newPasscode?.let { settingsViewModel.savePasscode(it) }
+                                            onResetComplete()
+                                        },
                                         onError = {
                                             error = "Passcodes do not match. Try again."
                                             newPasscode = null
@@ -377,7 +334,10 @@ fun ForgotPasswordScreen(
                                     step = 2
                                     error = null
                                 },
-                                onResetComplete = onResetComplete,
+                                onResetComplete = {
+                                    newPasscode?.let { settingsViewModel.savePasscode(it) }
+                                    onResetComplete()
+                                },
                                 onError = {
                                     error = "Passcodes do not match. Try again."
                                     newPasscode = null

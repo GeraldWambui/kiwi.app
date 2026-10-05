@@ -19,8 +19,10 @@ import co.juneai.june.data.local.entities.ImageEmbedding
 import co.juneai.june.data.local.entities.ImageEmbedding_
 import co.juneai.june.ml.model.ModelManager
 import co.juneai.june.service.IndexImagesWorker
+import co.juneai.june.service.IndexVideosWorker
 import co.juneai.june.ui.theme.AppTheme
 import co.juneai.june.ui.theme.ThemePreferences
+import co.juneai.june.utils.SecurityHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.objectbox.Box
@@ -34,7 +36,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
-import java.security.MessageDigest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,7 +44,8 @@ class SettingsViewModel @Inject constructor(
     private val modelManager: ModelManager,
     private val workManager: WorkManager,
     private val dataStore: DataStore<Preferences>,
-    private val embeddingBox: Box<ImageEmbedding>
+    private val embeddingBox: Box<ImageEmbedding>,
+    private val securityHelper: SecurityHelper
 ) : ViewModel() {
 
     companion object {
@@ -58,7 +60,9 @@ class SettingsViewModel @Inject constructor(
     private val _cloudSyncEnabled = MutableStateFlow(false)
     val cloudSyncEnabled: StateFlow<Boolean> = _cloudSyncEnabled.asStateFlow()
 
-    private val _faceIdEnabled = MutableStateFlow(false)
+    private val _faceIdEnabled = MutableStateFlow(
+        application.getSharedPreferences("june_vault", 0).getBoolean("face_id_enabled", false)
+    )
     val faceIdEnabled: StateFlow<Boolean> = _faceIdEnabled.asStateFlow()
 
     private val _optimizeStorageEnabled = MutableStateFlow(true)
@@ -181,7 +185,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun triggerReindex(forceAll: Boolean = false, ignoreConstraints: Boolean = false) {
-        val request = OneTimeWorkRequestBuilder<IndexImagesWorker>()
+        val imageRequest = OneTimeWorkRequestBuilder<IndexImagesWorker>()
             .setInputData(
                 androidx.work.workDataOf(
                     IndexImagesWorker.KEY_FORCE_REINDEX to forceAll,
@@ -193,8 +197,24 @@ class SettingsViewModel @Inject constructor(
         workManager.enqueueUniqueWork(
             IndexImagesWorker.WORK_NAME,
             ExistingWorkPolicy.REPLACE,
-            request
+            imageRequest
         )
+
+        val videoRequest = OneTimeWorkRequestBuilder<IndexVideosWorker>()
+            .setInputData(
+                androidx.work.workDataOf(
+                    IndexImagesWorker.KEY_FORCE_REINDEX to forceAll,
+                    IndexImagesWorker.KEY_IGNORE_CONSTRAINTS to ignoreConstraints
+                )
+            )
+            .build()
+
+        workManager.enqueueUniqueWork(
+            IndexVideosWorker.WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            videoRequest
+        )
+
         _isIndexing.value = true
         _indexingProgress.value = 0
     }
@@ -331,7 +351,12 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun toggleFaceId() {
-        _faceIdEnabled.value = !_faceIdEnabled.value
+        val next = !_faceIdEnabled.value
+        _faceIdEnabled.value = next
+        application.getSharedPreferences("june_vault", 0)
+            .edit()
+            .putBoolean("face_id_enabled", next)
+            .apply()
     }
 
     fun toggleOptimizeStorage() {
@@ -362,13 +387,37 @@ class SettingsViewModel @Inject constructor(
         _passcodeError.value = false
     }
 
+    fun markPasscodeSuccess() {
+        _passcodeSuccess.value = true
+    }
+
+    fun resetPasscodeState() {
+        _passcodeSuccess.value = false
+        _passcodeDigits.value = emptyList()
+        _passcodeError.value = false
+    }
+
     private fun verifyPasscode(digits: List<Int>) {
         val entered = digits.joinToString("")
-        val enteredHash = hashPasscode(entered)
-        val storedHash = application.getSharedPreferences("june_vault", 0)
-            .getString("vault_passcode_hash", null)
+        val prefs = application.getSharedPreferences("june_vault", 0)
+        val storedHash = prefs.getString("vault_passcode_hash", null)
+        val storedSalt = prefs.getString("vault_passcode_salt", null)
 
-        if (storedHash != null && enteredHash == storedHash) {
+        val isValid = if (storedHash != null) {
+            val valid = securityHelper.verifyPin(entered, storedHash, storedSalt)
+            // Migrate legacy un-salted hash to cryptographically salted hash
+            if (valid && storedSalt.isNullOrEmpty()) {
+                val upgraded = securityHelper.hashPin(entered)
+                prefs.edit()
+                    .putString("vault_passcode_hash", upgraded.hash)
+                    .putString("vault_passcode_salt", upgraded.salt)
+                    .remove("vault_passcode_plain")
+                    .apply()
+            }
+            valid
+        } else false
+
+        if (isValid) {
             _passcodeSuccess.value = true
         } else {
             _passcodeError.value = true
@@ -381,31 +430,23 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun savePasscode(passcode: String) {
-        val hash = hashPasscode(passcode)
+        val pinHash = securityHelper.hashPin(passcode)
         application.getSharedPreferences("june_vault", 0)
             .edit()
-            .putString("vault_passcode_hash", hash)
-            .putString("vault_passcode_plain", passcode)
+            .putString("vault_passcode_hash", pinHash.hash)
+            .putString("vault_passcode_salt", pinHash.salt)
+            .remove("vault_passcode_plain")
             .putBoolean("vault_configured", true)
             .apply()
         _isVaultConfigured.value = true
     }
 
-    fun getStoredPasscode(): String? {
-        return application.getSharedPreferences("june_vault", 0)
-            .getString("vault_passcode_plain", null)
-    }
-
-    fun savePasscodePlain(passcode: String) {
-        application.getSharedPreferences("june_vault", 0)
-            .edit()
-            .putString("vault_passcode_plain", passcode)
-            .apply()
-    }
-
-    private fun hashPasscode(passcode: String): String {
-        val digest = MessageDigest.getInstance("SHA-256")
-        val hashBytes = digest.digest(passcode.toByteArray(Charsets.UTF_8))
-        return hashBytes.joinToString("") { "%02x".format(it) }
+    fun isBatteryOptimizationIgnored(): Boolean {
+        val powerManager = application.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            powerManager?.isIgnoringBatteryOptimizations(application.packageName) ?: false
+        } else {
+            true
+        }
     }
 }

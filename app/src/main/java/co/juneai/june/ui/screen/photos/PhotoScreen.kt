@@ -1,6 +1,7 @@
 package co.juneai.june.ui.screen.photos
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import kotlin.math.cos
 import kotlin.math.sin
@@ -16,6 +17,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.Orientation
@@ -34,6 +36,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -57,7 +60,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.CrueltyFree
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -67,6 +69,9 @@ import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -443,19 +448,161 @@ fun SelectionTopBar(
 @Composable
 fun SelectionBottomBar(
     viewModel: VaultViewModel = hiltViewModel(),
-    displayedUri: List<String>,
-    mimeType: List<String>
+    displayedUri: List<String> = emptyList(),
+    mimeType: List<String> = emptyList(),
+    onShare: () -> Unit = {},
+    onAddToVault: () -> Unit = {},
+    onDelete: () -> Unit = {}
 ) {
-    Row(
-        Modifier
+    val context = LocalContext.current
+    val surfaceColor = MaterialTheme.colorScheme.surface
+
+    Box(
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly
+            .navigationBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        SelectionAction(Icons.Default.Share, "Share", onClick = {})
-        SelectionAction(Icons.Default.CrueltyFree, "Creativity", onClick = {})
-        SelectionAction(Icons.Default.Lock, "Add to Vault", onClick = {})
-        SelectionAction(Icons.Default.Delete, "Delete", onClick = {})
+        // Neuromorphic outer pill container
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(
+                    elevation = 16.dp,
+                    shape = RoundedCornerShape(24.dp),
+                    ambientColor = Color.Black.copy(alpha = 0.45f),
+                    spotColor = Color.Black.copy(alpha = 0.45f)
+                )
+                .clip(RoundedCornerShape(24.dp))
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            surfaceColor.copy(alpha = 0.96f),
+                            surfaceColor.copy(alpha = 0.88f)
+                        )
+                    )
+                )
+                .border(
+                    width = 1.dp,
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.White.copy(alpha = 0.22f),
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.35f)
+                        )
+                    ),
+                    shape = RoundedCornerShape(24.dp)
+                )
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                NeumorphicSelectionAction(
+                    icon = Icons.Default.Share,
+                    label = "Share",
+                    tint = Color(0xFF60A5FA),
+                    onClick = {
+                        if (displayedUri.isNotEmpty()) {
+                            try {
+                                val intent: Intent = if (displayedUri.size == 1) {
+                                    Intent(Intent.ACTION_SEND).apply {
+                                        type = mimeType.firstOrNull() ?: "image/*"
+                                        putExtra(Intent.EXTRA_STREAM, Uri.parse(displayedUri.first()))
+                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                    }
+                                } else {
+                                    Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+                                        type = "*/*"
+                                        putParcelableArrayListExtra(
+                                            Intent.EXTRA_STREAM,
+                                            ArrayList<Uri>(displayedUri.map { Uri.parse(it) })
+                                        )
+                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                    }
+                                }
+                                context.startActivity(Intent.createChooser(intent, "Share media via"))
+                            } catch (_: Exception) {}
+                        }
+                        onShare()
+                    }
+                )
+
+                NeumorphicSelectionAction(
+                    icon = Icons.Default.Lock,
+                    label = "Add to Vault",
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    onClick = onAddToVault
+                )
+
+                NeumorphicSelectionAction(
+                    icon = Icons.Default.Delete,
+                    label = "Delete",
+                    tint = Color(0xFFEF4444),
+                    onClick = onDelete
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun NeumorphicSelectionAction(
+    icon: ImageVector,
+    label: String,
+    tint: Color,
+    onClick: () -> Unit = {}
+) {
+    val haptic = LocalHapticFeedback.current
+
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color.White.copy(alpha = 0.08f),
+                        Color.Transparent
+                    )
+                )
+            )
+            .border(
+                width = 1.dp,
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.White.copy(alpha = 0.16f),
+                        Color.Black.copy(alpha = 0.20f)
+                    )
+                ),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .clickable {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onClick()
+            }
+            .padding(horizontal = 20.dp, vertical = 10.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = tint,
+                modifier = Modifier.size(22.dp)
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = label,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
     }
 }
 
@@ -465,18 +612,22 @@ fun MediaGridItem(
     selection: SelectionState,
     onMediaClick: (MediaItem) -> Unit
 ) {
+    val haptic = LocalHapticFeedback.current
+
     Box(
         Modifier
             .aspectRatio(1f)
             .combinedClickable(
                 onClick = {
                     if (selection.selected.isNotEmpty()) {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                         selection.toggle(item.id)
                     } else {
                         onMediaClick(item)
                     }
                 },
                 onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     selection.toggle(item.id)
                 }
             )

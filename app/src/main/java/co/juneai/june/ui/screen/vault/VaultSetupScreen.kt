@@ -64,13 +64,17 @@ fun VaultSetupScreen(
 
     val isLoading by vaultViewModel.isLoading.collectAsStateWithLifecycle()
 
+    val authenticators = remember {
+        BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.BIOMETRIC_WEAK
+    }
+
     val biometricAvailable = remember {
         BiometricManager.from(context)
-            .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) ==
+            .canAuthenticate(authenticators) ==
                 BiometricManager.BIOMETRIC_SUCCESS
     }
 
-    Log.d("Biometric Strong", "$biometricAvailable")
+    Log.d("Biometrics Available", "$biometricAvailable")
 
     // ── Biometric prompt helper ──────────────────────────────────────────
     fun launchBiometricPrompt(
@@ -102,6 +106,7 @@ fun VaultSetupScreen(
             BiometricPrompt.PromptInfo.Builder()
                 .setTitle(title)
                 .setSubtitle(subtitle)
+                .setAllowedAuthenticators(authenticators)
                 .setNegativeButtonText("Cancel")
                 .build()
         )

@@ -62,10 +62,15 @@ class IndexImagesWorker @AssistedInject constructor(
         Timber.d("Starting IndexImagesWorker (forceReindex=$forceReindex, ignoreConstraints=$ignoreConstraints)")
 
         try {
-            // Check battery threshold (Charging OR >= 60%), unless forceReindex or ignoreConstraints is set
+            // Check battery threshold (Charging OR >= 60%), unless forceReindex, ignoreConstraints, or battery optimization exemption is set
+            val isIgnoringBattery = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                (context.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager)
+                    ?.isIgnoringBatteryOptimizations(context.packageName) ?: false
+            } else false
+
             val batteryState = co.juneai.june.utils.BatteryStatusManager.getBatteryState(context)
-            if (!batteryState.isEligibleForIndexing && !forceReindex && !ignoreConstraints) {
-                Timber.w("IndexImagesWorker deferred: Battery is at ${batteryState.batteryPercent}% and not charging. Plug in charger or charge above 60% to index.")
+            if (!batteryState.isEligibleForIndexing && !forceReindex && !ignoreConstraints && !isIgnoringBattery) {
+                Timber.w("IndexImagesWorker deferred: Battery is at ${batteryState.batteryPercent}% and not charging. Plug in charger or grant battery optimization exemption to index in background.")
                 return@withContext Result.retry()
             }
 
@@ -199,10 +204,12 @@ class IndexImagesWorker @AssistedInject constructor(
                             embeddingBox.put(batchEntities)
                             batchEntities.clear()
                         }
-                    } catch (e: Exception) {
-                        Timber.w(e, "Failed to compute enriched indexing for media ${media.id}")
+                    } catch (t: Throwable) {
+                        Timber.w(t, "Failed to compute enriched indexing for media ${media.id}")
                     } finally {
-                        bitmap.recycle()
+                        if (!bitmap.isRecycled) {
+                            bitmap.recycle()
+                        }
                     }
                 } else {
                     // Corrupted or unreadable image - mark timestamp to avoid crash loop on restart
@@ -242,15 +249,15 @@ class IndexImagesWorker @AssistedInject constructor(
                     KEY_INDEXED_COUNT to (alreadyIndexedCount + newlyIndexedCount)
                 )
             )
-        } catch (e: Exception) {
-            Timber.e(e, "IndexImagesWorker encountered an error")
+        } catch (t: Throwable) {
+            Timber.e(t, "IndexImagesWorker encountered an error")
             Result.retry()
         }
     }
 
     private fun loadBitmapForMedia(uri: Uri, isVideo: Boolean): Bitmap? {
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val raw = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 context.contentResolver.loadThumbnail(uri, Size(384, 384), null)
             } else {
                 var stream: InputStream? = null
@@ -265,8 +272,19 @@ class IndexImagesWorker @AssistedInject constructor(
                     stream?.close()
                 }
             }
-        } catch (e: Exception) {
-            Timber.w("Failed to load thumbnail for $uri: ${e.message}")
+
+            if (raw != null) {
+                // Eliminate Hardware Bitmap crash on Android Q+ (renders software compatible)
+                if (raw.config == Bitmap.Config.HARDWARE) {
+                    val software = raw.copy(Bitmap.Config.ARGB_8888, false)
+                    raw.recycle()
+                    software
+                } else {
+                    raw
+                }
+            } else null
+        } catch (t: Throwable) {
+            Timber.w("Failed to load thumbnail for $uri: ${t.message}")
             null
         }
     }

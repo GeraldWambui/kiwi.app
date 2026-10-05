@@ -152,22 +152,13 @@ fun ModelAssetDownloadScreen(
                     .background(accentGreen.copy(alpha = 0.15f))
                     .padding(horizontal = 14.dp, vertical = 6.dp)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.AutoAwesome,
-                        contentDescription = null,
-                        tint = accentGreen,
-                        modifier = Modifier.size(14.dp)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "ON-DEVICE NEURAL ASSETS",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = accentGreen,
-                        letterSpacing = 1.2.sp
-                    )
-                }
+                Text(
+                    text = "ON-DEVICE NEURAL ASSETS",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = accentGreen,
+                    letterSpacing = 1.2.sp
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -333,21 +324,13 @@ fun ModelAssetDownloadScreen(
         }
 
         // Bottom privacy reassurance badge
-        Row(
+        Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 24.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(bottom = 24.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.Security,
-                contentDescription = null,
-                tint = Color.White.copy(alpha = 0.4f),
-                modifier = Modifier.size(14.dp)
-            )
-            Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = "100% Privacy Protected • Zero Cloud Analysis",
+                text = "Privacy Protected • Zero cloud analysis",
                 fontSize = 11.sp,
                 color = Color.White.copy(alpha = 0.4f)
             )

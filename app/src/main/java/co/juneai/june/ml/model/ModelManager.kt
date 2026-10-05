@@ -84,6 +84,12 @@ class ModelManager @Inject constructor(
     fun getAvailableModels(): List<ModelInfo> {
         val downloadedMobileClipS2 = isPrimaryModelDownloaded()
         val downloadedMobileClipS0 = isModelFileValid("mobileclip_s0.tflite", 40_000_000L)
+        val downloadedYamnet = isModelFileValid("yamnet.tflite", 10_000_000L) || try {
+            context.assets.openFd("yamnet.tflite").use { it.declaredLength > 0 }
+        } catch (_: Exception) { false }
+        val downloadedWhisper = isModelFileValid("whisper-tiny.en.tflite", 30_000_000L) || try {
+            context.assets.openFd("whisper-tiny.en.tflite").use { it.declaredLength > 0 }
+        } catch (_: Exception) { false }
 
         return listOf(
             ModelInfo(
@@ -94,6 +100,24 @@ class ModelManager @Inject constructor(
                 isBundled = false,
                 isDownloaded = downloadedMobileClipS2,
                 downloadUrl = "$CLOUDFLARE_CDN_BASE/mobileclip_s2.tflite"
+            ),
+            ModelInfo(
+                id = "yamnet",
+                displayName = "Google YAMNet (Acoustic Sound Classifier)",
+                description = "Classifies 521 audio events (laughter, music, cheering, barking, applause, sirens, etc.) for video moments.",
+                sizeFormatted = "15 MB",
+                isBundled = false,
+                isDownloaded = downloadedYamnet,
+                downloadUrl = "$CLOUDFLARE_CDN_BASE/yamnet.tflite"
+            ),
+            ModelInfo(
+                id = "whisper_tiny",
+                displayName = "OpenAI Whisper Tiny (Video ASR)",
+                description = "100% on-device speech-to-text. Transcribes spoken video dialogue into timestamped text for 1-tap seeking.",
+                sizeFormatted = "39 MB",
+                isBundled = false,
+                isDownloaded = downloadedWhisper,
+                downloadUrl = "$CLOUDFLARE_CDN_BASE/whisper-tiny.en.tflite"
             ),
             ModelInfo(
                 id = "mobileclip_s0",
@@ -142,10 +166,14 @@ class ModelManager @Inject constructor(
         // Generic single-file download fallback
         val modelInfo = getAvailableModels().find { it.id == modelId } ?: return@withContext false
         val downloadUrl = modelInfo.downloadUrl ?: return@withContext false
-        val targetFile = File(modelsDir, "$modelId.tflite")
-        val partFile = File(modelsDir, "$modelId.part")
+        val targetFile = when (modelId) {
+            "yamnet" -> File(modelsDir, "yamnet.tflite")
+            "whisper_tiny" -> File(modelsDir, "whisper-tiny.en.tflite")
+            else -> File(modelsDir, "$modelId.tflite")
+        }
+        val partFile = File(modelsDir, "${targetFile.name}.part")
 
-        return@withContext downloadSingleFile(
+        val success = downloadSingleFile(
             downloadUrl = downloadUrl,
             targetFile = targetFile,
             partFile = partFile,
@@ -153,6 +181,33 @@ class ModelManager @Inject constructor(
                 onProgressUpdate(progress, dl, total, -1)
             }
         )
+
+        if (success) {
+            // Download accompanying auxiliary assets
+            if (modelId == "yamnet") {
+                val csvFile = File(modelsDir, "yamnet_class_map.csv")
+                if (!csvFile.exists()) {
+                    downloadSingleFile(
+                        downloadUrl = "$CLOUDFLARE_CDN_BASE/yamnet_class_map.csv",
+                        targetFile = csvFile,
+                        partFile = File(modelsDir, "yamnet_class_map.csv.part"),
+                        onProgress = { _, _, _ -> }
+                    )
+                }
+            } else if (modelId == "whisper_tiny") {
+                val vocabFile = File(modelsDir, "filters_vocab_en.bin")
+                if (!vocabFile.exists()) {
+                    downloadSingleFile(
+                        downloadUrl = "$CLOUDFLARE_CDN_BASE/filters_vocab_en.bin",
+                        targetFile = vocabFile,
+                        partFile = File(modelsDir, "filters_vocab_en.bin.part"),
+                        onProgress = { _, _, _ -> }
+                    )
+                }
+            }
+        }
+
+        return@withContext success
     }
 
     private suspend fun downloadMultipartModel(

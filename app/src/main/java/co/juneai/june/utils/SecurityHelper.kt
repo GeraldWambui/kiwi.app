@@ -24,8 +24,15 @@ class SecurityHelper {
             )
         }
         
-        fun verifyPin(pin: String, storedHash: String, storedSalt: String): Boolean {
+        fun verifyPin(pin: String, storedHash: String, storedSalt: String? = null): Boolean {
             return try {
+                if (storedSalt.isNullOrEmpty()) {
+                    // Check legacy SHA-256 hash
+                    val digest = java.security.MessageDigest.getInstance("SHA-256")
+                    val hashBytes = digest.digest(pin.toByteArray(Charsets.UTF_8))
+                    val legacyHash = hashBytes.joinToString("") { "%02x".format(it) }
+                    return constantTimeEquals(legacyHash, storedHash)
+                }
                 val salt = Base64.decode(storedSalt, Base64.NO_WRAP)
                 val hash = pbkdf2(pin.toCharArray(), salt)
                 val computedHash = Base64.encodeToString(hash, Base64.NO_WRAP)

@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Backspace
 import androidx.compose.material.icons.filled.Lock
@@ -40,6 +42,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.util.Log
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.compose.material.icons.filled.Fingerprint
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -54,9 +63,50 @@ fun PasscodeScreen(
     onForgotPasscode: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val digits by viewModel.passcodeDigits.collectAsStateWithLifecycle()
     val hasError by viewModel.passcodeError.collectAsStateWithLifecycle()
     val isSuccess by viewModel.passcodeSuccess.collectAsStateWithLifecycle()
+    val faceIdEnabled by viewModel.faceIdEnabled.collectAsStateWithLifecycle()
+
+    val authenticators = remember {
+        BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.BIOMETRIC_WEAK
+    }
+
+    val biometricAvailable = remember {
+        BiometricManager.from(context).canAuthenticate(authenticators) == BiometricManager.BIOMETRIC_SUCCESS
+    }
+
+    fun launchBiometricPrompt() {
+        val activity = context as? FragmentActivity ?: return
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Kiwi Photos Vault")
+            .setSubtitle("Unlock using Face ID or Fingerprint")
+            .setAllowedAuthenticators(authenticators)
+            .setNegativeButtonText("Use Passcode")
+            .build()
+
+        BiometricPrompt(
+            activity,
+            ContextCompat.getMainExecutor(context),
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    viewModel.markPasscodeSuccess()
+                    onSuccess()
+                }
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    Log.d("PasscodeScreen", "Biometric dismissed: $errString")
+                }
+            }
+        ).authenticate(promptInfo)
+    }
+
+    LaunchedEffect(biometricAvailable, faceIdEnabled) {
+        if (biometricAvailable && faceIdEnabled) {
+            launchBiometricPrompt()
+        }
+    }
 
     // Theme-sourced colors
     val PasscodeBg = MaterialTheme.colorScheme.background
@@ -93,7 +143,7 @@ fun PasscodeScreen(
             .background(PasscodeBg),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(48.dp))
 
         // ── Lock Icon ─────────────────────────────────────
         Box(
@@ -111,7 +161,7 @@ fun PasscodeScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         // ── Title ─────────────────────────────────────────
         Text(
@@ -120,7 +170,7 @@ fun PasscodeScreen(
             fontWeight = FontWeight.Bold,
             color = PrimaryText
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = "Enter your 6-digit passcode to unlock\nthe Kiwi Photos vault",
             fontSize = 14.sp,
@@ -128,6 +178,33 @@ fun PasscodeScreen(
             textAlign = TextAlign.Center,
             lineHeight = 20.sp
         )
+
+        if (biometricAvailable) {
+            Spacer(modifier = Modifier.height(14.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(AccentGreen.copy(alpha = 0.12f))
+                    .clickable { launchBiometricPrompt() }
+                    .padding(horizontal = 14.dp, vertical = 6.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Fingerprint,
+                    contentDescription = "Biometrics",
+                    tint = AccentGreen,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = "Unlock with Face / Fingerprint",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = AccentGreen
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 

@@ -1,5 +1,9 @@
 package co.juneai.june.ui.screen.settings
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -60,7 +64,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -76,6 +82,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.juneai.june.R
+import co.juneai.june.ml.model.ModelManager
 
 @Composable
 fun SettingsScreen(
@@ -152,92 +159,83 @@ fun SettingsScreen(
             SectionHeader("ON-DEVICE AI & SEARCH ENGINE")
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Indexing Status Card
+            // Indexing Status Card - Responsive & Organized for all screen sizes
             Card(
                 colors = CardDefaults.cardColors(containerColor = CardBg),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    // Header Row: Status Indicator + Title on Left, Status Pill or Spinner on Right
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column(modifier = Modifier.weight(1f)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.weight(1f, fill = false)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(10.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (isIndexing) AccentGreen
+                                        else if (batteryState.isEligibleForIndexing) AccentGreen
+                                        else Color(0xFFFFB74D)
+                                    )
+                            )
                             Text(
-                                text = if (isIndexing) "Indexing Media ($indexingProgress%)" else "Neural Index Active",
+                                text = if (isIndexing) "Indexing Media ($indexingProgress%)" else "Neural Index Engine",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = PrimaryText
-                            )
-                            Text(
-                                text = if (!batteryState.isEligibleForIndexing && !isIndexing)
-                                    "$totalIndexed indexed • ⚡ Battery ${batteryState.batteryPercent}% (Plug in charger to index)"
-                                else
-                                    "$totalIndexed media indexed for offline semantic search",
-                                fontSize = 12.sp,
-                                color = if (!batteryState.isEligibleForIndexing && !isIndexing) AccentGreen else SecondaryText
                             )
                         }
 
                         if (isIndexing) {
                             CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                strokeWidth = 2.5.dp,
+                                modifier = Modifier.size(20.dp),
+                                strokeWidth = 2.dp,
                                 color = AccentGreen
                             )
                         } else {
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                OutlinedButton(
-                                    onClick = {
-                                        val currentBat = viewModel.refreshBatteryState()
-                                        if (!currentBat.isEligibleForIndexing) {
-                                            Toast.makeText(
-                                                context,
-                                                "Battery is at ${currentBat.batteryPercent}%. Connect charger or use 'Index Now' to override.",
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        } else {
-                                            viewModel.triggerReindex(forceAll = true)
-                                        }
-                                    },
-                                    shape = RoundedCornerShape(8.dp),
-                                    colors = ButtonDefaults.outlinedButtonColors(contentColor = AccentGreen)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Refresh,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(14.dp)
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(
+                                        if (batteryState.isEligibleForIndexing) AccentGreen.copy(alpha = 0.15f)
+                                        else Color(0xFFFFB74D).copy(alpha = 0.15f)
                                     )
-                                    Spacer(Modifier.width(4.dp))
-                                    Text("Re-Index", fontSize = 12.sp)
-                                }
-
-                                Button(
-                                    onClick = {
-                                        viewModel.triggerIndexNowIgnoringConstraints()
-                                        Toast.makeText(
-                                            context,
-                                            "Indexing started immediately (ignoring all constraints)",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    },
-                                    shape = RoundedCornerShape(8.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreen)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.AutoAwesome,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(14.dp),
-                                        tint = Color.Black
-                                    )
-                                    Spacer(Modifier.width(4.dp))
-                                    Text("Index Now", fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold)
-                                }
+                                    .padding(horizontal = 8.dp, vertical = 3.dp)
+                            ) {
+                                Text(
+                                    text = if (batteryState.isEligibleForIndexing) "Active" else "Power Guard",
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (batteryState.isEligibleForIndexing) AccentGreen else Color(0xFFFFB74D)
+                                )
                             }
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = if (!batteryState.isEligibleForIndexing && !isIndexing)
+                            "$totalIndexed items indexed. Battery at ${batteryState.batteryPercent}% (plug in charger to auto-resume, or tap Index Now to override)."
+                        else
+                            "$totalIndexed photos & videos indexed for 100% private semantic search & acoustic classification.",
+                        fontSize = 12.sp,
+                        color = if (!batteryState.isEligibleForIndexing && !isIndexing) Color(0xFFFFB74D) else SecondaryText,
+                        lineHeight = 16.sp
+                    )
 
                     if (isIndexing) {
                         Spacer(modifier = Modifier.height(12.dp))
@@ -250,6 +248,163 @@ fun SettingsScreen(
                             color = AccentGreen,
                             trackColor = MaterialTheme.colorScheme.surfaceVariant
                         )
+                    }
+
+                    Spacer(modifier = Modifier.height(14.dp))
+
+                    // Dedicated full-width action button row (responsive across all screen widths)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        OutlinedButton(
+                            onClick = {
+                                val currentBat = viewModel.refreshBatteryState()
+                                if (!currentBat.isEligibleForIndexing) {
+                                    Toast.makeText(
+                                        context,
+                                        "Battery is at ${currentBat.batteryPercent}%. Connect charger or use 'Index Now' to override.",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
+                                    viewModel.triggerReindex(forceAll = true)
+                                }
+                            },
+                            modifier = Modifier.weight(1f),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = AccentGreen)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = null,
+                                modifier = Modifier.size(15.dp)
+                            )
+                            Spacer(Modifier.width(6.dp))
+                            Text("Re-Index", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        }
+
+                        Button(
+                            onClick = {
+                                viewModel.triggerIndexNowIgnoringConstraints()
+                                Toast.makeText(
+                                    context,
+                                    "Indexing started immediately in background",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            modifier = Modifier.weight(1f),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = AccentGreen)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.AutoAwesome,
+                                contentDescription = null,
+                                modifier = Modifier.size(15.dp),
+                                tint = Color.Black
+                            )
+                            Spacer(Modifier.width(6.dp))
+                            Text("Index Now", fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Unrestricted Background Indexing & Battery Optimization Exemption
+            var isBatteryOptIgnored by remember {
+                mutableStateOf(viewModel.isBatteryOptimizationIgnored())
+            }
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = CardBg),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(IconBgColor),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.BatteryChargingFull,
+                            contentDescription = null,
+                            tint = AccentGreen,
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Background Indexing Exemption",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = PrimaryText
+                        )
+                        Text(
+                            text = if (isBatteryOptIgnored)
+                                "Exempt from battery saver • Indexes seamlessly while Kiwi is minimized"
+                            else
+                                "Exempt Kiwi from OS sleep limits to complete neural indexing in background",
+                            fontSize = 11.sp,
+                            color = SecondaryText,
+                            lineHeight = 15.sp
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    if (isBatteryOptIgnored) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(AccentGreen.copy(alpha = 0.15f))
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "Exempt",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = AccentGreen
+                            )
+                        }
+                    } else {
+                        Button(
+                            onClick = {
+                                try {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                            data = Uri.parse("package:${context.packageName}")
+                                        }
+                                        context.startActivity(intent)
+                                    }
+                                } catch (_: Exception) {
+                                    try {
+                                        val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                                        context.startActivity(intent)
+                                    } catch (_: Exception) {
+                                        Toast.makeText(context, "Open system battery settings to exempt Kiwi", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                isBatteryOptIgnored = viewModel.isBatteryOptimizationIgnored()
+                            },
+                            shape = RoundedCornerShape(8.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = AccentGreen),
+                            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                        ) {
+                            Text("Exempt", fontSize = 11.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+                        }
                     }
                 }
             }
@@ -268,19 +423,19 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Video Semantic Indexing Toggle
+            // Video & Audio Semantic Indexing Toggle
             SettingsToggleRow(
                 icon = Icons.Default.Videocam,
                 iconBg = IconBgColor,
-                title = "Video Semantic Indexing",
-                subtitle = "Extract temporal keyframes to search specific video moments",
+                title = "Video Semantic & Audio Indexing",
+                subtitle = "Keyframes, acoustic events (YAMNet), and speech transcripts (Whisper)",
                 checked = indexVideosEnabled,
                 onCheckedChange = { viewModel.setIndexVideosEnabled(it) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Active CLIP Vision Model Selection
+            // On-Device Neural AI Models (MobileCLIP, YAMNet, Whisper Tiny, Zero-Shot Guardian)
             Card(
                 colors = CardDefaults.cardColors(containerColor = CardBg),
                 shape = RoundedCornerShape(16.dp),
@@ -288,32 +443,46 @@ fun SettingsScreen(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "Vision-Language Embedding Model",
+                        text = "On-Device Neural AI Models",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = PrimaryText
                     )
                     Text(
-                        text = "Powers natural language search over images and video frames",
+                        text = "Vision embeddings, acoustic sound classifier & speech-to-text models",
                         fontSize = 12.sp,
                         color = SecondaryText
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(14.dp))
 
-                    availableModels.forEach { model ->
+                    availableModels.forEachIndexed { index, model ->
+                        if (index > 0) {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(vertical = 10.dp),
+                                color = DividerColor
+                            )
+                        }
+
                         val isSelected = model.id == activeModelId
+                        val isVisionModel = model.id == ModelManager.MODEL_MOBILECLIP_S2 || model.id == "mobileclip_s0"
+
+                        val categoryTag = when (model.id) {
+                            ModelManager.MODEL_MOBILECLIP_S2, "mobileclip_s0" -> "Vision AI"
+                            "yamnet" -> "Audio AI"
+                            "whisper_tiny" -> "Speech ASR"
+                            else -> "Guardian"
+                        }
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(10.dp))
-                                .background(if (isSelected) AccentGreen.copy(alpha = 0.1f) else Color.Transparent)
-                                .clickable {
-                                    if (model.isDownloaded || model.isBundled) {
-                                        viewModel.selectModel(model.id)
-                                    }
+                                .background(if (isSelected && isVisionModel) AccentGreen.copy(alpha = 0.08f) else Color.Transparent)
+                                .clickable(enabled = isVisionModel && (model.isDownloaded || model.isBundled)) {
+                                    viewModel.selectModel(model.id)
                                 }
-                                .padding(horizontal = 12.dp, vertical = 10.dp),
+                                .padding(horizontal = 6.dp, vertical = 6.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
@@ -321,42 +490,67 @@ fun SettingsScreen(
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text(
                                         text = model.displayName,
-                                        fontSize = 14.sp,
-                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                        fontSize = 13.sp,
+                                        fontWeight = if (isSelected || model.isDownloaded) FontWeight.SemiBold else FontWeight.Medium,
                                         color = PrimaryText
                                     )
-                                    if (model.isBundled) {
-                                        Spacer(modifier = Modifier.width(6.dp))
-                                        Box(
-                                            modifier = Modifier
-                                                .clip(RoundedCornerShape(4.dp))
-                                                .background(AccentGreen.copy(alpha = 0.2f))
-                                                .padding(horizontal = 6.dp, vertical = 2.dp)
-                                        ) {
-                                            Text(
-                                                text = "Default",
-                                                fontSize = 10.sp,
-                                                fontWeight = FontWeight.Bold,
-                                                color = AccentGreen
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Box(
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(4.dp))
+                                            .background(
+                                                when {
+                                                    isVisionModel -> AccentGreen.copy(alpha = 0.15f)
+                                                    model.id == "yamnet" -> Color(0xFF4FC3F7).copy(alpha = 0.15f)
+                                                    model.id == "whisper_tiny" -> Color(0xFFBA68C8).copy(alpha = 0.15f)
+                                                    else -> AccentGreen.copy(alpha = 0.15f)
+                                                }
                                             )
-                                        }
+                                            .padding(horizontal = 5.dp, vertical = 2.dp)
+                                    ) {
+                                        Text(
+                                            text = categoryTag,
+                                            fontSize = 9.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = when {
+                                                isVisionModel -> AccentGreen
+                                                model.id == "yamnet" -> Color(0xFF4FC3F7)
+                                                model.id == "whisper_tiny" -> Color(0xFFBA68C8)
+                                                else -> AccentGreen
+                                            }
+                                        )
                                     }
                                 }
+                                Spacer(modifier = Modifier.height(2.dp))
                                 Text(
                                     text = "${model.description} • ${model.sizeFormatted}",
                                     fontSize = 11.sp,
-                                    color = SecondaryText
+                                    color = SecondaryText,
+                                    lineHeight = 15.sp
                                 )
                             }
 
+                            Spacer(modifier = Modifier.width(8.dp))
+
                             if (model.isDownloaded || model.isBundled) {
-                                if (isSelected) {
-                                    Icon(
-                                        imageVector = Icons.Default.Check,
-                                        contentDescription = "Active",
-                                        tint = AccentGreen,
-                                        modifier = Modifier.size(20.dp)
-                                    )
+                                if (isVisionModel) {
+                                    if (isSelected) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Active",
+                                            tint = AccentGreen,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    } else {
+                                        Box(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(6.dp))
+                                                .background(AccentGreen.copy(alpha = 0.15f))
+                                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                        ) {
+                                            Text("Select", fontSize = 11.sp, color = AccentGreen, fontWeight = FontWeight.SemiBold)
+                                        }
+                                    }
                                 } else {
                                     Box(
                                         modifier = Modifier
@@ -364,7 +558,12 @@ fun SettingsScreen(
                                             .background(AccentGreen.copy(alpha = 0.15f))
                                             .padding(horizontal = 8.dp, vertical = 4.dp)
                                     ) {
-                                        Text("Select", fontSize = 11.sp, color = AccentGreen, fontWeight = FontWeight.SemiBold)
+                                        Text(
+                                            text = "Ready",
+                                            fontSize = 11.sp,
+                                            color = AccentGreen,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
                                     }
                                 }
                             } else {
@@ -397,7 +596,7 @@ fun SettingsScreen(
                                             imageVector = Icons.Default.Download,
                                             contentDescription = "Download Model",
                                             tint = Color.Black,
-                                            modifier = Modifier.size(15.dp)
+                                            modifier = Modifier.size(14.dp)
                                         )
                                         Spacer(Modifier.width(4.dp))
                                         Text("Download", fontSize = 11.sp, color = Color.Black, fontWeight = FontWeight.Bold)
