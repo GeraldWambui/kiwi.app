@@ -7,12 +7,13 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import co.juneai.june.data.model.ImageData
-import co.juneai.june.presentation.screen.settings.SettingsScreen
-import co.juneai.june.presentation.screen.settings.PasscodeScreen
-import co.juneai.june.presentation.screen.settings.StorageDetailsScreen
-import co.juneai.june.presentation.screen.trash.TrashBinScreen
-import co.juneai.june.ui.theme.GalleryAppTheme
+
+import co.juneai.june.ui.screen.settings.PasscodeScreen
+import co.juneai.june.ui.screen.settings.SettingsScreen
+import co.juneai.june.ui.screen.settings.StorageDetailsScreen
+import co.juneai.june.ui.screen.trash.TrashBinScreen
 import co.juneai.june.ui.theme.AppTheme
+import co.juneai.june.ui.theme.KiwiPhotosTheme
 import org.junit.Rule
 import org.junit.Test
 
@@ -35,7 +36,7 @@ class ComposePerformanceTest {
         val start = System.nanoTime()
 
         composeTestRule.setContent {
-            GalleryAppTheme(theme = AppTheme.DARK) {
+            KiwiPhotosTheme(theme = AppTheme.DARK) {
                 SettingsScreen(
                     onNavigateToStorage = {},
                     onNavigateToVault = {},
@@ -54,9 +55,8 @@ class ComposePerformanceTest {
         }
 
         // Verify key elements are rendered
-        composeTestRule.onNodeWithText("Kiwi Gallery").assertIsDisplayed()
-        composeTestRule.onNodeWithText("ACCOUNT").assertIsDisplayed()
-        composeTestRule.onNodeWithText("STORAGE").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
+        composeTestRule.onNodeWithText("ON-DEVICE AI & SEARCH ENGINE").assertIsDisplayed()
     }
 
     // ── Test: Passcode screen renders without lag ───────────
@@ -66,7 +66,7 @@ class ComposePerformanceTest {
         val start = System.nanoTime()
 
         composeTestRule.setContent {
-            GalleryAppTheme(theme = AppTheme.DARK) {
+            KiwiPhotosTheme(theme = AppTheme.DARK) {
                 PasscodeScreen(
                     onSuccess = {},
                     onCancel = {}
@@ -94,7 +94,7 @@ class ComposePerformanceTest {
         val start = System.nanoTime()
 
         composeTestRule.setContent {
-            GalleryAppTheme(theme = AppTheme.DARK) {
+            KiwiPhotosTheme(theme = AppTheme.DARK) {
                 StorageDetailsScreen(onBack = {})
             }
         }
@@ -117,7 +117,7 @@ class ComposePerformanceTest {
         val start = System.nanoTime()
 
         composeTestRule.setContent {
-            GalleryAppTheme(theme = AppTheme.DARK) {
+            KiwiPhotosTheme(theme = AppTheme.DARK) {
                 TrashBinScreen(onBack = {})
             }
         }
@@ -137,7 +137,7 @@ class ComposePerformanceTest {
     @Test
     fun settingsScreen_noRecompositionCrash_onMultipleIdleCycles() {
         composeTestRule.setContent {
-            GalleryAppTheme(theme = AppTheme.DARK) {
+            KiwiPhotosTheme(theme = AppTheme.DARK) {
                 SettingsScreen(
                     onNavigateToStorage = {},
                     onNavigateToVault = {},
@@ -153,6 +153,6 @@ class ComposePerformanceTest {
         }
 
         // If we get here without a crash, recomposition is stable
-        composeTestRule.onNodeWithText("Kiwi Gallery").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Settings").assertIsDisplayed()
     }
 }
